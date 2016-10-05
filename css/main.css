@@ -1,0 +1,34 @@
+html,body {
+    width: 100%;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    background-color: #f7f7f7;
+}
+.input {
+    background-color: #ffffff;
+    border: 1px solid #8e8e8e;
+    padding: 3px;
+    border-radius: 3px;
+    outline: none;
+}
+.input:focus {
+    border: 1px solid #80aaff;
+}
+.button {
+    border: 1px solid #8e8e8e;
+    background-color: #80aaff;
+    color: white;
+    padding: 3px;
+    border-radius: 3px;
+}
+.button:hover {
+    background-color: #9bb2ff;
+}
+.button:active {
+    color: #f2f2f2;
+}
+a {
+ text-decoration: none;
+}

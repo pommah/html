@@ -1,0 +1,23 @@
+.head {
+    margin: 0;
+    width: 100%;
+    background-color: #80aaff;
+    border-bottom: 1px solid #8e8e8e;
+    overflow: hidden;
+    border-bottom: 1px solid #8e8e8e;
+    background: linear-gradient(to left, #80aaff, #a3d3ff);
+    box-shadow: 0px 1px 50px 0px #8e8e8e;
+}
+.leftMenu {
+    float: left;
+    margin: 20px;
+    color: #000000;
+    cursor: default;
+    font-weight: bold;
+}
+.rightMenu {
+    float: right;
+    margin: 20px;
+    color: #FFFFFF;
+    cursor: pointer;
+}

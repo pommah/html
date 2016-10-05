@@ -1,0 +1,19 @@
+.group {
+    width: 100%;
+    border-left: 1px solid #80aaff;
+}
+.nameUgsn {
+    text-align: center;
+    background-color: #80aaff;
+    color: #ffffff;
+    font-size: 16px;
+    padding: 5px;
+}
+.codeDirection {
+    float: left;
+    margin-left: 5px;
+}
+.listItem {
+    text-align: center;
+    margin-top: 5px;
+}

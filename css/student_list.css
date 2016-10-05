@@ -1,0 +1,22 @@
+.studentList {
+    border-collapse: separate;
+}
+.studentList th{
+    background-color: #80aaff;
+    color: #FFFFFF;
+    font-size: 16px;
+    padding: 5px;
+}
+.studentList tr{
+    border: 1px solid #80aaff;
+}
+.studentList tr:last-of-type {
+    border: 0px;
+}
+.studentList td {
+    padding: 10px;
+    border-bottom: 1px solid #80aaff;
+    text-align: center;
+}
+
+
