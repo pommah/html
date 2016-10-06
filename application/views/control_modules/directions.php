@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/direction.css">
-<button class="button right">Редактировать</button>
+<button class="button right" onclick="openDirectionEditor()">Редактировать</button>
 <?php
 foreach ($data['content'] as $key => $value) {
     //echo $key." ".$value['ugsnName'];

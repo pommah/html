@@ -18,4 +18,5 @@
     ?>
         </div>
     </body>
+    <script type="text/javascript" src="/js/directionEditor.js"></script>
 </html>
