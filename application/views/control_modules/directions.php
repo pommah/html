@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/direction.css">
+<button class="button right">Редактировать</button>
 <?php
 foreach ($data['content'] as $key => $value) {
     //echo $key." ".$value['ugsnName'];
