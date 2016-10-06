@@ -9,9 +9,13 @@
 }
 .studentList tr{
     border: 1px solid #80aaff;
+    cursor: pointer;
 }
 .studentList tr:last-of-type {
     border: 0px;
+}
+.studentList tr:hover {
+    background-color: #e2e6ff;
 }
 .studentList td {
     padding: 10px;

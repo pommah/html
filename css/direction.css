@@ -1,6 +1,7 @@
 .group {
     width: 100%;
     border-left: 1px solid #80aaff;
+    overflow: hidden;
 }
 .nameUgsn {
     text-align: center;
@@ -10,13 +11,18 @@
     padding: 5px;
 }
 .codeDirection {
-    float: left;
+    display: inline;
     margin-left: 5px;
 }
 .listItem {
-    text-align: center;
+
     margin-top: 5px;
 }
+.nameDirection {
+    display: inline;
+    margin-left: 5px;
+}
 .right{
+    margin-bottom: 10px;
     float: right;
 }

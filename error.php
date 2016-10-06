@@ -5,7 +5,7 @@
 
     <body>
     <div class="notification_error">
-        Страница не существует. 
+        Страница не существует.
         <a href="/">Главная</a>
     </div>
     </body>

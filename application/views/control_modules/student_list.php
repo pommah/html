@@ -7,6 +7,7 @@
             <th>Направление</th>
             <th>Дата обучения</th>
             <th>Программа</th>
+            <th></th>
         </tr>");
     foreach ($data['students'] as $student){
         print("<tr>");
@@ -15,7 +16,7 @@
         printf("<td>%s</td>", $student['Direction']);
         printf("<td>%s <b>-</b> %s</td>", str_replace("-",".",$student['DateBegin']), str_replace("-",".",$student['DateEnd']));
         printf("<td>%s</td>", $student['NameFile']);
-
+        printf("<td><button class='button'>Удалить</button> </td>");
         print("</tr>");
     }
     print("</table>");
