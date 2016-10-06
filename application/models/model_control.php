@@ -54,4 +54,29 @@ class Model_Control extends Model
         }
         return $dir;
     }
+    public function get_university_directions($universityId){
+        $dir = [];
+        $nowUgsn = null;
+        include('modules/db.php');
+        $req = $conn->prepare("SELECT UGSN.ID as ugsnId, UGSN.Name AS ugsnName, Direction.ID AS dirId, Direction.Name AS dirName
+	FROM (Direction INNER JOIN UniversityDirection ON Direction.ID=UniversityDirection.ID_Direction) INNER JOIN UGSN ON Direction.ID_Ugsn=UGSN.ID
+	WHERE UniversityDirection.ID_University=?");
+        $req->bindParam(1, $universityId);
+        $req->execute();
+        while ($row = $req->fetch()) {
+            if(!$nowUgsn || $nowUgsn!=$row['ugsnId']) {
+                $dir[$row['ugsnId']] = [
+                    "ugsnName" => $row['ugsnName'],
+                    "listDir" => [
+                        $row['dirId'] => $row['dirName']
+                    ]
+                ];
+                $nowUgsn = $row['ugsnId'];
+            }
+            else {
+                $dir[$row['ugsnId']]['listDir'][$row['dirId']] = $row['dirName'];
+            }
+        }
+        return $dir;
+    }
 }

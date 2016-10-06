@@ -40,7 +40,9 @@ class Controller_Control extends Controller
         $this->defaultAction=false;
         if(!$this->index)
             $this->action_index();
-        $this->data['content'] = $this->model->get_direction();
+        //Todo Функция получения id университета
+        $universityId = 1;
+        $this->data['content'] = $this->model->get_university_directions($universityId);
         $this->content = "application/views/control_modules/directions.php";
         $this->view->generate($this->content, 'control_view.php', $this->data);
 
@@ -75,6 +77,7 @@ class Controller_Control extends Controller
 	      ProgramStudent ON Student.ID_Prog = ProgramStudent.ID) INNER JOIN Direction ON Direction.ID = 
 	      ProgramStudent.ID_Direction
           WHERE ProgramStudent.ID_University = ?");
+        //Todo Функция получения id университета
         $universityId = 1;
         $req->bindParam(1, $universityId);
         $req->execute();
