@@ -31,4 +31,21 @@ class Controller_directions_editor extends Controller
             header("Location: /");
         }
     }
+
+    function action_addDirections(){
+        $directions = explode(";", $_POST['directions']);
+        include('modules/db.php');
+        $prepareTable = $conn->prepare("DELETE FROM UniversityDirection WHERE ID_University = ?");
+        //Todo Функция получения id университета
+        $universityId = 1;
+        $prepareTable->bindParam(1, $universityId);
+        $prepareTable->execute();
+        foreach ($directions as $direction){
+            $query = $conn->prepare("INSERT INTO UniversityDirection (UniversityDirection.ID_University, UniversityDirection.ID_Direction) VALUES (?, ?)");
+            $query->bindParam(1, $universityId);
+            $query->bindParam(2, $direction);
+            $query->execute();
+        }
+        echo "OK";
+    }
 }
