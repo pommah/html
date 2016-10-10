@@ -82,11 +82,11 @@ class Model_Control extends Model
     public function getStudents(){
         $list = [];
         include('modules/db.php');
-        $req = $conn->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\", Direction.Name 
-          AS \"Direction\", Student.DateBegin, Student.DateEnd, ProgramStudent.NameFile
-	      FROM ((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
-	      ProgramStudent ON Student.ID_Prog = ProgramStudent.ID) INNER JOIN Direction ON Direction.ID = 
-	      ProgramStudent.ID_Direction
+        $req = $conn->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
+          AS \"Direction\", ProgramStudent.NameFile
+	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
+	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
+	      LearningStudent.ID_Program) INNER JOIN Direction ON Direction.ID = ProgramStudent.ID_Direction
           WHERE ProgramStudent.ID_University = ?");
         //Todo Функция получения id университета
         $universityId = 1;
@@ -98,19 +98,26 @@ class Model_Control extends Model
     public  function about_student($id = null) {
         include('modules/db.php');
         $student = [];
-        $req = $conn->prepare('SELECT Name, (SELECT Name FROM NozologyGroup WHERE ID=ID_NozologyGroup) as Nozology, 
-        (SELECT NameFile FROM ProgramStudent WHERE ID=ID_Prog) as Direction, DateBegin, DateEnd
-            FROM Student WHERE ID=?');
+        $req = $conn->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
+          AS \"Direction\", ProgramStudent.NameFile, LearningStudent.DateBegin, LearningStudent.DateEnd, ProgramStudent.Level,
+          ProgramStudent.Form
+	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
+	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
+	      LearningStudent.ID_Program) INNER JOIN Direction ON Direction.ID = ProgramStudent.ID_Direction
+          WHERE Student.ID = ?");
         $req->bindParam(1,$id);
         $req->execute();
         if($req->rowCount()) {
             while ($row = $req->fetch()) {
                 $student = [
                     "Name" => $row['Name'],
-                    "Nozology" => $row['Nozology'],
+                    "Nozology" => $row['NozologyGroup'],
                     "Direction" => $row['Direction'],
                     "DateBegin" => $row['DateBegin'],
-                    "DateEnd" => $row['DateEnd']
+                    "DateEnd" => $row['DateEnd'],
+                    "Level" => $row['Level'],
+                    "Form" => $row['Form'],
+                    "File" => $row['NameFile']
                 ];
             }
         }

@@ -5,7 +5,6 @@
             <th>Идентификатор</th>
             <th>Нозоологическая группа</th>
             <th>Направление</th>
-            <th>Дата обучения</th>
             <th>Программа</th>
             <th></th>
         </tr>");
@@ -14,12 +13,11 @@
         printf("<td>%s</td>", $student['Name']);
         printf("<td>%s</td>", $student['NozologyGroup']);
         printf("<td>%s</td>", $student['Direction']);
-        printf("<td>%s <b>-</b> %s</td>", str_replace("-",".",$student['DateBegin']), str_replace("-",".",$student['DateEnd']));
-        printf("<td>%s</td>", $student['NameFile']);
-        printf("<td><button class='button' onclick='test(event)'>Удалить</button> </td>");
+        printf("<td><a title='%s' href='%s'><img width='40' src='/images/pdf_file.png'></a></td>", $student['NameFile'],$student['NameFile']);
+        printf("<td><button class='button' onclick='deleteStud(event, this)'>Удалить</button> </td>");
         print("</tr>");
     }
     print("</table>");
 ?>
 <script type="text/javascript" src="/js/ajax.js"></script>
-<script type="text/javascript" src="loadStudent"></script>
+<script type="text/javascript" src="/js/studentList.js"></script>
