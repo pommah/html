@@ -1,0 +1,17 @@
+
+.info {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.leftLabel {
+    font-size: 18px;
+    font-weight: bold;
+    color: #487eb3;
+    display: inline-block;
+    width: 14em;
+}
+.dataStudent {
+    font-size: 16px;
+    padding: 5px;
+    display: inline-block;
+}

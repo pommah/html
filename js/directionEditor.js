@@ -36,5 +36,6 @@ function saveChanges() {
 }
 
 function cancelChanges() {
-    document.location.href = "/control";
+    window.history.back();
+    //document.location.href = "/control";
 }

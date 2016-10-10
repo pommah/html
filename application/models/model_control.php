@@ -79,4 +79,44 @@ class Model_Control extends Model
         }
         return $dir;
     }
+    public function getStudents(){
+        $list = [];
+        include('modules/db.php');
+        $req = $conn->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\", Direction.Name 
+          AS \"Direction\", Student.DateBegin, Student.DateEnd, ProgramStudent.NameFile
+	      FROM ((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
+	      ProgramStudent ON Student.ID_Prog = ProgramStudent.ID) INNER JOIN Direction ON Direction.ID = 
+	      ProgramStudent.ID_Direction
+          WHERE ProgramStudent.ID_University = ?");
+        //Todo Функция получения id университета
+        $universityId = 1;
+        $req->bindParam(1, $universityId);
+        $req->execute();
+        $list = $req->fetchAll(PDO::FETCH_NAMED);
+        return $list;
+    }
+    public  function about_student($id = null) {
+        include('modules/db.php');
+        $student = [];
+        $req = $conn->prepare('SELECT Name, (SELECT Name FROM NozologyGroup WHERE ID=ID_NozologyGroup) as Nozology, 
+        (SELECT NameFile FROM ProgramStudent WHERE ID=ID_Prog) as Direction, DateBegin, DateEnd
+            FROM Student WHERE ID=?');
+        $req->bindParam(1,$id);
+        $req->execute();
+        if($req->rowCount()) {
+            while ($row = $req->fetch()) {
+                $student = [
+                    "Name" => $row['Name'],
+                    "Nozology" => $row['Nozology'],
+                    "Direction" => $row['Direction'],
+                    "DateBegin" => $row['DateBegin'],
+                    "DateEnd" => $row['DateEnd']
+                ];
+            }
+        }
+        else {
+            $student = null;
+        }
+        return $student;
+    }
 }

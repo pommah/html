@@ -23,10 +23,10 @@ class Controller {
             $req->execute();
             if($req->rowCount()) {
                 $row = $req->fetch();
-                $this->auth = $row['ID_Perm'];
+                $this->auth = $row['Permission'];
             }
             else {
-                $auth = null;
+                $this->auth = null;
                 unset($_SESSION['login']);
                 unset($_SESSION['password']);
                 session_destroy();

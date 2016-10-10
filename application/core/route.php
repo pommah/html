@@ -13,6 +13,7 @@ class Route
         // контроллер и действие по умолчанию
         $controller_name = 'Main';
         $action_name = 'index';
+        $data = '';
 
         $routes = explode('/', $_SERVER['REQUEST_URI']);
         // получаем имя контроллера
@@ -25,6 +26,9 @@ class Route
         if ( !empty($routes[2]) )
         {
             $action_name = $routes[2];
+        }
+        if(!empty($routes[3])) {
+            $data = $routes[3];
         }
 
         // добавляем префиксы
@@ -70,7 +74,7 @@ class Route
         if(method_exists($controller, $action))
         {
             // вызываем действие контроллера
-            $controller->$action();
+            $controller->$action($data);
         }
         else
         {
