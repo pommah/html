@@ -22,12 +22,13 @@ class Model_Control extends Model
         }
         return $user;
     }
-    public function get_menu_university() {
+    public static function get_menu_university() {
         $menu = [
             "list" => [
                 "direction" => "УГСН и направления",
                 "students" => "Студенты",
-                "add_student" => "Добавить студента"
+                "add_student" => "Добавить студента",
+                "settings" => "Изменение данных университета"
             ],
             "selected" => "direction"
             ];

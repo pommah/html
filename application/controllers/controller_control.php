@@ -78,5 +78,7 @@ class Controller_Control extends Controller
     public function action_exit() {
         $this->destroy_session();
     }
-
+    public function action_settings(){
+        header("Location: /university_settings");
+    }
 }
