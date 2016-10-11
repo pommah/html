@@ -9,7 +9,7 @@
 <div class="head">
     <div class="type leftMenu"><?php echo $data['user']['fullName'];?></div>
     <div class="exit rightMenu" onclick="document.location.href='/control/exit'">Выход</div>
-    <div class="nameUser rightMenu"><?php echo $data['user']['name']; ?></div>
+    <div class="nameUser rightMenu" onclick="document.location.href='/user/info'"><?php echo $data['user']['name']; ?></div>
 </div>
 <div class="userMenu">
     <?php
