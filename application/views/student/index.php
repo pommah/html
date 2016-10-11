@@ -9,7 +9,7 @@
             <th></th>
         </tr>");
     foreach ($data['students'] as $student){
-        printf("<tr onclick=\"window.location.href = '/control/students/%s'\">", $student['ID']);
+        printf("<tr onclick=\"window.location.href = '/student/info/%s'\">", $student['ID']);
         printf("<td>%s</td>", $student['Name']);
         printf("<td>%s</td>", $student['NozologyGroup']);
         printf("<td>%s</td>", $student['Direction']);

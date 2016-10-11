@@ -38,7 +38,7 @@ function checkAuth() {
         if(send.xhttp.readyState == 4 && send.xhttp.status == 200) {
             status = send.xhttp.responseText;
             if(status=="OK") {
-                document.location.href = "/control";
+                document.location.href = "/student";
             }
             else {
                 error.innerHTML = status;

@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/css/add_student.css">
 <div class="center">
-<?php
-print("<div class='label_input'> <div class='left_label'>ФИО:</div> <input class='input' type='text' name='FIO'></div>
+    <?php
+    print("<div class='label_input'> <div class='left_label'>ФИО:</div> <input class='input' type='text' name='FIO'></div>
         <div class='label_input'><div class='left_label'>Нозоологическая группа:</div> <select class='input' name='noz_group'>
             <option>Проблемы со зрением</option>
             <option>Проблемы со слухом</option>
@@ -23,5 +23,5 @@ print("<div class='label_input'> <div class='left_label'>ФИО:</div> <input cl
         <div class='label_input'><div class='left_label'>Дата поступления:</div> <input class='input' type='date' name='begin'></div>
         <div class='label_input'><div class='left_label'>Дата окончания:</div> <input class='input' type='date' name='end'></div>
         <button class='button add_student'>Добавить</button>");
-?>
-    </div>
+    ?>
+</div>

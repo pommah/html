@@ -1,8 +1,3 @@
-
-function openDirectionEditor(){
-    document.location.href = "/directions_editor";
-}
-
 function toogleCheckbox(event) {
     if (event.target["tagName"].toUpperCase() == "TD") {
         var checkbox = event.target.parentNode.getElementsByTagName("input")[0];
@@ -21,12 +16,12 @@ function saveChanges() {
     }
     var send = new Ajax("POST");
     send.setData("directions="+selectedDirections);
-    send.send("/directions_editor/addDirections");
+    send.send("/direction/edit_all");
     send.xhttp.onreadystatechange = function () {
         if(send.xhttp.readyState == 4 && send.xhttp.status == 200) {
             status = send.xhttp.responseText;
             if(status=="OK") {
-                document.location.href = "/control";
+                document.location.href = "/direction";
             }
             else {
                 alert(status);
@@ -37,5 +32,4 @@ function saveChanges() {
 
 function cancelChanges() {
     window.history.back();
-    //document.location.href = "/control";
 }

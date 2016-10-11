@@ -1,18 +1,3 @@
-<html>
-<head>
-    <title>Редактирование ОПОП</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="/css/main.css">
-    <link rel="stylesheet" type="text/css" href="/css/head.css">
-    <link rel="stylesheet" type="text/css" href="/css/directions_editor.css">
-</head>
-<body>
-<div class="head">
-    <div class="type leftMenu">Редактирование списка направлений</div>
-    <div class="exit rightMenu" onclick="document.location.href='/control/exit'">Выход</div>
-    <div class="nameUser rightMenu"><?php echo $data['user']['name']; ?></div>
-</div>
-
 <div class="content">
     <div class="center">
         <table class="directionsEditor">
@@ -24,7 +9,7 @@
                     printf ("<tr onclick='toogleCheckbox(event)'>");
                     $checked = in_array($dirId, $data['directions'])?"checked":"";
                     printf("<td><input id='%s' type='checkbox' %s></td>", $dirId, $checked);
-                    printf("<td>%s</td>", $dirId);
+                    printf("<td>%s.%s.%s</td>", substr($dirId, 0, 2),substr($dirId, 2, 2),substr($dirId, 4, 2));
                     printf("<td>%s</td>", $dirName);
                     print ("</tr>");
                 }
@@ -38,7 +23,6 @@
         </div>
     </div>
 </div>
-</body>
 <script type="text/javascript" src="/js/directionEditor.js"></script>
 <script type="text/javascript" src="/js/ajax.js"></script>
-</html>
+<link rel="stylesheet" type="text/css" href="/css/directions_editor.css">
