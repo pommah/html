@@ -47,5 +47,36 @@ class Model_Student extends Model
         return $student;
     }
 
+    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $programId){
+        $conn = parent::get_db_connection();
+        $insertStudent = $conn->prepare("INSERT INTO Student(Name, ID_NozologyGroup) VALUES(?, ?)");
+        $insertStudent->bindParam(1, $name);
+        $insertStudent->bindParam(2, $nozoologyGroupId);
+        $insertStudent->execute();
+        $insertLearningStudent = $conn->prepare("INSERT INTO LearningStudent (ID_Student, ID_Program, DateBegin, DateEnd, Status) VALUES (?, ?, ?, ?, 'Активно')");
+        $insertLearningStudent->bindParam(1, $conn->lastInsertId());
+        $insertLearningStudent->bindParam(2, $programId);
+        $insertLearningStudent->bindParam(3, $beginDate);
+        $insertLearningStudent->bindParam(4, $endDate);
+        $insertLearningStudent->execute();
+        $insertTrajectory = $conn->prepare("INSERT INTO Trajectory(ID_Learning, NumberSemester, Status) VALUES(?, 1, 'Активен')");
+        $insertTrajectory->bindParam(1, $conn->lastInsertId());
+        $insertTrajectory->execute();
+        echo "OK";
+    }
+
+    public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $directionId, $level, $studyPeriod, $universityId, $form, $programFileName){
+        $conn = parent::get_db_connection();
+        $insertProgram = $conn->prepare("INSERT INTO ProgramStudent (ID_Direction, Level, PeriodOfStudy, ID_NozologyGroup, ID_University, Form, NameFile) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $insertProgram->bindParam(1, $directionId);
+        $insertProgram->bindParam(2, $level);
+        $insertProgram->bindParam(3, $studyPeriod);
+        $insertProgram->bindParam(4, $universityId);
+        $insertProgram->bindParam(5, $form);
+        $insertProgram->bindParam(6, $programFileName);
+        $insertProgram->execute();
+        $this->add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $conn->lastInsertId());
+        echo "OK";
+    }
 
 }
