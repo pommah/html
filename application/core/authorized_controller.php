@@ -67,7 +67,7 @@ class Authorized_Controller extends Controller
             }
         }
     }
-    public function destroy_session() {
+    public function action_destroy_session() {
         session_start();
         unset($_SESSION['login']);
         unset($_SESSION['password']);

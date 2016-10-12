@@ -22,16 +22,12 @@
     border-bottom: 1px solid #80aaff;
     text-align: left;
 }
-.center{
-    display: table;
-    margin: 0 auto;
-}
-table{
-    display: inline;
-}
+
 .buttonHolder{
     display: inline;
     position: fixed;
+    top: 70px;
+    right: 0px;
     padding: 20px;
 }
 input[type='checkbox']{

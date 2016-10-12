@@ -18,8 +18,9 @@ class Model_Student extends Model
     }
     public  function about_student($id = null) {
         $student = [];
-        $req = parent::get_db_connection()->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
-          AS \"Direction\", ProgramStudent.NameFile, LearningStudent.DateBegin, LearningStudent.DateEnd, ProgramStudent.Level,
+        $conn = parent::get_db_connection();
+        $req = $conn->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
+          AS \"Direction\", ProgramStudent.PeriodOfStudy, ProgramStudent.NameFile, LearningStudent.ID AS LearnID, LearningStudent.DateBegin, LearningStudent.DateEnd, ProgramStudent.Level,
           ProgramStudent.Form
 	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
 	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
@@ -29,6 +30,7 @@ class Model_Student extends Model
         $req->execute();
         if($req->rowCount()) {
             while ($row = $req->fetch()) {
+                $LearnID = $row['LearnID'];
                 $student = [
                     "Name" => $row['Name'],
                     "Nozology" => $row['NozologyGroup'],
@@ -37,8 +39,32 @@ class Model_Student extends Model
                     "DateEnd" => $row['DateEnd'],
                     "Level" => $row['Level'],
                     "Form" => $row['Form'],
-                    "File" => $row['NameFile']
+                    "File" => $row['NameFile'],
+                    "Period" => $row['PeriodOfStudy']
                 ];
+            }
+            $reqTrack = $conn->query("SELECT * FROM Trajectory WHERE ID_Learning = '$LearnID'");
+            $student['Track'] = [];
+            if($reqTrack->rowCount()) {
+                while ($row = $reqTrack->fetch()) {
+                    $note = [];
+                    switch ($row['Status']) {
+                        case 'Активен': $color = '#ccccb3'; break;
+                        case 'Закончен': $color = '#66ff66'; break;
+                        case 'Задолженность': $color = '#ffff33';
+                                              $idSem = $row['ID'];
+                            $reqDebt = $conn->query("SELECT * FROM BacklogDiscipline WHERE ID_Semester='$idSem'");
+                            while($row1 = $reqDebt->fetch()) {
+                                $note[$row1['Name']] = $row1['Deadline'];
+                            }
+                            break;
+                    }
+                    $student['Track'][$row['NumberSemester']] = [
+                        "Status" => $row['Status'],
+                        "Note" => $note,
+                        "Color" => $color
+                    ];
+                }
             }
         }
         else {

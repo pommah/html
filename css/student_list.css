@@ -2,7 +2,7 @@
     border-collapse: separate;
 }
 .studentList th{
-    background-color: #80aaff;
+    background: linear-gradient(to top, #80aaff, #a3d3ff);
     color: #FFFFFF;
     font-size: 16px;
     padding: 5px;
@@ -22,5 +22,16 @@
     border-bottom: 1px solid #80aaff;
     text-align: center;
 }
+.delStudent {
+    background: linear-gradient(to top, #80aaff, #a3d3ff);
+}
+.studentList td img:last-of-type {
+    margin-left: 10px;
+}
+.studentList td img:hover {
+    background-color: #eeeeff;
+}
+
+
 
 

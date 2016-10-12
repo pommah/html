@@ -1,0 +1,20 @@
+.prompt {
+    position: relative;
+    margin-top: 5px;
+    padding: 15px;
+    margin-bottom: 50px;
+}
+.numbSemestr {
+    color: #487eb3;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.statusSemestr {
+    font-size: 16px;
+    text-align: center;
+    color: #565656;
+}
+.textSemestr {
+    margin-top: 7px;
+}

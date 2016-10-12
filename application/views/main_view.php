@@ -4,9 +4,15 @@
         <meta charset="utf-8">
         <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/auth.css">
+        <link rel="stylesheet" type="text/css" href="/css/head.css">
+
     </head>
     <body>
-        <div class="outer">
+    <div class="head">
+        <div class="type leftMenu">
+            Система учета и сопровождения в процессе получения высшего образования лиц с инвалидностью</div>
+    </div>
+        <div class="out">
             <div class="auth_block">
                 <div class="head_auth">
                     Вход в систему

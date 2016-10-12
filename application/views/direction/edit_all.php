@@ -1,5 +1,3 @@
-<div class="content">
-    <div class="center">
         <table class="directionsEditor">
             <?php
             foreach ($data['all_directions'] as $ugsn){
@@ -21,8 +19,6 @@
             <button class="button directionsEditor" onclick="saveChanges()">Сохранить</button>
             <button class="button directionsEditor" onclick="cancelChanges()">Отменить</button>
         </div>
-    </div>
-</div>
 <script type="text/javascript" src="/js/directionEditor.js"></script>
 <script type="text/javascript" src="/js/ajax.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/directions_editor.css">

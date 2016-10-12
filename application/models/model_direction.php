@@ -62,8 +62,8 @@ class Model_Direction extends Model
         $universityId = 1;
         $prepareTable->bindParam(1, $universityId);
         $prepareTable->execute();
+        $query = parent::get_db_connection()->prepare("INSERT INTO UniversityDirection (UniversityDirection.ID_University, UniversityDirection.ID_Direction) VALUES (?, ?)");
         foreach ($directions as $direction){
-            $query = parent::get_db_connection()->prepare("INSERT INTO UniversityDirection (UniversityDirection.ID_University, UniversityDirection.ID_Direction) VALUES (?, ?)");
             $query->bindParam(1, $universityId);
             $query->bindParam(2, $direction);
             $query->execute();
