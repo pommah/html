@@ -47,22 +47,76 @@ class Model_Student extends Model
         return $student;
     }
 
-    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $programId){
+    public function get_direction() {
+        $dir = [];
+        $nowUgsn = null;
+        $req = parent::get_db_connection()->query("SELECT UGSN.ID as ugsnId, UGSN.Name as ugsnName, Direction.ID as dirId, Direction.Name as dirName FROM UGSN INNER JOIN Direction ON UGSN.ID = Direction.ID_Ugsn");
+        while ($row = $req->fetch()) {
+            if(!$nowUgsn || $nowUgsn!=$row['ugsnId']) {
+                $dir[$row['ugsnId']] = [
+                    "ugsnName" => $row['ugsnName'],
+                    "listDir" => [
+                        $row['dirId'] => $row['dirName']
+                    ]
+                ];
+                $nowUgsn = $row['ugsnId'];
+            }
+            else {
+                $dir[$row['ugsnId']]['listDir'][$row['dirId']] = $row['dirName'];
+            }
+        }
+        return $dir;
+    }
+
+    public function get_nozoology_groups(){
+        $req = parent::get_db_connection()->query("SELECT * FROM NozologyGroup");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function get_programs(){
+        $req = parent::get_db_connection()->prepare("SELECT ProgramStudent.ID, ID_Direction, Level, PeriodOfStudy, Form, NozologyGroup.Name FROM ProgramStudent INNER JOIN NozologyGroup ON ID_NozologyGroup=NozologyGroup.ID WHERE ID_University=?");
+        $universityId = 1;
+        $req->bindParam(1, $universityId);
+        $req->execute();
+        $data = $req->fetchAll(PDO::FETCH_NAMED);
+        $programs = [];
+        foreach ($data as $row){
+            $direction = $row['ID_Direction'];
+            $level = $row['Level'];
+            $period = $row['PeriodOfStudy'];
+            $form = $row['Form'];
+            $nozoology = $row['Name'];
+            $description = sprintf("%s, %s, %d года, %s форма, %s", $direction, $level, $period, $form, $nozoology);
+            $programs[$row['ID']] = $description;
+        }
+        return $programs;
+    }
+
+    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $programId, $echo = true){
         $conn = parent::get_db_connection();
         $insertStudent = $conn->prepare("INSERT INTO Student(Name, ID_NozologyGroup) VALUES(?, ?)");
         $insertStudent->bindParam(1, $name);
         $insertStudent->bindParam(2, $nozoologyGroupId);
         $insertStudent->execute();
         $insertLearningStudent = $conn->prepare("INSERT INTO LearningStudent (ID_Student, ID_Program, DateBegin, DateEnd, Status) VALUES (?, ?, ?, ?, 'Активно')");
-        $insertLearningStudent->bindParam(1, $conn->lastInsertId());
+        $studentId = $conn->lastInsertId();
+        $insertLearningStudent->bindParam(1, $studentId);
         $insertLearningStudent->bindParam(2, $programId);
         $insertLearningStudent->bindParam(3, $beginDate);
         $insertLearningStudent->bindParam(4, $endDate);
         $insertLearningStudent->execute();
         $insertTrajectory = $conn->prepare("INSERT INTO Trajectory(ID_Learning, NumberSemester, Status) VALUES(?, 1, 'Активен')");
-        $insertTrajectory->bindParam(1, $conn->lastInsertId());
+        $learningStudent = $conn->lastInsertId();
+        $insertTrajectory->bindParam(1, $learningStudent);
         $insertTrajectory->execute();
-        echo "OK";
+
+        if ($echo){
+            echo "OK";
+        }
+        else{
+            return true;
+        }
     }
 
     public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $directionId, $level, $studyPeriod, $universityId, $form, $programFileName){
@@ -71,11 +125,12 @@ class Model_Student extends Model
         $insertProgram->bindParam(1, $directionId);
         $insertProgram->bindParam(2, $level);
         $insertProgram->bindParam(3, $studyPeriod);
-        $insertProgram->bindParam(4, $universityId);
-        $insertProgram->bindParam(5, $form);
-        $insertProgram->bindParam(6, $programFileName);
+        $insertProgram->bindParam(4, $nozoologyGroupId);
+        $insertProgram->bindParam(5, $universityId);
+        $insertProgram->bindParam(6, $form);
+        $insertProgram->bindParam(7, $programFileName);
         $insertProgram->execute();
-        $this->add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $conn->lastInsertId());
+        $this->add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $conn->lastInsertId(), false);
         echo "OK";
     }
 

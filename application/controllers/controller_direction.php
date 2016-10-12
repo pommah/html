@@ -35,7 +35,7 @@ class Controller_direction extends Authorized_Controller
         if (array_key_exists('directions', $_POST)){
             $selectedDirections = $_POST['directions'];
             $directions = explode(";", $selectedDirections);
-            echo $this->model->update_directions($directions);
+            return $this->model->update_directions($directions);
         }else{
             $universityId = 1;
             $this->data["directions"] = $this->model->get_university_directions_id($universityId);
