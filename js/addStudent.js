@@ -8,11 +8,38 @@ function save() {
     var dataNoz = noz.selectedOptions[0].id.substr(1);
     var dataDateBegin = dateBegin.value.split("-").join(".");
     var dataDateEnd = dateEnd.value.split("-").join(".");
+
+    var regularId = /^[А-яA-z ]{3,50}$/;
+    var regularNoz = /^[0-9]$/;
+    var regularDate = /^[0-9]{2,4}.[0-9]{1,2}.[0-9]{1,2}$/;
+
+    if (!regularId.test(dataId)){
+        alert(dataId);
+        return false;
+    }
+    if (!regularNoz.test(dataNoz)){
+        alert(dataNoz);
+        return false;
+    }
+    if (!regularDate.test(dataDateBegin)){
+        alert(dataDateBegin);
+        return false;
+    }
+    if (!regularDate.test(dataDateEnd)){
+        alert(dataDateEnd);
+        return false;
+    }
+
     var data;
 
     if (document.getElementById('radio_exist').checked){
         var program = document.getElementById('program');
         var dataProgram = program.selectedOptions[0].id.substr(1);
+        var regularProgram = /^[0-9]{1,4}$/;
+        if (!regularProgram.test(dataProgram)){
+            alert(dataProgram);
+            return false;
+        }
         data = "student="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataProgram;
     }
     else if (document.getElementById('radio_new').checked){
@@ -27,6 +54,28 @@ function save() {
         var dataPeriod = period.value;
         var dataForm = form.value;
         var dataFileName = 'a.pdf';
+
+        var regularDirection = /^[0-9]{6}$/;
+        var regularLevel = /^[А-я]{6,40}$/;
+        var regularPeriod = /^[0-9].*[0-9]$/;
+        var regularForm = /^[А-я]{6,60}$/;
+
+        if (!regularDirection.test(dataDirection)){
+            alert(dataDirection);
+            return false;
+        }
+        if (!regularLevel.test(dataLevel)){
+            alert(dataLevel);
+            return false;
+        }
+        if (!regularPeriod.test(dataPeriod)){
+            alert(dataPeriod);
+            return false;
+        }
+        if (!regularForm.test(dataForm)){
+            alert(dataForm);
+            return false;
+        }
 
         data = "student_and_program="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataDirection+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataFileName;
     }
@@ -56,4 +105,9 @@ function radioClicks($radio) {
         document.getElementById('div_exist').style.display = "none";
         document.getElementById('div_new').style.display = "block";
     }
+}
+
+onload = function(){
+    document.getElementById('radio_exist').checked = true;
+    document.getElementById('direction').options[0].selected = true;
 }
