@@ -40,6 +40,7 @@ class Authorized_Controller extends Controller
     public static function get_menu($userType){
         return [
             [ "href" => "/student", "title" => "Студенты", "submenus" => ["Добавить" => "/student/add"]],
+            [ "href" => "/trajectory", "title" => "Траектории", "submenus" => []],
             [ "href" => "/direction", "title" => "УГСН и направления", "submenus" => ["Редактировать" => "/direction/edit_all"]],
             [ "href" => "/university/edit", "title" => "Данные университета", "submenus" => []]
         ];

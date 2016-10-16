@@ -121,27 +121,29 @@ class Model_Student extends Model
 
     public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $programId, $echo = true){
         $conn = parent::get_db_connection();
-        $insertStudent = $conn->prepare("INSERT INTO Student(Name, ID_NozologyGroup) VALUES(?, ?)");
-        $insertStudent->bindParam(1, $name);
-        $insertStudent->bindParam(2, $nozoologyGroupId);
-        $insertStudent->execute();
-        $insertLearningStudent = $conn->prepare("INSERT INTO LearningStudent (ID_Student, ID_Program, DateBegin, DateEnd, Status) VALUES (?, ?, ?, ?, 'Активно')");
-        $studentId = $conn->lastInsertId();
-        $insertLearningStudent->bindParam(1, $studentId);
-        $insertLearningStudent->bindParam(2, $programId);
-        $insertLearningStudent->bindParam(3, $beginDate);
-        $insertLearningStudent->bindParam(4, $endDate);
-        $insertLearningStudent->execute();
-        $insertTrajectory = $conn->prepare("INSERT INTO Trajectory(ID_Learning, NumberSemester, Status) VALUES(?, 1, 'Активен')");
-        $learningStudent = $conn->lastInsertId();
-        $insertTrajectory->bindParam(1, $learningStudent);
-        $insertTrajectory->execute();
-
-        if ($echo){
-            echo "OK";
+        $add = $conn->prepare("CALL addStudent(?, ?, ?, ?, ?)");
+        $add->bindParam(1, $name);
+        $add->bindParam(2, $nozoologyGroupId);
+        $add->bindParam(3, $beginDate);
+        $add->bindParam(4, $endDate);
+        $add->bindParam(5, $programId);
+        $add->execute();
+        $response = $add->fetchAll(PDO::FETCH_NUM);
+        if (empty($response)){
+            if ($echo){
+                echo "OK";
+            }
+            else{
+                return true;
+            }
         }
         else{
-            return true;
+            if ($echo){
+                $response[0][0];
+            }
+            else {
+                return false;
+            }
         }
     }
 
