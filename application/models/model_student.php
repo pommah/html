@@ -20,7 +20,7 @@ class Model_Student extends Model
         $student = [];
         $conn = parent::get_db_connection();
         $req = $conn->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
-          AS \"Direction\", ProgramStudent.PeriodOfStudy, ProgramStudent.NameFile, LearningStudent.ID AS LearnID, LearningStudent.DateBegin, LearningStudent.DateEnd, ProgramStudent.Level,
+          AS \"Direction\", ProgramStudent.PeriodOfStudy, ProgramStudent.NameFileProgram, LearningStudent.ID AS LearnID, LearningStudent.DateBegin, LearningStudent.DateEnd, ProgramStudent.Level,
           ProgramStudent.Form
 	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
 	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
@@ -39,7 +39,7 @@ class Model_Student extends Model
                     "DateEnd" => $row['DateEnd'],
                     "Level" => $row['Level'],
                     "Form" => $row['Form'],
-                    "File" => $row['NameFile'],
+                    "File" => $row['NameFileProgram'],
                     "Period" => $row['PeriodOfStudy']
                 ];
             }
@@ -149,7 +149,7 @@ class Model_Student extends Model
 
     public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $directionId, $level, $studyPeriod, $universityId, $form, $programFileName){
         $conn = parent::get_db_connection();
-        $insertProgram = $conn->prepare("INSERT INTO ProgramStudent (ID_Direction, Level, PeriodOfStudy, ID_NozologyGroup, ID_University, Form, NameFile) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $insertProgram = $conn->prepare("INSERT INTO ProgramStudent (ID_Direction, Level, PeriodOfStudy, ID_NozologyGroup, ID_University, Form, NameFileProgram) VALUES (?, ?, ?, ?, ?, ?, ?)");
         $insertProgram->bindParam(1, $directionId);
         $insertProgram->bindParam(2, $level);
         $insertProgram->bindParam(3, $studyPeriod);
