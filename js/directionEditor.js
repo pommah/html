@@ -14,7 +14,7 @@ function saveChanges() {
             selectedDirections += input["id"] + ";";
         }
     }
-    var send = new Ajax("POST","/direction/edit_all");
+    var send = new Ajax("POST", "/direction/edit_all");
     send.setData("directions="+selectedDirections);
     send.send(function (data) {
         status = data;

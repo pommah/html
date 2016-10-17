@@ -30,10 +30,14 @@
             }
         ?>
     </select>
+        <div class='label_input'> <div class='left_label'>Профиль:</div> <input class='input' type='text' id='profile'></div>
         <div class='label_input'> <div class='left_label'>Уровень образования:</div><input class='input' type='text' id='level'></div>
         <div class='label_input'> <div class='left_label'>Период обучения:</div><input class='input' type='number' id='period'></div>
         <div class='label_input'> <div class='left_label'>Форма обучения:</div><input class='input' type='text' id='form'></div>
-        <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='fileName'></div>
+        <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='fileNameProgram'></div>
+        <div class='label_input'> <div class='left_label'>Файл учебного плана:</div><input class='input' type='file' id='fileNamePlan'></div>
+        <div class='label_input'> <div class='left_label'>Файл реабилитационной программы:</div><input class='input' type='file' id='fileNameReability'></div>
+
     </div>
     <button class='button add_student' onclick="save()">Добавить</button>
     <script type="text/javascript" src="/js/ajax.js"></script>

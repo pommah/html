@@ -92,7 +92,7 @@
             foreach ($data['student']['Track'][$i]['Note'] as $key => $value) {
                 $text = $text.' '.$key.'='.$value;
             }
-            printf("<td bgcolor='%s' onclick=\"prompEdit('%s','%s','%s')\">%s</td>",$color, $i, $data['student']['Track'][$i]['Status'],$text, $i);
+            printf("<td bgcolor='%s' id='module_%s' onclick=\"prompEdit('%s','%s','%s')\">%s</td>",$color, $i,$i, $data['student']['Track'][$i]['Status'],$text, $i);
         }
         else {
             printf("<td>%s</td>", $i);

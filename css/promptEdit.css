@@ -16,3 +16,12 @@
     font-size: 15px;
     margin-top: 10px;
 }
+.fileTrack {
+    margin-top: 10px;
+}
+.delDebt {
+    color: #487eb3;
+    font-size: 12px;
+    margin-left: 3px;
+    cursor: pointer;
+}
