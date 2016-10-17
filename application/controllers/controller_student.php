@@ -48,7 +48,11 @@ Class Controller_Student extends Authorized_Controller {
             $this->generateView('info');
         }
     }
-
+    function action_delete() {
+        $id = $_POST['id'];
+        $delete = $this->model->delete_student($id);
+        echo $delete;
+    }
     private function generateView($actionName){
         $this->view->generate($this->getViewPath($actionName.'.php'), 'common.php', $this->data);
     }

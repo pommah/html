@@ -22,6 +22,9 @@ html,body {
     padding: 3px;
     border-radius: 3px;
 }
+.button::-webkit-file-upload-button {
+    background-color: white;
+}
 .button:hover {
     background-color: #9bb2ff;
 }

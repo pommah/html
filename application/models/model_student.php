@@ -4,7 +4,7 @@ class Model_Student extends Model
     public function getStudents(){
         $list = [];
         $req = parent::get_db_connection()->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
-          AS \"Direction\", ProgramStudent.NameFile
+          AS \"Direction\", ProgramStudent.NameFileProgram
 	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
 	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
 	      LearningStudent.ID_Program) INNER JOIN Direction ON Direction.ID = ProgramStudent.ID_Direction
@@ -160,6 +160,19 @@ class Model_Student extends Model
         $insertProgram->execute();
         $this->add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $conn->lastInsertId(), false);
         echo "OK";
+    }
+
+    public function delete_student($id) {
+        $conn = parent::get_db_connection();
+        $delete = $conn->prepare("DELETE FROM Student WHERE ID=?");
+        $delete->bindParam(1, $id);
+        $delete->execute();
+        if($delete->errorCode()[0]) {
+            return $delete->errorCode()[0]." ".$delete->errorInfo()[0];
+        }
+        else {
+            return "OK";
+        }
     }
 
 }

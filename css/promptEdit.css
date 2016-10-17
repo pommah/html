@@ -1,0 +1,18 @@
+.subject {
+    margin-top: 5px;
+}
+.deadLine {
+    margin-top: 3px;
+}
+.attr {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #d5d5d5;
+}
+.attr:last-of-type {
+    border: 0;
+}
+.saveTrajectory {
+    padding: 5px;
+    font-size: 15px;
+    margin-top: 10px;
+}

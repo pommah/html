@@ -31,6 +31,11 @@
 .studentList td img:hover {
     background-color: #eeeeff;
 }
+#error {
+    height: 1em;
+    color: #ff423a;
+    font-size: 16px;
+}
 
 
 

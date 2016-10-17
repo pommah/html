@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/css/student.css">
-
+<link rel="stylesheet" type="text/css" href="/css/prompt.css">
+<link rel="stylesheet" type="text/css" href="/css/promptEdit.css">
 <div class="info">
     <div class="leftLabel">Идентификатор:</div>
     <div class="dataStudent"><input class="input dataStudent" type="text" value="<?php echo $data['student']['Name']; ?>"></div>
@@ -75,7 +76,7 @@
 </div>
 <div class="info last">
     <div class="leftLabel">Программа обучения:</div>
-    <div class="dataStudent"><a href="<?php echo $data['student']['File']; ?>">Программа обучения</a><button class="button changeButton">Изменить</button> </div>
+    <div class="dataStudent"><a href="<?php echo $data['student']['File']; ?>">Программа обучения</a><input type="file" id="learProgram" class="button changeButton"> </div>
 </div>
 
 <button class="button saveButton">Сохранить</button>
@@ -91,7 +92,7 @@
             foreach ($data['student']['Track'][$i]['Note'] as $key => $value) {
                 $text = $text.' '.$key.'='.$value;
             }
-            printf("<td bgcolor='%s' onmouseover=\"prompShow('%s','%s','%s')\">%s</td>",$color, $i, $data['student']['Track'][$i]['Status'],$text, $i);
+            printf("<td bgcolor='%s' onclick=\"prompEdit('%s','%s','%s')\">%s</td>",$color, $i, $data['student']['Track'][$i]['Status'],$text, $i);
         }
         else {
             printf("<td>%s</td>", $i);
@@ -101,4 +102,6 @@
     ?>
     <div class="prompt" id="promt"></div>
 </div>
+
+<script type="text/javascript" src="/js/promptEdit.js"></script>
 
