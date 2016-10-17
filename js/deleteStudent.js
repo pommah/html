@@ -8,17 +8,14 @@ function deleteStud(e, id) {
     if(!conf) {
         return;
     }
-    del = new Ajax("POST");
+    del = new Ajax("POST","/student/delete");
     del.setData("id="+id);
-    del.send("/student/delete");
-    del.xhttp.onreadystatechange = function () {
-        if(del.xhttp.readyState == 4 && del.xhttp.status == 200) {
-            if(del.xhttp.responseText == "OK") {
-                th.parentNode.removeChild(th);
-            }
-            else {
-                document.getElementById('error').innerHTML = del.xhttp.responseText;
-            }
+    del.send(function (data) {
+        if(data == "OK") {
+            th.parentNode.removeChild(th);
         }
-    }
+        else {
+            document.getElementById('error').innerHTML = data;
+        }
+    });
 }

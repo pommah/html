@@ -31,19 +31,17 @@ function checkAuth() {
         return false;
     }
 
-   var send = new Ajax("POST");
+   var send = new Ajax("POST","/modules/authorize.php");
     send.setData("login="+login.value+"&password="+password.value);
-    send.send("/modules/authorize.php");
-    send.xhttp.onreadystatechange = function () {
-        if(send.xhttp.readyState == 4 && send.xhttp.status == 200) {
-            status = send.xhttp.responseText;
-            if(status=="OK") {
-                document.location.href = "/student";
-            }
-            else {
-                error.innerHTML = status;
-                login.focus();
-            }
+    send.send(function (data) {
+        status = data;
+        if(status=="OK") {
+            document.location.href = "/student";
         }
-    }
+        else {
+            error.innerHTML = status;
+            login.focus();
+        }
+    });
+
 }

@@ -1,5 +1,6 @@
-function Ajax(type) {
+function Ajax(type, path) {
     this.type = type;
+    this.path = path;
     this.data = "";
     this.sendData = "";
     this.xhttp = "";
@@ -14,9 +15,9 @@ Ajax.prototype = {
     setData: function (x) {
         this.sendData = x;
     },
-    send: function (path) {
+    send: function (callback) {
         if(this.type == "POST") {
-            this.xhttp.open("POST",path,true);
+            this.xhttp.open("POST",this.path,true);
             this.xhttp.setRequestHeader('Content-type','application/x-www-form-urlencoded');
             if(this.sendData.length) {
                 this.xhttp.send(this.sendData);
@@ -24,8 +25,13 @@ Ajax.prototype = {
             else this.xhttp.send();
         }
         else if(this.type == "GET") {
-            this.xhttp.open("GET",path,true);
+            this.xhttp.open("GET",this.path,true);
             this.xhttp.send();
+        }
+        this.xhttp.onreadystatechange = function () {
+            if(this.readyState == 4 && this.status == 200) {
+                callback(this.responseText);
+            }
         }
     },
     setLocation: function(curLoc){

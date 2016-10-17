@@ -14,20 +14,17 @@ function saveChanges() {
             selectedDirections += input["id"] + ";";
         }
     }
-    var send = new Ajax("POST");
+    var send = new Ajax("POST","/direction/edit_all");
     send.setData("directions="+selectedDirections);
-    send.send("/direction/edit_all");
-    send.xhttp.onreadystatechange = function () {
-        if(send.xhttp.readyState == 4 && send.xhttp.status == 200) {
-            status = send.xhttp.responseText;
-            if(status=="OK") {
-                document.location.href = "/direction";
-            }
-            else {
-                alert(status);
-            }
+    send.send(function (data) {
+        status = data;
+        if(status=="OK") {
+            document.location.href = "/direction";
         }
-    }
+        else {
+            alert(status);
+        }
+    });
 }
 
 function cancelChanges() {

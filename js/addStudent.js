@@ -80,21 +80,17 @@ function save() {
         data = "student_and_program="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataDirection+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataFileName;
     }
 
-    var send = new Ajax("POST");
-
+    var send = new Ajax("POST","/student/add");
     send.setData(data);
-    send.send("/student/add");
-    send.xhttp.onreadystatechange = function () {
-        if(send.xhttp.readyState == 4 && send.xhttp.status == 200) {
-            var status = send.xhttp.responseText;
-            if(status=="OK") {
-                document.location.href = "/student";
-            }
-            else {
-                alert(status);
-            }
+    send.send(function (data) {
+        status = data;
+        if(status=="OK") {
+            document.location.href = "/student";
         }
-    }
+        else {
+            alert(status);
+        }
+    });
 }
 
 function radioClicks($radio) {
