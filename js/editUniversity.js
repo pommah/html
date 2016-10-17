@@ -31,19 +31,15 @@ function saveChanges() {
         return false;
     }
 
-    var send = new Ajax("POST");
-
+    var send = new Ajax("POST","/university/edit");
     send.setData("universityData="+dataShort+";"+dataFull+";"+dataStatus+";"+dataRegion);
-    send.send("/university/edit");
-    send.xhttp.onreadystatechange = function () {
-        if(send.xhttp.readyState == 4 && send.xhttp.status == 200) {
-            status = send.xhttp.responseText;
-            if(status=="OK") {
-                document.location.href = "/student";
-            }
-            else {
-                alert(status);
-            }
+    send.send(function (data) {
+        status = data;
+        if(status=="OK") {
+            document.location.href = "/student";
         }
-    }
+        else {
+            alert(status);
+        }
+    });
 }
