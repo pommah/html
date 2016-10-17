@@ -62,7 +62,8 @@ class Model_Student extends Model
                     $student['Track'][$row['NumberSemester']] = [
                         "Status" => $row['Status'],
                         "Note" => $note,
-                        "Color" => $color
+                        "Color" => $color,
+                        "File" => $row['Note']
                     ];
                 }
             }
@@ -139,7 +140,7 @@ class Model_Student extends Model
         }
         else{
             if ($echo){
-                $response[0][0];
+                echo $response[0][0];
             }
             else {
                 return false;

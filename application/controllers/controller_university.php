@@ -8,8 +8,17 @@ class Controller_University extends Authorized_Controller
     }
 
     public function action_edit(){
-        $this->data['regions'] = $this->model->get_region_names();
-        $this->generateView('edit');
+        if (array_key_exists('universityData', $_POST)) {
+            $university = $_POST['universityData'];
+            $data = explode(";", $university);
+            $universityId = 1;
+            echo $this->model->update_university_data($data[0], $data[1], $data[2], $data[3], $universityId);
+        }
+        else{
+            $this->data['university'] = $this->model->get_university_info();
+            $this->data['regions'] = $this->model->get_region_names();
+            $this->generateView('edit');
+        }
     }
 
     private function generateView($actionName){

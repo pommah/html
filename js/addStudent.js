@@ -14,19 +14,19 @@ function save() {
     var regularDate = /^[0-9]{2,4}.[0-9]{1,2}.[0-9]{1,2}$/;
 
     if (!regularId.test(dataId)){
-        alert(dataId);
+        alert("Недопустимый идентификатор");
         return false;
     }
     if (!regularNoz.test(dataNoz)){
-        alert(dataNoz);
+        alert("Недопустимая нозологическая группа");
         return false;
     }
     if (!regularDate.test(dataDateBegin)){
-        alert(dataDateBegin);
+        alert("Недопустимая дата начала обучения");
         return false;
     }
     if (!regularDate.test(dataDateEnd)){
-        alert(dataDateEnd);
+        alert("Недопустимая дата окончания обучения");
         return false;
     }
 
@@ -37,7 +37,7 @@ function save() {
         var dataProgram = program.selectedOptions[0].id.substr(1);
         var regularProgram = /^[0-9]{1,4}$/;
         if (!regularProgram.test(dataProgram)){
-            alert(dataProgram);
+            alert("Недопустимая программа");
             return false;
         }
         data = "student="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataProgram;
@@ -61,19 +61,19 @@ function save() {
         var regularForm = /^[А-я]{6,60}$/;
 
         if (!regularDirection.test(dataDirection)){
-            alert(dataDirection);
+            alert("Недопустимое направление");
             return false;
         }
         if (!regularLevel.test(dataLevel)){
-            alert(dataLevel);
+            alert("Недопустимый уровень образования");
             return false;
         }
         if (!regularPeriod.test(dataPeriod)){
-            alert(dataPeriod);
+            alert("Недопустимый период обучения");
             return false;
         }
         if (!regularForm.test(dataForm)){
-            alert(dataForm);
+            alert("Недопустимая форма обучения");
             return false;
         }
 
@@ -86,7 +86,7 @@ function save() {
     send.send("/student/add");
     send.xhttp.onreadystatechange = function () {
         if(send.xhttp.readyState == 4 && send.xhttp.status == 200) {
-            status = send.xhttp.responseText;
+            var status = send.xhttp.responseText;
             if(status=="OK") {
                 document.location.href = "/student";
             }

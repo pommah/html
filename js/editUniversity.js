@@ -1,0 +1,49 @@
+function saveChanges() {
+    var short = document.getElementById('short');
+    var full = document.getElementById('full');
+    var region = document.getElementById('region');
+    var status = document.getElementById('status');
+
+    var dataShort = short.value;
+    var dataFull = full.value;
+    var dataRegion = region.selectedOptions[0].id;
+    var dataStatus = status.selectedOptions[0].value;
+
+    var regularShort = /^[А-яA-z ]{3,30}$/;
+    var regularFull = /^[А-яA-z ]{3,60}$/;
+    var regularRegion = /^[0-9]{1,2}$/;
+    var regularStatus = /^(Государственный)|(Частный)$/;
+
+    if(!regularShort.test(dataShort)){
+        alert("Недопустимое сокращённое имя");
+        return false;
+    }
+    if(!regularFull.test(dataFull)){
+        alert("Недопустимое полное имя");
+        return false;
+    }
+    if(!regularRegion.test(dataRegion)){
+        alert("Недопустимый регион");
+        return false;
+    }
+    if(!regularStatus.test(dataStatus)){
+        alert("Недопустимый статус");
+        return false;
+    }
+
+    var send = new Ajax("POST");
+
+    send.setData("universityData="+dataShort+";"+dataFull+";"+dataStatus+";"+dataRegion);
+    send.send("/university/edit");
+    send.xhttp.onreadystatechange = function () {
+        if(send.xhttp.readyState == 4 && send.xhttp.status == 200) {
+            status = send.xhttp.responseText;
+            if(status=="OK") {
+                document.location.href = "/student";
+            }
+            else {
+                alert(status);
+            }
+        }
+    }
+}

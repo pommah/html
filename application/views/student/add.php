@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/css/add_student.css">
 <div class="center">
     <div class='label_input'> <div class='left_label'>Идентификатор:</div> <input class='input' type='text' id='fio'></div>
-    <div class='label_input'><div class='left_label'>Нозоологическая группа:</div> <select class='input' id='noz_group'>
+    <div class='label_input'><div class='left_label'>Нозологическая группа:</div> <select class='input' id='noz_group'>
             <?php
             foreach ($data['nozoology'] as $row){
                 printf("<option id='n%s'>%s</option>", $row['ID'], $row['Name']);

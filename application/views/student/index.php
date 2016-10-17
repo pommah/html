@@ -4,7 +4,7 @@
     print ("<table id='studentList' class='studentList'>
         <tr>
             <th>Идентификатор</th>
-            <th>Нозоологическая группа</th>
+            <th>Нозологическая группа</th>
             <th>Направление</th>
             <th>Программа</th>
             <th></th>

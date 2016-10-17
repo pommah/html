@@ -1,11 +1,11 @@
 <table class='studentList'>
     <tr>
         <th>Идентификатор</th>
-        <th>Траетория</th>
+        <th>Траектория</th>
     </tr>
     <?php
-        foreach ($data['Trajectories'] as $student){
-            printf("<tr><td>%s</td><td><table>", $student['Name']);
+        foreach ($data['Trajectories'] as $id => $student){
+            printf("<tr onclick='document.location.href=\"/student/info/%s\"'><td>%s</td><td><table>", $id, $student['Name']);
             foreach ($student['Semesters'] as $number => $info){
                 $message = "Модуль №".$number."\n".$info['Status']."\n".$info['Note'];
                 foreach ($info['Disciplines'] as $discipline){

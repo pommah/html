@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/css/student.css">
 <link rel="stylesheet" type="text/css" href="/css/prompt.css">
+<link rel="stylesheet" type="text/css" href="/css/student_list.css">
 <div class="info">
     <div class="leftLabel">Идентификатор:</div>
     <div class="dataStudent"><?php echo $data['student']['Name']; ?></div>
@@ -58,6 +59,43 @@
     print("</tr></table>");
     ?>
     <div class="prompt" id="promt"></div>
+    <table class="studentList">
+        <tr>
+            <th>№ модуля</th>
+            <th>Статус</th>
+            <th>Примечание</th>
+            <th colspan="2">Задалженности</th>
+        </tr>
+        <?php
+        foreach ($data['student']['Track'] as $i => $info){
+            $debtCount = sizeof($info['Note']);
+            $rowspan = $debtCount > 1 ? $debtCount : 0;
+            print("<tr>");
+            printf("<td rowspan='%s'>%s</td>", $rowspan, $i);
+            printf("<td rowspan='%s'>%s</td>", $rowspan, $info['Status']);
+            $file = $info['File'] != null ? $info['File'] : '-';
+            printf("<td rowspan='%s'>%s</td>", $rowspan, $file);
+            if ($debtCount == 0){
+                print ("<td colspan='2'>-</td>");
+            }
+            else{
+                $count = 0;
+                foreach ($info['Note'] as $key => $value) {
+                    if ($count == 0){
+                        printf("<td>%s</td>", $key);
+                        printf("<td>%s</td>", $value);
+                    }
+                    else{
+                        printf("<tr><td>%s</td>", $key);
+                        printf("<td>%s</td></tr>", $value);
+                    }
+                    $count++;
+                }
+            }
+            print("</tr>");
+        }
+        ?>
+    </table>
 </div>
 <script type="text/javascript" src="/js/promptShow.js"></script>
 
