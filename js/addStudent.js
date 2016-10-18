@@ -53,9 +53,9 @@ function save() {
         var fileReability = document.getElementById('fileNameReability');
 
         var dataDirection = direction.selectedOptions[0].id;
-        var dataLevel = level.value;
+        var dataLevel = level.selectedOptions[0].value;
         var dataPeriod = period.value;
-        var dataForm = form.value;
+        var dataForm = form.selectedOptions[0].value;
         var dataFileProgram = 'a.pdf';
         var dataProfile = profile.value;
         var dataFilePlan = 'b.pdf';
@@ -64,7 +64,7 @@ function save() {
         var regularDirection = /^[0-9]{6}$/;
         var regularLevel = /^[А-я]{6,40}$/;
         var regularPeriod = /^[0-9].*[0-9]$/;
-        var regularForm = /^[А-я]{5,60}$/;
+        var regularForm = /^[А-я-]{5,60}$/;
         var regularProfile = /^[А-я ]{3,100}$/;
 
         if (!regularDirection.test(dataDirection)){

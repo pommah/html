@@ -1,4 +1,6 @@
 <?php
+include 'application/core/utils.php';
+
 Class Controller_Student extends Authorized_Controller {
 
     public $data = [];
