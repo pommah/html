@@ -4,6 +4,27 @@
 onload = function () {
     widthTable = document.getElementById('trackTable').offsetWidth;
     document.getElementById('promt').style.width = (widthTable-30)+"px";
+    document.getElementById('current_info').click();
+}
+
+function radioClicks(radio) {
+    hideAllDivs();
+    if (radio.id == "current_info"){
+        document.getElementById('div_current_info').style.display = "block";
+    }else if (radio.id == "current_edit"){
+        document.getElementById('div_current_edit').style.display = "block";
+    } else if (radio.id == "current_change"){
+        document.getElementById('div_current_change').style.display = "block";
+    } else if (radio.id == "add_new"){
+        document.getElementById('div_add_new').style.display = "block";
+    }
+}
+
+function hideAllDivs() {
+    document.getElementById('div_current_info').style.display = "none";
+    document.getElementById('div_current_edit').style.display = "none";
+    document.getElementById('div_current_change').style.display = "none";
+    document.getElementById('div_add_new').style.display = "none";
 }
 var numModule = null;
 var nowInfo = null;

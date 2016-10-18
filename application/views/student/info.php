@@ -64,7 +64,7 @@
             <th>№ модуля</th>
             <th>Статус</th>
             <th>Примечание</th>
-            <th colspan="2">Задалженности</th>
+            <th colspan="2">Задолженности</th>
         </tr>
         <?php
         foreach ($data['student']['Track'] as $i => $info){

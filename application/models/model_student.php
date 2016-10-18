@@ -120,7 +120,7 @@ class Model_Student extends Model
         return $programs;
     }
 
-    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $programId, $echo = true){
+    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $programId){
         $conn = parent::get_db_connection();
         $add = $conn->prepare("CALL addStudent(?, ?, ?, ?, ?)");
         $add->bindParam(1, $name);
@@ -131,36 +131,37 @@ class Model_Student extends Model
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){
-            if ($echo){
                 echo "OK";
-            }
-            else{
-                return true;
-            }
         }
         else{
-            if ($echo){
-                echo $response[0][0];
-            }
-            else {
-                return false;
-            }
+            echo $response[0][0];
         }
     }
 
-    public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $directionId, $level, $studyPeriod, $universityId, $form, $programFileName){
+    public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $directionId, $profile, $level, $studyPeriod, $form, $programFile, $planFile, $reabilityFile, $universityId){
         $conn = parent::get_db_connection();
-        $insertProgram = $conn->prepare("INSERT INTO ProgramStudent (ID_Direction, Level, PeriodOfStudy, ID_NozologyGroup, ID_University, Form, NameFileProgram) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $insertProgram->bindParam(1, $directionId);
-        $insertProgram->bindParam(2, $level);
-        $insertProgram->bindParam(3, $studyPeriod);
-        $insertProgram->bindParam(4, $nozoologyGroupId);
-        $insertProgram->bindParam(5, $universityId);
-        $insertProgram->bindParam(6, $form);
-        $insertProgram->bindParam(7, $programFileName);
-        $insertProgram->execute();
-        $this->add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $conn->lastInsertId(), false);
-        echo "OK";
+        $add = $conn->prepare("CALL addStudentAndProgram(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?)");
+        $add->bindParam(1, $name);
+        $add->bindParam(2, $nozoologyGroupId);
+        $add->bindParam(3, $beginDate);
+        $add->bindParam(4, $endDate);
+        $add->bindParam(5, $directionId);
+        $add->bindParam(6, $profile);
+        $add->bindParam(7, $level);
+        $add->bindParam(8, $studyPeriod);
+        $add->bindParam(9, $form);
+        $add->bindParam(10, $programFile);
+        $add->bindParam(11, $planFile);
+        $add->bindParam(12, $reabilityFile);
+        $add->bindParam(13, $universityId);
+        $add->execute();
+        $response = $add->fetchAll(PDO::FETCH_NUM);
+        if (empty($response)){
+            echo "OK";
+        }
+        else{
+            echo $response[0][0];
+        }
     }
 
     public function delete_student($id) {

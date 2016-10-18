@@ -23,10 +23,13 @@ Class Controller_Student extends Authorized_Controller {
             $studentProgram = $_POST['student_and_program'];
             $data = explode(";", $studentProgram);
             $universityId = 1;
-            echo $this->model->add_student_and_program($data[0], $data[1], $data[2], $data[3],$data[4], $data[5], $data[6], $universityId, $data[7], $data[8]);
+            $profile = $data[5] == 'null' ? null : $data[5];
+            $planFile = $data[10] == 'null' ? null : $data[10];
+            $reabilityFile = $data[11] == 'null' ? null : $data[11];
+            echo $this->model->add_student_and_program($data[0], $data[1], $data[2], $data[3],$data[4], $profile, $data[6], $data[7], $data[8], $data[9], $planFile, $reabilityFile, $universityId);
         }else{
             $this->data['directions'] = $this->model->get_direction();
-            $this->data['nozoology'] = $this->model->get_nozoology_groups();
+            $this->data['nozology'] = $this->model->get_nozoology_groups();
             $this->data['programs'] = $this->model->get_programs();
             $this->generateView('add');
         }
@@ -37,6 +40,8 @@ Class Controller_Student extends Authorized_Controller {
         if($student) {
             $this->data['student'] = $student;
             $this->data['directions'] = $this->model->get_direction();
+            $this->data['nozology'] = $this->model->get_nozoology_groups();
+            $this->data['programs'] = $this->model->get_programs();
             $this->generateView('edit');
         }
     }

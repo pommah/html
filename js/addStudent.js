@@ -47,18 +47,25 @@ function save() {
         var level = document.getElementById('level');
         var period = document.getElementById('period');
         var form = document.getElementById('form');
-        var fileName = document.getElementById('fileName');
+        var fileProgram = document.getElementById('fileNameProgram');
+        var profile = document.getElementById('profile');
+        var filePlan = document.getElementById('fileNamePlan');
+        var fileReability = document.getElementById('fileNameReability');
 
         var dataDirection = direction.selectedOptions[0].id;
         var dataLevel = level.value;
         var dataPeriod = period.value;
         var dataForm = form.value;
-        var dataFileName = 'a.pdf';
+        var dataFileProgram = 'a.pdf';
+        var dataProfile = profile.value;
+        var dataFilePlan = 'b.pdf';
+        var dataFileReability = 'c.pdf';
 
         var regularDirection = /^[0-9]{6}$/;
         var regularLevel = /^[А-я]{6,40}$/;
         var regularPeriod = /^[0-9].*[0-9]$/;
-        var regularForm = /^[А-я]{6,60}$/;
+        var regularForm = /^[А-я]{5,60}$/;
+        var regularProfile = /^[А-я ]{3,100}$/;
 
         if (!regularDirection.test(dataDirection)){
             alert("Недопустимое направление");
@@ -76,8 +83,20 @@ function save() {
             alert("Недопустимая форма обучения");
             return false;
         }
+        if (!document.getElementById('profile').disabled){
+            if (!regularProfile.test(dataProfile)){
+                alert("Недопустимый профиль");
+                return false;
+            }
+        }
+        else {
+            dataProfile = null;
+        }
 
-        data = "student_and_program="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataDirection+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataFileName;
+        dataFilePlan = document.getElementById('fileNamePlan').disabled ? null : dataFilePlan;
+        dataFileReability = document.getElementById('fileNameReability').disabled ? null : dataFileReability;
+
+        data = "student_and_program="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataFileProgram+";"+dataFilePlan+";"+dataFileReability;
     }
 
     var send = new Ajax("POST","/student/add");
@@ -101,6 +120,18 @@ function radioClicks($radio) {
         document.getElementById('div_exist').style.display = "none";
         document.getElementById('div_new').style.display = "block";
     }
+}
+
+function switchProfile(checkbox) {
+    document.getElementById('profile').disabled = !checkbox.checked;
+}
+
+function switchFilePlan(checkbox) {
+    document.getElementById('fileNamePlan').disabled = !checkbox.checked;
+}
+
+function switchFileReability(checkbox) {
+    document.getElementById('fileNameReability').disabled = !checkbox.checked;
 }
 
 onload = function(){
