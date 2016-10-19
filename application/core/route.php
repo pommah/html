@@ -15,7 +15,13 @@ class Route
         $action_name = 'index';
         $data = '';
 
-        $routes = explode('/', $_SERVER['REQUEST_URI']);
+		// !!
+        // $routes = explode('/', $_SERVER['REQUEST_URI']);
+        
+		$path = str_replace('/cripple','',$_SERVER['REQUEST_URI']);
+        $routes = explode('/', $path);
+        // !!
+
         // получаем имя контроллера
         if ( !empty($routes[1]) )
         {
@@ -54,6 +60,11 @@ class Route
         // подцепляем файл с классом контроллера
         $controller_file = strtolower($controller_name).'.php';
         $controller_path = "application/controllers/".$controller_file;
+
+		// !!
+		ob_start();
+		// !!
+		
         if(file_exists($controller_path))
         {
             include "application/controllers/".$controller_file;
@@ -82,6 +93,15 @@ class Route
             Route::ErrorPage404();
         }
 
+        // !!
+		$buffer = ob_get_clean();
+		$base = 'http://'.$_SERVER['SERVER_NAME'].'/cripple/';
+		$buffer = str_replace(array('<head>','="/','=\'/','= \'/student'), array('<head><base href="'.$base.'">','="/cripple/','=\'/cripple/','= \'/cripple/student'), $buffer);
+		echo $buffer;
+		/* echo '<pre>';
+			echo htmlspecialchars($buffer);
+		echo '</pre>'; */
+		// !!
     }
 
     function ErrorPage404()
