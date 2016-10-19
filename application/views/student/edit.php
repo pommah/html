@@ -134,7 +134,15 @@
         ?>
     </select>
     <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchProfile(this)">Профиль:</div> <input class='input' type='text' id='profile' disabled></div>
-    <div class='label_input'> <div class='left_label'>Уровень образования:</div><input class='input' type='text' id='level'></div>
+    <div class='label_input'> <div class='left_label'>Уровень образования:</div>
+        <select class="input" id='level'>
+            <?php
+            foreach (Utils::$levels as $level){
+                printf("<option>%s</option>", $level);
+            }
+            ?>
+        </select>
+    </div>
     <div class='label_input'> <div class='left_label'>Период обучения:</div><input class='input' type='number' id='period'></div>
     <div class='label_input'> <div class='left_label'>Форма обучения:</div><input class='input' type='text' id='form'></div>
     <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='fileNameProgram'></div>
