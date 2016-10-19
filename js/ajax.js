@@ -1,9 +1,6 @@
 function Ajax(type, path) {
     this.type = type;
-    // !!
-    // this.path = path;
-    this.path = "/cripple"+path;
-    // !!
+    this.path = path;
     this.data = "";
     this.sendData = "";
     this.xhttp = "";

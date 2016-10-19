@@ -36,10 +36,7 @@ function checkAuth() {
     send.send(function (data) {
         status = data;
         if(status=="OK") {
-			// !!
-			// document.location.href = "/student";
-            document.location.href = "/cripple/student";
-            // !!
+            document.location.href = "/student";
         }
         else {
             error.innerHTML = status;
