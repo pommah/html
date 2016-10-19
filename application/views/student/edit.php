@@ -144,7 +144,15 @@
         </select>
     </div>
     <div class='label_input'> <div class='left_label'>Период обучения:</div><input class='input' type='number' id='period'></div>
-    <div class='label_input'> <div class='left_label'>Форма обучения:</div><input class='input' type='text' id='form'></div>
+    <div class='label_input'> <div class='left_label'>Форма обучения:</div>
+        <select class="input" id='form'>
+            <?php
+            foreach (Utils::$forms as $form){
+                printf("<option>%s</option>", $form);
+            }
+            ?>
+        </select>
+    </div>
     <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='fileNameProgram'></div>
     <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchFilePlan(this)">Файл учебного плана:</div><input class='input' type='file' id='fileNamePlan' disabled></div>
     <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchFileReability(this)">Файл реабилитационной программы:</div><input class='input' type='file' id='fileNameReability' disabled></div>
