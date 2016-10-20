@@ -40,7 +40,8 @@ class Model_Student extends Model
                     "Level" => $row['Level'],
                     "Form" => $row['Form'],
                     "File" => $row['NameFileProgram'],
-                    "Period" => $row['PeriodOfStudy']
+                    "Period" => $row['PeriodOfStudy'],
+                    "LearnID" => $row['LearnID']
                 ];
             }
             $reqTrack = $conn->query("SELECT * FROM Trajectory WHERE ID_Learning = '$LearnID'");
@@ -60,6 +61,7 @@ class Model_Student extends Model
                             break;
                     }
                     $student['Track'][$row['NumberSemester']] = [
+                        "ID" => $row['ID'],
                         "Status" => $row['Status'],
                         "Note" => $note,
                         "Color" => $color,
@@ -162,6 +164,50 @@ class Model_Student extends Model
         else{
             echo $response[0][0];
         }
+    }
+
+    public function changeDebt($id, $status, $debts, $file) {
+        $conn = parent::get_db_connection();
+        $debts = explode(",", $debts);
+        $query = '';
+        if($status=='Задолженность') {
+            foreach ($debts as $value) {
+                $query = $query . "; CALL addBacklogDiscipline(?,?,?)";
+            }
+        }
+        $change = $conn->prepare("CALL updateTrajectory(?,?,?)".$query);
+        $change->bindParam(1, $status);
+        $change->bindParam(2, $id);
+        if($file) $file = $this->saveFile($file);
+        $change->bindParam(3, $file);
+        if($status=='Задолженность') {
+            $i = 4;
+            foreach ($debts as $value) {
+                $arr = explode(":", $value);
+                $change->bindParam($i, $id);
+                $i++;
+                $change->bindParam($i, $arr[0]);
+                $i++;
+                $change->bindParam($i, $arr[1]);
+                $i++;
+            }
+        }
+        $change->execute();
+        if(!$change->errorCode()[0]) {
+            return "OK";
+        }
+        else return $change->errorInfo()[0];
+    }
+
+    public function saveFile($file) {
+        $file = explode(",",$file);
+        $decode = str_replace(' ','+',$file[1]);
+        $pdf = base64_decode($decode);
+        $name = time();
+        $name = md5($name);
+        $name = substr($name,0,10);
+        $name = $name.".pdf";
+        return $name;
     }
 
     public function delete_student($id) {

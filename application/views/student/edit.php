@@ -165,23 +165,26 @@
     <div class="headTrack">Индивидуальная траектория студента</div>
     <?php
     print("<table id='trackTable' class='trackTable'><tr>");
-    for($i=1; $i<=round($data['student']['Period']*2); $i++) {
+    for($i=1; $i<=sizeof($data['student']['Track']); $i++) {
         if(array_key_exists($i, $data['student']['Track'])) {
             $color = $data['student']['Track'][$i]['Color'];
             $text = null;
             foreach ($data['student']['Track'][$i]['Note'] as $key => $value) {
                 $text = $text.' '.$key.'='.$value;
             }
-            printf("<td bgcolor='%s' id='module_%s' onclick=\"prompEdit('%s','%s','%s')\">%s</td>",$color, $i,$i, $data['student']['Track'][$i]['Status'],$text, $i);
+            printf("<td bgcolor='%s' id='module_%s' onclick=\"prompEdit('%s', '%s','%s','%s','%s')\">%s</td>", $color, $i,$data['student']['Track'][$i]['ID'],$i, $data['student']['Track'][$i]['Status'],$text,$data['student']['Track'][$i]['File'], $i);
         }
         else {
             printf("<td>%s</td>", $i);
         }
     }
-    print("</tr></table>");
+    print("<td class='plus icon'></td></tr></table>");
     ?>
     <div class="prompt" id="promt"></div>
 </div>
-
+<script type="text/javascript" src="/js/ajax.js"></script>
+<script type="text/javascript">
+    var learnID = '<?php echo $data['student']['LearnID']; ?>';
+</script>
 <script type="text/javascript" src="/js/promptEdit.js"></script>
 

@@ -25,3 +25,31 @@
     margin-left: 3px;
     cursor: pointer;
 }
+.add_module {
+    background-image: url("/images/add_file.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
+.plus.icon {
+    color: #000;
+    position: absolute;
+    margin-top: 10px;
+    cursor: pointer;
+}
+.plus.icon:before {
+    content: '';
+    position: absolute;
+    width: 35px;
+    height: 3px;
+    background-color: #80aaff;
+}
+.plus.icon:after {
+    content: '';
+    position: absolute;
+    width: 35px;
+    height: 3px;
+    background-color: #80aaff;
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+}

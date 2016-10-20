@@ -67,4 +67,16 @@ Class Controller_Student extends Authorized_Controller {
     private function getViewPath($viewName){
         return 'application/views/student/'.$viewName;
     }
+    public function action_change_debt() {
+        $id = $_POST['id'];
+        $status = $_POST['status'];
+        $debts = $_POST['debts'];
+        if(isset($_POST['file']))
+            $file = $_POST['file'];
+        else
+            $file = null;
+        echo $file;
+        $log = $this->model->changeDebt($id,$status,$debts,$file);
+        exit($log);
+    }
 }
