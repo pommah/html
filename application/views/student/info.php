@@ -22,23 +22,37 @@
     <div class="dataStudent"><?php echo $data['student']['Direction']; ?></div>
 </div>
 <div class="info">
+    <div class="leftLabel">Профиль:</div>
+    <div class="dataStudent"><?php echo $data['student']['Profile']; ?></div>
+</div>
+<div class="info">
     <div class="leftLabel">Уровень образования</div>
     <div class="dataStudent">
         <?php echo $data['student']['Level']; ?>
     </div>
 </div>
-
+<div class="info">
+    <div class="leftLabel">Период обучения:</div>
+    <div class="dataStudent"><?php echo $data['student']['Period']; ?></div>
+</div>
 <div class="info">
     <div class="leftLabel">Форма обучения:</div>
     <div class="dataStudent">
         <?php echo $data['student']['Form']; ?>
     </div>
 </div>
-<div class="info last">
+<div class="info">
     <div class="leftLabel">Программа обучения:</div>
     <div class="dataStudent"><a href="<?php echo $data['student']['File']; ?>">Программа обучения</a></div>
 </div>
-
+<div class="info">
+    <div class="leftLabel">Учебный план:</div>
+    <div class="dataStudent"><a href="<?php echo $data['student']['Plan']; ?>">Учебный план</a></div>
+</div>
+<div class="info">
+    <div class="leftLabel">Реабилитационная программа:</div>
+    <div class="dataStudent"><a href="<?php echo $data['student']['Rehabilitation']; ?>">Реабилитационная программа</a></div>
+</div>
 <div class="individualTrack">
     <div class="headTrack">Индивидуальная траектория студента</div>
     <?php

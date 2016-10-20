@@ -27,8 +27,8 @@ Class Controller_Student extends Authorized_Controller {
             $universityId = 1;
             $profile = $data[5] == 'null' ? null : $data[5];
             $planFile = $data[10] == 'null' ? null : $data[10];
-            $reabilityFile = $data[11] == 'null' ? null : $data[11];
-            echo $this->model->add_student_and_program($data[0], $data[1], $data[2], $data[3],$data[4], $profile, $data[6], $data[7], $data[8], $data[9], $planFile, $reabilityFile, $universityId);
+            $rehabilitationFile = $data[11] == 'null' ? null : $data[11];
+            echo $this->model->add_student_and_program($data[0], $data[1], $data[2], $data[3],$data[4], $profile, $data[6], $data[7], $data[8], $data[9], $planFile, $rehabilitationFile, $universityId);
         }else{
             $this->data['directions'] = $this->model->get_direction();
             $this->data['nozology'] = $this->model->get_nozoology_groups();
@@ -38,13 +38,39 @@ Class Controller_Student extends Authorized_Controller {
     }
 
     function action_edit($id = null){
-        $student = $this->model->about_student($id);
-        if($student) {
-            $this->data['student'] = $student;
-            $this->data['directions'] = $this->model->get_direction();
-            $this->data['nozology'] = $this->model->get_nozoology_groups();
-            $this->data['programs'] = $this->model->get_programs();
-            $this->generateView('edit');
+        if (array_key_exists('currInfo', $_POST)) {
+            $req = $_POST['currInfo'];
+            $data = explode(";", $req);
+            echo $this->model->edit_student_change_info($id, $data[0], $data[1], $data[2], $data[3]);
+        } else if (array_key_exists('currEdit', $_POST)) {
+            $req = $_POST['currEdit'];
+            $data = explode(";", $req);
+            $universityId = 1;
+            $profile = $data[5] == 'null' ? null : $data[5];
+            $planFile = $data[10] == 'null' ? null : $data[10];
+            $rehabilitationFile = $data[11] == 'null' ? null : $data[11];
+            echo $this->model->edit_student_change_program($id, $data[0], $data[1], $data[2], $data[3], $data[4], $profile, $data[6], $data[7], $data[8], $data[9], $planFile, $rehabilitationFile, $universityId, $data[12]);
+        } else if (array_key_exists('currChange', $_POST)) {
+            $req = $_POST['currChange'];
+            $data = explode(";", $req);
+            echo $this->model->edit_student_switch_program($id, $data[0], $data[1], $data[2], $data[3], $data[4], $data[5]);
+        } else if (array_key_exists('saveNew', $_POST)) {
+            $req = $_POST['saveNew'];
+            $data = explode(";", $req);
+            $universityId = 1;
+            $profile = $data[5] == 'null' ? null : $data[5];
+            $planFile = $data[10] == 'null' ? null : $data[10];
+            $rehabilitationFile = $data[11] == 'null' ? null : $data[11];
+            echo $this->model->edit_student_add_new_program($id, $data[0], $data[1], $data[2], $data[3], $data[4], $profile, $data[6], $data[7], $data[8], $data[9], $planFile, $rehabilitationFile, $universityId, $data[12]);
+        } else{
+            $student = $this->model->about_student($id);
+            if($student) {
+                $this->data['student'] = $student;
+                $this->data['directions'] = $this->model->get_direction();
+                $this->data['nozology'] = $this->model->get_nozoology_groups();
+                $this->data['programs'] = $this->model->get_programs();
+                $this->generateView('edit');
+            }
         }
     }
 

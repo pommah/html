@@ -8,7 +8,7 @@ class Model_Student extends Model
 	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
 	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
 	      LearningStudent.ID_Program) INNER JOIN Direction ON Direction.ID = ProgramStudent.ID_Direction
-          WHERE ProgramStudent.ID_University = ?");
+          WHERE ProgramStudent.ID_University = ? AND Status=\"Активно\"");
         //Todo Функция получения id университета
         $universityId = 1;
         $req->bindParam(1, $universityId);
@@ -21,7 +21,7 @@ class Model_Student extends Model
         $conn = parent::get_db_connection();
         $req = $conn->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
           AS \"Direction\", ProgramStudent.PeriodOfStudy, ProgramStudent.NameFileProgram, LearningStudent.ID AS LearnID, LearningStudent.DateBegin, LearningStudent.DateEnd, ProgramStudent.Level,
-          ProgramStudent.Form
+          ProgramStudent.Form, Profile, NameFilePlan, NameFileReabilitProgram, ProgramStudent.ID AS progId
 	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
 	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
 	      LearningStudent.ID_Program) INNER JOIN Direction ON Direction.ID = ProgramStudent.ID_Direction
@@ -40,6 +40,11 @@ class Model_Student extends Model
                     "Level" => $row['Level'],
                     "Form" => $row['Form'],
                     "File" => $row['NameFileProgram'],
+                    "Period" => $row['PeriodOfStudy'],
+                    "Profile" => $row['Profile'],
+                    "Plan" => $row['NameFilePlan'],
+                    "Rehabilitation" => $row['NameFileReabilitProgram'],
+                    "ProgramId" => $row['progId'],
                     "Period" => $row['PeriodOfStudy'],
                     "LearnID" => $row['LearnID']
                 ];
@@ -166,6 +171,100 @@ class Model_Student extends Model
         }
     }
 
+    public function edit_student_add_new_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $fRehabilitation, $universityId, $reason){
+        $conn = parent::get_db_connection();
+        $add = $conn->prepare("CALL addNewProgram(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?)");
+        $add->bindParam(1,$direction);
+        $add->bindParam(2,$profile);
+        $add->bindParam(3,$level);
+        $add->bindParam(4,$period);
+        $add->bindParam(5,$form);
+        $add->bindParam(6,$fProgram);
+        $add->bindParam(7,$fPlan);
+        $add->bindParam(8,$fRehabilitation);
+        $add->bindParam(9,$nozology);
+        $add->bindParam(10,$universityId);
+        $add->bindParam(11,$name);
+        $add->bindParam(12, $studentId);
+        $add->bindParam(13,$reason);
+        $add->bindParam(14,$dateBegin);
+        $add->bindParam(15,$dateEnd);
+        $add->execute();
+        $response = $add->fetchAll(PDO::FETCH_NUM);
+        if (empty($response)){
+            echo "OK";
+        }
+        else{
+            echo $response[0][0];
+        }
+    }
+
+    public function edit_student_change_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $fRehabilitation, $universityId, $programId){
+        $conn = parent::get_db_connection();
+        $add = $conn->prepare("CALL changeProgramActual(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?)");
+        $add->bindParam(1,$studentId);
+        $add->bindParam(2,$name);
+        $add->bindParam(3,$nozology);
+        $add->bindParam(4,$programId);
+        $add->bindParam(5,$direction);
+        $add->bindParam(6,$profile);
+        $add->bindParam(7,$level);
+        $add->bindParam(8,$period);
+        $add->bindParam(9,$universityId);
+        $add->bindParam(10,$form);
+        $add->bindParam(11,$fProgram);
+        $add->bindParam(12, $fPlan);
+        $add->bindParam(13,$fRehabilitation);
+        $add->bindParam(14,$dateBegin);
+        $add->bindParam(15,$dateEnd);
+        $add->execute();
+        $response = $add->fetchAll(PDO::FETCH_NUM);
+        if (empty($response)){
+            echo "OK";
+        }
+        else{
+            echo $response[0][0];
+        }
+    }
+
+    public function edit_student_switch_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $programId, $reason){
+        $conn = parent::get_db_connection();
+        $add = $conn->prepare("CALL changeProgramExist(?,?,?,?,?,  ?,?)");
+        $add->bindParam(1,$programId);
+        $add->bindParam(2,$studentId);
+        $add->bindParam(3,$reason);
+        $add->bindParam(4,$dateBegin);
+        $add->bindParam(5,$dateEnd);
+        $add->bindParam(6,$name);
+        $add->bindParam(7,$nozology);
+        $add->execute();
+        $response = $add->fetchAll(PDO::FETCH_NUM);
+        if (empty($response)){
+            echo "OK";
+        }
+        else{
+            echo $response[0][0];
+        }
+    }
+
+    public function edit_student_change_info($studentId, $name, $nozology, $dateBegin, $dateEnd){
+        $conn = parent::get_db_connection();
+        $add = $conn->prepare("CALL changeInfoStudent(?,?,?,?,?)");
+        $add->bindParam(1,$name);
+        $add->bindParam(2,$nozology);
+        $add->bindParam(3,$dateBegin);
+        $add->bindParam(4,$dateEnd);
+        $add->bindParam(5,$studentId);
+        $add->execute();
+        $response = $add->fetchAll(PDO::FETCH_NUM);
+        if (empty($response)){
+            echo "OK";
+        }
+        else{
+            echo $response[0][0];
+        }
+    }
+
     public function changeDebt($id, $status, $debts, $file) {
         $conn = parent::get_db_connection();
         $debts = explode(",", $debts);
@@ -207,6 +306,7 @@ class Model_Student extends Model
         $name = md5($name);
         $name = substr($name,0,10);
         $name = $name.".pdf";
+        file_put_contents($name, $pdf);
         return $name;
     }
 

@@ -4,6 +4,171 @@
 onload = function () {
     widthTable = document.getElementById('trackTable').offsetWidth;
     document.getElementById('promt').style.width = (widthTable-30)+"px";
+    document.getElementById('current_info').click();
+    document.getElementById('an_direction').options[0].selected = true;
+}
+
+function saveStudentChanges(){
+
+    var name = document.getElementById('name');
+    var nozology = document.getElementById('noz_group');
+    var dateBegin = document.getElementById('dateBegin');
+    var dateEnd = document.getElementById('dateEnd');
+
+    var dataName = name.value;
+    var dataNozology = nozology.selectedOptions[0].id.substr(1);
+    var dataDateBegin = dateBegin.value.split("-").join(".");
+    var dataDateEnd = dateEnd.value.split("-").join(".");
+
+    var regularId = /^[А-яA-z ]{3,50}$/;
+    var regularNoz = /^[0-9]$/;
+    var regularDate = /^[0-9]{2,4}.[0-9]{1,2}.[0-9]{1,2}$/;
+
+    if (!regularId.test(dataName)){
+        alert("Недопустимый идентификатор");
+        return false;
+    }
+    if (!regularNoz.test(dataNozology)){
+        alert("Недопустимая нозологическая группа");
+        return false;
+    }
+    if (!regularDate.test(dataDateBegin)){
+        alert("Недопустимая дата начала обучения");
+        return false;
+    }
+    if (!regularDate.test(dataDateEnd)){
+        alert("Недопустимая дата окончания обучения");
+        return false;
+    }
+
+    var data = dataName+";"+dataNozology+";"+dataDateBegin+";"+dataDateEnd;
+
+
+    var radioCurrentInfo = document.getElementById('current_info');
+    var radioCurrentEdit = document.getElementById('current_edit');
+    var radioCurrentChange = document.getElementById('current_change');
+    var radioAddNew = document.getElementById('add_new');
+    if (radioCurrentInfo.checked){
+        data = "currInfo=" + data;
+    } else if (radioCurrentEdit.checked){
+        var result = saveCurrentEdit();
+        if (!result) return;
+        data = "currEdit=" + data +result;
+    } else if (radioCurrentChange.checked){
+        var result = saveCurrentChange();
+        if (!result) return;
+        data = "currChange=" + data +result;
+    } else if (radioAddNew.checked){
+        var result = saveAddNew();
+        if (!result) return;
+        data = "saveNew=" + data + result;
+    }
+
+    var send = new Ajax("POST",document.location.href);
+    send.setData(data);
+    send.send(function (data) {
+        status = data;
+        if(status=="OK") {
+            document.location.href = "/student";
+        }
+        else {
+            alert(status);
+        }
+    });
+}
+
+function saveCurrentEdit() {
+    var id = document.getElementById("programId").innerText;
+    return parseProgramData('ce_')+";"+id;
+}
+
+function saveCurrentChange() {
+    var program = document.getElementById("program").selectedOptions[0].id.substr(1);
+    var reason = document.getElementById("cc_reason").value;
+
+    var regularProgram = /^[0-9]{1,4}$/;
+    var regularReason = /^[А-яA-z ]{3,50}$/;
+
+    if (!regularProgram.test(program)){
+        alert("Недопустимая программа");
+        return false;
+    }
+
+    if (!regularReason.test(reason)){
+        alert("Недопустимая причина изменения");
+        return false;
+    }
+
+    return ";"+program+";"+reason;
+}
+
+function saveAddNew() {
+    var reason = document.getElementById("an_reason").value;
+    var regularReason = /^[А-яA-z ]{3,50}$/;
+    if (!regularReason.test(reason)){
+        alert("Недопустимая причина изменения");
+        return false;
+    }
+
+    var result = parseProgramData('an_');
+    if (!result) return false;
+    return result+";"+reason;
+}
+
+function parseProgramData(prefix) {
+    var direction = document.getElementById(prefix+'direction');
+    var profile = document.getElementById(prefix+'profile');
+    var level = document.getElementById(prefix+'level');
+    var period = document.getElementById(prefix+'period');
+    var form = document.getElementById(prefix+'form');
+    var program = document.getElementById(prefix+'fileNameProgram');
+    var plan = document.getElementById(prefix+'fileNamePlan');
+    var rehabilitation = document.getElementById(prefix+'fileNameReability');
+
+    var dataDirection = direction.selectedOptions[0].id;
+    var dataProfile = profile.value;
+    var dataLevel = level.selectedOptions[0].value;
+    var dataPeriod = period.value;
+    var dataForm = form.selectedOptions[0].value;
+    var dataProgram = 'a.pdf';
+    var dataPlan = 'b.pdf';
+    var dataRehabilitation = 'c.pdf';
+
+    var regularDirection = /^[0-9]{6}$/;
+    var regularLevel = /^[А-я]{6,40}$/;
+    var regularPeriod = /^[0-9].*[0-9]$/;
+    var regularForm = /^[А-я-]{5,60}$/;
+    var regularProfile = /^[А-я ]{3,100}$/;
+
+    if (!regularDirection.test(dataDirection)){
+        alert("Недопустимое направление");
+        return false;
+    }
+    if (!regularLevel.test(dataLevel)){
+        alert("Недопустимый уровень образования");
+        return false;
+    }
+    if (!regularPeriod.test(dataPeriod)){
+        alert("Недопустимый период обучения");
+        return false;
+    }
+    if (!regularForm.test(dataForm)){
+        alert("Недопустимая форма обучения");
+        return false;
+    }
+    if (!document.getElementById(prefix+'profile').disabled){
+        if (!regularProfile.test(dataProfile)){
+            alert("Недопустимый профиль");
+            return false;
+        }
+    }
+    else {
+        dataProfile = null;
+    }
+    dataPlan = document.getElementById(prefix+'fileNamePlan').disabled ? null : dataPlan;
+    dataRehabilitation = document.getElementById(prefix+'fileNameReability').disabled ? null : dataRehabilitation;
+
+    return ";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataProgram+";"+dataPlan+";"+dataRehabilitation;
 }
 
 function radioClicks(radio) {
@@ -25,6 +190,11 @@ function hideAllDivs() {
     document.getElementById('div_current_change').style.display = "none";
     document.getElementById('div_add_new').style.display = "none";
 }
+
+function switchByCheckbox(checked, switchingId) {
+    document.getElementById(switchingId).disabled = !checked;
+}
+
 var numModule = null;
 var nowInfo = null;
 var nowStatus = null;
