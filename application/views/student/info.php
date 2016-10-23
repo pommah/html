@@ -57,14 +57,14 @@
     <div class="headTrack">Индивидуальная траектория студента</div>
     <?php
     print("<table id='trackTable' class='trackTable'><tr>");
-    for($i=1; $i<=round($data['student']['Period']*2); $i++) {
+    for($i=1; $i<=sizeof($data['student']['Track']); $i++) {
         if(array_key_exists($i, $data['student']['Track'])) {
             $color = $data['student']['Track'][$i]['Color'];
             $text = null;
             foreach ($data['student']['Track'][$i]['Note'] as $key => $value) {
                 $text = $text.' '.$key.'='.$value;
             }
-            printf("<td bgcolor='%s' onmouseover=\"prompShow('%s','%s','%s')\">%s</td>",$color, $i, $data['student']['Track'][$i]['Status'],$text, $i);
+            printf("<td bgcolor='%s' onmouseover=\"prompShow('%s','%s','%s','%s')\">%s</td>",$color, $i, $data['student']['Track'][$i]['Status'],$text,$data['student']['Track'][$i]['File'], $i);
         }
         else {
             printf("<td>%s</td>", $i);
@@ -88,6 +88,7 @@
             printf("<td rowspan='%s'>%s</td>", $rowspan, $i);
             printf("<td rowspan='%s'>%s</td>", $rowspan, $info['Status']);
             $file = $info['File'] != null ? $info['File'] : '-';
+            if($file!='-') $file = "<a class='href' href='/orders/".$file."'>Прикрепленный файл</a>";
             printf("<td rowspan='%s'>%s</td>", $rowspan, $file);
             if ($debtCount == 0){
                 print ("<td colspan='2'>-</td>");

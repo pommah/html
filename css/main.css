@@ -58,5 +58,9 @@ a {
 }
 .outer {
     margin-top: 90px;
-
+}
+.href {
+    color: #734aff;
+    text-decoration: none;
+    cursor: pointer;
 }

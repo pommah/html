@@ -1,5 +1,6 @@
 .studentList {
     border-collapse: separate;
+    margin-bottom: 20px;
 }
 .studentList th{
     background: linear-gradient(to top, #80aaff, #a3d3ff);

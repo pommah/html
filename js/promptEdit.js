@@ -211,13 +211,13 @@ function prompEdit(id, num, status, text, file) {
     var info = '';
     parseDebt(text);
     var nowFile = '';
-    if(file) nowFile = "<a href='/files/"+file+"'>Прикрепленный файл</a>";
-    prom.innerHTML = "<div class='numbSemestr'>"+num+"-й семестр.</div>" +
+    if(file) nowFile = "<a href='/orders/"+file+"'>Прикрепленный файл</a>";
+    prom.innerHTML = "<div class='numbSemestr'>"+num+"-й модуль.</div>" +
         "<div class='statusSemestr'>"+status+"</div>" +
         "<div class='textSemestr'>" +
         "<div id='status_line'>"+getStatus(status)+" <button class='button' id='change_status_module' onclick='addDebt(true)'>Добавить долг</button></div>" +
         "<div id='addSubject'></div>" +
-            "<div class='fileTrack'>" + nowFile +
+            "<div class='fileTrack href'>" + nowFile +
         "<input type='file' id='fileTrack'></div>" +
         "<button class='button saveTrajectory' onclick='saveTrack()'>Сохранить</button> </div>";
     showDebt();
@@ -284,6 +284,20 @@ function delDebt(i) {
     elem = document.getElementById('attr_'+i);
     elem.parentNode.removeChild(elem);
     debtArr.splice(i,1);
+}
+
+function addModule() {
+    var ajax = new Ajax("POST","/student/add_debt");
+    ajax.setData("id="+learnID);
+    ajax.send(function (data) {
+        if (data == "OK") {
+            alert('Изменения применены');
+            location.reload();
+        }
+        else {
+            alert(data);
+        }
+    })
 }
 
 function saveTrack() {

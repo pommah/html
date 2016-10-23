@@ -182,7 +182,7 @@
             printf("<td>%s</td>", $i);
         }
     }
-    print("<td class='plus icon'></td></tr></table>");
+    print("<td onclick='addModule()' class='plus icon'></td></tr></table>");
     ?>
     <div class="prompt" id="promt"></div>
 </div>

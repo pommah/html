@@ -101,8 +101,13 @@ Class Controller_Student extends Authorized_Controller {
             $file = $_POST['file'];
         else
             $file = null;
-        echo $file;
         $log = $this->model->changeDebt($id,$status,$debts,$file);
+        exit($log);
+    }
+
+    public function action_add_debt() {
+        $id = $_POST['id'];
+        $log = $this->model->add_debt($id);
         exit($log);
     }
 }

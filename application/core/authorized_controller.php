@@ -12,7 +12,9 @@ class Authorized_Controller extends Controller
                 "menu" => Authorized_Controller::get_menu(UserTypes::UNIVERSITY)
             ];
         }else{
-            header("Location: /");
+            $position = explode('/', $_SERVER['REQUEST_URI']);
+            if(!empty($position[1]))
+                header("Location: /");
         }
     }
 

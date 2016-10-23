@@ -1,7 +1,7 @@
 <?php
 abstract class UserTypes
 {
-    const UNIVERSITY = 0;
+    const UNIVERSITY = 2;
     const MINISTRY = 1;
-    const ADMIN = 2;
+    const ADMIN = 3;
 }

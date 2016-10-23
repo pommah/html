@@ -277,7 +277,7 @@ class Model_Student extends Model
         $change = $conn->prepare("CALL updateTrajectory(?,?,?)".$query);
         $change->bindParam(1, $status);
         $change->bindParam(2, $id);
-        if($file) $file = $this->saveFile($file);
+        if($file) $file = $this->saveFile($file,"orders/");
         $change->bindParam(3, $file);
         if($status=='Задолженность') {
             $i = 4;
@@ -298,7 +298,18 @@ class Model_Student extends Model
         else return $change->errorInfo()[0];
     }
 
-    public function saveFile($file) {
+    public function add_debt($id) {
+        $conn = parent::get_db_connection();
+        $add = $conn->prepare("CALL addTrajectory(?)");
+        $add->bindParam(1, $id);
+        $add->execute();
+        if($add->errorCode()[0])
+            return $add->errorInfo()[0];
+        else
+            return "OK";
+    }
+
+    public function saveFile($file, $path) {
         $file = explode(",",$file);
         $decode = str_replace(' ','+',$file[1]);
         $pdf = base64_decode($decode);
@@ -306,7 +317,7 @@ class Model_Student extends Model
         $name = md5($name);
         $name = substr($name,0,10);
         $name = $name.".pdf";
-        file_put_contents($name, $pdf);
+        file_put_contents($path.$name, $pdf);
         return $name;
     }
 
