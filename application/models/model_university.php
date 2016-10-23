@@ -26,4 +26,13 @@ class Model_University extends Model
         $req->execute();
         echo "OK";
     }
+
+    public function get_universities(){
+        $req = parent::get_db_connection()->query("SELECT University.ID, Region.Name, University.FullName, count(LearningStudent.ID) AS count
+	from ((University inner join Region On University.ID_Region=Region.ID) inner join ProgramStudent ON University.ID = ProgramStudent.ID_University) inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+    where LearningStudent.Status = \"Активно\"
+	group by University.ID, Region.Name, University.FullName");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
 }

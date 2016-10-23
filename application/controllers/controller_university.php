@@ -21,6 +21,14 @@ class Controller_University extends Authorized_Controller
         }
     }
 
+    public function action_index()
+    {
+        if (parent::get_user_type() == UserTypes::MINISTRY){
+            $this->data['universities'] = $this->model->get_universities();
+            $this->generateView('index');
+        }
+    }
+
     private function generateView($actionName){
         $this->view->generate($this->getViewPath($actionName.'.php'), 'common.php', $this->data);
     }

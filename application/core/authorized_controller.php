@@ -9,13 +9,17 @@ class Authorized_Controller extends Controller
             $user = $this->get_data_user();
             $this->data = [
                 "user" => $user,
-                "menu" => Authorized_Controller::get_menu(UserTypes::UNIVERSITY)
+                "menu" => Authorized_Controller::get_menu($user['permission'])
             ];
         }else{
             $position = explode('/', $_SERVER['REQUEST_URI']);
             if(!empty($position[1]))
                 header("Location: /");
         }
+    }
+
+    public function get_user_type(){
+        return $this->data['user']['permission'];
     }
 
     public function get_data_user() {
@@ -32,6 +36,7 @@ class Authorized_Controller extends Controller
             $univer = $reqUniver->fetch();
             $user['title'] = $univer['ShortName'];
             $user['fullName'] = $univer['FullName'];
+            $user['permission'] = $row['Permission'];
         }
         else {
             $user['name'] = 'undefined';
@@ -40,12 +45,22 @@ class Authorized_Controller extends Controller
     }
 
     public static function get_menu($userType){
-        return [
-            [ "href" => "/student", "title" => "Студенты", "submenus" => ["Добавить" => "/student/add"]],
-            [ "href" => "/trajectory", "title" => "Траектории", "submenus" => []],
-            [ "href" => "/direction", "title" => "УГСН и направления", "submenus" => ["Редактировать" => "/direction/edit_all"]],
-            [ "href" => "/university/edit", "title" => "Данные университета", "submenus" => []]
-        ];
+        switch ($userType){
+            case UserTypes::UNIVERSITY:
+                return [
+                    [ "href" => "/student", "title" => "Студенты", "submenus" => ["Добавить" => "/student/add"]],
+                    [ "href" => "/trajectory", "title" => "Траектории", "submenus" => []],
+                    [ "href" => "/direction", "title" => "УГСН и направления", "submenus" => ["Редактировать" => "/direction/edit_all"]],
+                    [ "href" => "/university/edit", "title" => "Данные университета", "submenus" => []]
+                ];
+                break;
+            case UserTypes::MINISTRY:
+                return [
+                    [ "href" => "/university", "title" => "Университеты", "submenus" => []],
+                    [ "href" => "/student", "title" => "Студенты", "submenus" => []]
+                ];
+                break;
+        }
     }
 
     public function check_auth() {
