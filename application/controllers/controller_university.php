@@ -24,8 +24,16 @@ class Controller_University extends Authorized_Controller
     public function action_index()
     {
         if (parent::get_user_type() == UserTypes::MINISTRY){
-            $this->data['universities'] = $this->model->get_universities();
-            $this->generateView('index');
+            if (array_key_exists('getRegions', $_POST)) {
+                $district = $_POST['getRegions'];
+                echo json_encode($this->model->get_regions($district));
+            }else if (array_key_exists('getUnivers', $_POST)) {
+                $region = $_POST['getUnivers'];
+                echo json_encode($this->model->get_universities($region));
+            }else{
+                $this->data['districts'] = $this->model->get_districts();
+                $this->generateView('index');
+            }
         }
     }
 

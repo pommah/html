@@ -27,11 +27,29 @@ class Model_University extends Model
         echo "OK";
     }
 
-    public function get_universities(){
-        $req = parent::get_db_connection()->query("SELECT University.ID, Region.Name, University.FullName, count(LearningStudent.ID) AS count
-	from ((University inner join Region On University.ID_Region=Region.ID) inner join ProgramStudent ON University.ID = ProgramStudent.ID_University) inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
-    where LearningStudent.Status = \"Активно\"
+    public function get_universities($regionId){
+        $req = parent::get_db_connection()->prepare("SELECT University.ID, Region.Name, University.FullName, count(LearningStudent.ID) AS count
+	from ((University inner join Region On University.ID_Region=Region.ID) left join ProgramStudent ON University.ID = ProgramStudent.ID_University) left join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+    where Region.ID = ?
 	group by University.ID, Region.Name, University.FullName");
+        $req->bindParam(1, $regionId);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function get_districts(){
+        $req = parent::get_db_connection()->query("select Okrug.ID, Okrug.Name, count(Region.ID) as count
+	from Okrug inner join Region on Okrug.ID = Region.ID_Okrug
+    group  by Okrug.ID, Okrug.Name");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+    public function get_regions($districtId){
+        $req = parent::get_db_connection()->prepare("select Region.ID, Region.Name, count(University.ID) as count
+	from (Region inner join University on Region.ID = University.ID_Region) inner join Okrug On Region.ID_Okrug = Okrug.ID
+    where Okrug.ID = ?
+    group by Region.ID, Region.Name");
+        $req->bindParam(1, $districtId);
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }

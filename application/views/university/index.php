@@ -1,16 +1,17 @@
 <link rel="stylesheet" type="text/css" href="/css/student_list.css">
-<table class='studentList'>
+<table id="table" class='studentList'>
     <tr>
-        <th>Название</th>
-        <th>Регион</th>
-        <th>Число студентов</th>
+        <th>Округ</th>
+        <th>Число регионов</th>
     </tr>
     <?php
-    foreach ($data['universities'] as $university){
-        printf("<td>%s</td>", $university['FullName']);
-        printf("<td>%s</td>", $university['Name']);
-        printf("<td>%s</td>", $university['count']);
+    foreach ($data['districts'] as $district){
+        printf("<tr id='%s' onclick='districtClick(this)'>", $district['ID']);
+        printf("<td>%s</td>", $district['Name']);
+        printf("<td>%s</td></tr>", $district['count']);
     }
     ?>
 </table>
+<script type="text/javascript" src="/js/ajax.js"></script>
+<script type="text/javascript" src="/js/universitiesNavigation.js"></script>
 
