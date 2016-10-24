@@ -5,6 +5,7 @@ function districtClick(row) {
     send.send(function (data) {
         if(status!="Error") {
             loadRegions(data);
+            send.setLocation("/university/"+row.id);
         }
         else {
             alert(status);

@@ -29,7 +29,7 @@ class Model_University extends Model
 
     public function get_universities($regionId){
         $req = parent::get_db_connection()->prepare("SELECT University.ID, Region.Name, University.FullName, count(LearningStudent.ID) AS count
-	from ((University inner join Region On University.ID_Region=Region.ID) left join ProgramStudent ON University.ID = ProgramStudent.ID_University) left join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+	from ((University left join Region On University.ID_Region=Region.ID) left join ProgramStudent ON University.ID = ProgramStudent.ID_University) left join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
     where Region.ID = ?
 	group by University.ID, Region.Name, University.FullName");
         $req->bindParam(1, $regionId);
@@ -46,7 +46,7 @@ class Model_University extends Model
     }
     public function get_regions($districtId){
         $req = parent::get_db_connection()->prepare("select Region.ID, Region.Name, count(University.ID) as count
-	from (Region inner join University on Region.ID = University.ID_Region) inner join Okrug On Region.ID_Okrug = Okrug.ID
+	from (Region left join University on Region.ID = University.ID_Region) inner join Okrug On Region.ID_Okrug = Okrug.ID
     where Okrug.ID = ?
     group by Region.ID, Region.Name");
         $req->bindParam(1, $districtId);

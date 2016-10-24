@@ -2,6 +2,10 @@
 
 class Controller_Main extends Authorized_Controller
 {
+    function __construct()
+    {
+        parent::__construct();
+    }
 
     function action_index()
     {
@@ -12,7 +16,7 @@ class Controller_Main extends Authorized_Controller
             $location = '';
             switch ($this->auth) {
                 case 2: $location='/student'; break;
-                case 1: $location='/universitys'; break;
+                case 1: $location='/university'; break;
             }
             header("Location: ".$location);
         }

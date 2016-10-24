@@ -1,0 +1,22 @@
+.blockReport {
+width: 100%;
+}
+.headReport {
+    width: 100%;
+    border-bottom: 1px solid #80aaff;
+    color: #5886e8;
+    font-weight: bold;
+    padding-bottom: 5px;
+}
+.item {
+    margin: 15px;
+}
+.contentReport {
+    margin-top: 20px;
+}
+.leftLabel {
+    color: #487eb3;
+}
+.rightLabel {
+    color: #000000;
+}

@@ -57,7 +57,8 @@ class Authorized_Controller extends Controller
             case UserTypes::MINISTRY:
                 return [
                     [ "href" => "/university", "title" => "Университеты", "submenus" => []],
-                    [ "href" => "/student", "title" => "Студенты", "submenus" => []]
+                    [ "href" => "/student", "title" => "Студенты", "submenus" => []],
+                    [ "href" => "/report", "title" => "Отчеты", "submenus" => []]
                 ];
                 break;
         }
