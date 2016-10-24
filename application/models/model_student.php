@@ -1,16 +1,13 @@
 <?php
 class Model_Student extends Model
 {
-    public function getStudents(){
-        $list = [];
+    public function getStudents($universityId = 1){
         $req = parent::get_db_connection()->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
           AS \"Direction\", ProgramStudent.NameFileProgram
 	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
 	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
 	      LearningStudent.ID_Program) INNER JOIN Direction ON Direction.ID = ProgramStudent.ID_Direction
           WHERE ProgramStudent.ID_University = ? AND Status=\"Активно\"");
-        //Todo Функция получения id университета
-        $universityId = 1;
         $req->bindParam(1, $universityId);
         $req->execute();
         $list = $req->fetchAll(PDO::FETCH_NAMED);

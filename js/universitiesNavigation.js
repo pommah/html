@@ -91,15 +91,5 @@ function loadUniversities(data) {
 }
 
 function universityClick(row) {
-    data = "universityId="+row.id;
-    var send = new Ajax("POST","/student/index");
-    send.setData(data);
-    send.send(function (data) {
-        if(true) {
-            document.location.href = "/student";
-        }
-        else {
-            alert(status);
-        }
-    });
+    document.location.href = "/student/index/"+row.id;
 }

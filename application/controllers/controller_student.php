@@ -11,8 +11,8 @@ Class Controller_Student extends Authorized_Controller {
         $this->model = new Model_Student();
     }
 
-    function action_index() {
-        $this->data['students'] = $this->model->getStudents();
+    function action_index($id = null) {
+        $this->data['students'] = $this->model->getStudents($id);
         $this->generateView('index');
     }
 
