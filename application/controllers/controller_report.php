@@ -15,7 +15,7 @@ Class Controller_Report extends Authorized_Controller {
 
     public function action_index()
     {
-        echo $this->auth;
+        $this->data['generalInfo'] = $this->model->general_info();
         $this->view->generate('report/general.php','common.php',$this->data);
     }
 

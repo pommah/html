@@ -36,7 +36,7 @@ function checkAuth() {
     send.send(function (data) {
         status = data;
         if(status=="OK") {
-            document.location.href = "/student";
+            document.location.reload();
         }
         else {
             error.innerHTML = status;

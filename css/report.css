@@ -10,13 +10,21 @@ width: 100%;
 }
 .item {
     margin: 15px;
+    overflow: hidden;
 }
 .contentReport {
     margin-top: 20px;
 }
 .leftLabel {
     color: #487eb3;
+    float: left;
+    width: 15em;
 }
 .rightLabel {
     color: #000000;
+    float: left;
+}
+.par {
+    border-bottom: 1px solid #dfdfdf;
+    padding-bottom: 10px;
 }

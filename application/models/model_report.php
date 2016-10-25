@@ -1,7 +1,13 @@
 <?php
 Class Model_Report extends Model {
     public function general_info() {
-
+        $conn = parent::get_db_connection();
+        $req = $conn->query("SELECT (SELECT COUNT(*) FROM University) AS AllUniversity, (SELECT  COUNT(*) FROM University
+        WHERE Status='Государственный') AS PublicUniversity, (SELECT COUNT(*) FROM University WHERE Status='Частный') AS PrivateUniversity,
+        (SELECT COUNT(*) FROM Student) AS CountStudent, (SELECT COUNT(*) FROM Student WHERE ID_NozologyGroup=1) AS Vision,
+        (SELECT COUNT(*) FROM Student WHERE ID_NozologyGroup=2) AS Hearing, (SELECT COUNT(*) FROM Student WHERE ID_NozologyGroup=3) AS MusculeSkelete");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
     }
 
     public function get_regions_by_nozology_group(){
