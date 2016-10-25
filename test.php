@@ -1,4 +1,5 @@
 <?php
-$a = $_POST['a'];
-echo "Response is ".$a;
+include_once "application/core/OlFile.php";
+$olFile = new OlFile("text.txt");
+$olFile->createAndUpload("keklool");
 ?>

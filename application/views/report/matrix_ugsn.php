@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/student_list.css">
-<link rel="stylesheet" type="text/css" href="/css/tooltip.css">
+<div class="contentUgsn">
 <table class="studentList">
     <tr>
         <th>Регион</th>
@@ -20,3 +20,4 @@
         }
     ?>
 </table>
+    </div>

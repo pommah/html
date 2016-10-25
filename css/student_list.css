@@ -2,6 +2,9 @@
     border-collapse: separate;
     margin-bottom: 20px;
 }
+.contentUgsn {
+    overflow: auto;
+}
 .studentList th{
     background: linear-gradient(to top, #80aaff, #a3d3ff);
     color: #FFFFFF;

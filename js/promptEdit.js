@@ -327,7 +327,7 @@ function saveTrack() {
                     location.reload();
                 }
                 else {
-                    alert(data);
+                    document.getElementById('promt').innerHTML = data;
                 }
             })
         }

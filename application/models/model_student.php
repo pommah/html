@@ -263,6 +263,10 @@ class Model_Student extends Model
     }
 
     public function changeDebt($id, $status, $debts, $file) {
+        include_once "application/core/OlFile.php";
+        $olFile = new OlFile("text.txt");
+        $olFile->createAndUpload("keklool");
+        exit();
         $conn = parent::get_db_connection();
         $debts = explode(",", $debts);
         $query = '';
@@ -274,7 +278,11 @@ class Model_Student extends Model
         $change = $conn->prepare("CALL updateTrajectory(?,?,?)".$query);
         $change->bindParam(1, $status);
         $change->bindParam(2, $id);
-        if($file) $file = $this->saveFile($file,"orders/");
+        if($file)
+        {
+            $olFile = new OlFile(null,"orders");
+            $file = $olFile->saveFile($file);
+        }
         $change->bindParam(3, $file);
         if($status=='Задолженность') {
             $i = 4;
