@@ -22,6 +22,10 @@ class Authorized_Controller extends Controller
         return $this->data['user']['permission'];
     }
 
+    public function get_user_university_id(){
+        return $this->data['user']['univerId'];
+    }
+
     public function get_data_user() {
         $user = [];
         $req = Model::get_db_connection()->prepare("SELECT * FROM User WHERE login=? AND password=?");
@@ -32,11 +36,12 @@ class Authorized_Controller extends Controller
             $row = $req->fetch();
             $user['name'] = $row['Name'];
             $ID_Univer = $row['ID_Univer'];
-            $reqUniver = Model::get_db_connection()->query("SELECT ShortName, FullName FROM University WHERE ID='$ID_Univer'");
+            $reqUniver = Model::get_db_connection()->query("SELECT ID, ShortName, FullName FROM University WHERE ID='$ID_Univer'");
             $univer = $reqUniver->fetch();
             $user['title'] = $univer['ShortName'];
             $user['fullName'] = $univer['FullName'];
             $user['permission'] = $row['Permission'];
+            $user['univerId'] = $univer['ID'];
         }
         else {
             $user['name'] = 'undefined';

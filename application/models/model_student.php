@@ -10,8 +10,8 @@ class Model_Student extends Model
           WHERE ProgramStudent.ID_University = ? AND Status=\"Активно\"");
         $req->bindParam(1, $universityId);
         $req->execute();
-        $list = $req->fetchAll(PDO::FETCH_NAMED);
-        return $list;
+        //$list = $req->fetchAll(PDO::FETCH_NAMED);
+        return $req->fetchAll(PDO::FETCH_NAMED);
     }
     public  function about_student($id = null) {
         $student = [];

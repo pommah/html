@@ -12,7 +12,7 @@ Class Controller_Student extends Authorized_Controller {
     }
 
     function action_index($id = null) {
-        $this->data['students'] = $this->model->getStudents($id);
+        $this->data['students'] = $this->model->getStudents($this->get_user_university_id());
         $this->generateView('index');
     }
 

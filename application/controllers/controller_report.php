@@ -25,8 +25,7 @@ Class Controller_Report extends Authorized_Controller {
             $this->generateView('matrix_nozology');
         }
         else if ($type == 'ugsn'){
-            $this->data['all_ugsn'] = $this->model->get_all_ugsn();
-            $this->data['ugsn'] = $this->model->get_regions_by_ugsn();
+            $this->data['ugsn'] = $this->model->get_ugsn_by_districts();
             $this->generateView('matrix_ugsn');
         }
     }
