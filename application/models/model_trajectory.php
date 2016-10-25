@@ -1,12 +1,15 @@
 <?php
 class Model_Trajectory extends Model
 {
-    public  function get_Trajectories() {
+    public  function get_Trajectories($universityId) {
         $student = [];
         $conn = parent::get_db_connection();
-        $req = $conn->query("SELECT Student.ID, Student.Name, Trajectory.Status, Trajectory.Note, NumberSemester, BacklogDiscipline.Name AS Discipline, Deadline 
+        $req = $conn->prepare("SELECT Student.ID, Student.Name, Trajectory.Status, Trajectory.Note, NumberSemester, BacklogDiscipline.Name AS Discipline, Deadline 
           FROM (((Trajectory inner join LearningStudent on ID_Learning=LearningStudent.ID) inner join Student ON LearningStudent.ID_Student=Student.ID) 
-          left join BacklogDiscipline on Trajectory.ID=BacklogDiscipline.ID_Semester) order by Student.ID ASC, NumberSemester ASC");
+          left join BacklogDiscipline on Trajectory.ID=BacklogDiscipline.ID_Semester) inner join ProgramStudent on ProgramStudent.ID = LearningStudent.ID_Program
+          where ProgramStudent.ID_University = ? order by Student.ID ASC, NumberSemester ASC");
+        $req->bindParam(1, $universityId);
+        $req->execute();
         $data = $req->fetchAll(PDO::FETCH_NAMED);
         foreach ($data as $row){
             $id = $row['ID'];

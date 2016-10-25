@@ -10,7 +10,7 @@ class Controller_Trajectory extends Authorized_Controller
     }
 
     function action_index(){
-        $this->data['Trajectories'] = $this->model->get_Trajectories();
+        $this->data['Trajectories'] = $this->model->get_Trajectories($this->get_user_university_id());
         $this->generateView('index');
     }
 

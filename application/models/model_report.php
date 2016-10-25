@@ -32,4 +32,18 @@ Class Model_Report extends Model {
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
+
+    public function get_ugsn_by_districts(){
+        $req = parent::get_db_connection()->query("select ID, Name, okrug, sum(count) as count
+	from (
+	select UGSN.ID, UGSN.Name, Okrug.Name as okrug, Count(*) as count
+		from (((((Region inner join University on Region.ID = University.ID_Region) inner join ProgramStudent on University.ID = ProgramStudent.ID_University) inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID) inner join Direction on ProgramStudent.ID_Direction = Direction.ID) inner join UGSN on Direction.ID_Ugsn = UGSN.ID) inner join Okrug on Okrug.Id = Region.ID_Okrug
+		group by UGSN.ID, UGSN.Name, Okrug.Name
+	union
+	select UGSN.ID, UGSN.Name, Okrug.Name as okrug, 0 as count
+		from UGSN cross join Okrug ) t
+    group by ID, Name, okrug");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
 }
