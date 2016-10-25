@@ -21,18 +21,18 @@ class Controller_University extends Authorized_Controller
         }
     }
 
-    public function action_index()
+    public function action_index($type = 'all', $id = '1')
     {
         if (parent::get_user_type() == UserTypes::MINISTRY){
-            if (array_key_exists('getRegions', $_POST)) {
-                $district = $_POST['getRegions'];
-                echo json_encode($this->model->get_regions($district));
-            }else if (array_key_exists('getUnivers', $_POST)) {
-                $region = $_POST['getUnivers'];
-                echo json_encode($this->model->get_universities($region));
-            }else{
+            if ($type == 'all'){
                 $this->data['districts'] = $this->model->get_districts();
                 $this->generateView('index');
+            }else if($type == 'district'){
+                $this->data['regions'] = $this->model->get_regions($id);
+                $this->generateView('index_district');
+            }else if($type == 'region'){
+                $this->data['universities'] = $this->model->get_universities($id);
+                $this->generateView('index_region');
             }
         }
     }

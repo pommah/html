@@ -6,12 +6,10 @@
     </tr>
     <?php
     foreach ($data['districts'] as $district){
-        printf("<tr id='%s' onclick='districtClick(this)'>", $district['ID']);
+        printf("<tr onclick='document.location.href=\"/university/index/district/%s\"'>", $district['ID']);
         printf("<td>%s</td>", $district['Name']);
         printf("<td>%s</td></tr>", $district['count']);
     }
     ?>
 </table>
-<script type="text/javascript" src="/js/ajax.js"></script>
-<script type="text/javascript" src="/js/universitiesNavigation.js"></script>
 
