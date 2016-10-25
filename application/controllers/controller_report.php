@@ -19,7 +19,7 @@ Class Controller_Report extends Authorized_Controller {
         $this->view->generate('report/general.php','common.php',$this->data);
     }
 
-    public function action_matrix($type = 'nozology'){
+    public function action_matrix($type = 'nozology', $district = '8', $ugsn = '010000'){
         if ($type == 'nozology'){
             $this->data['nozology'] = $this->model->get_regions_by_nozology_group();
             $this->generateView('matrix_nozology');
@@ -27,6 +27,10 @@ Class Controller_Report extends Authorized_Controller {
         else if ($type == 'ugsn'){
             $this->data['ugsn'] = $this->model->get_ugsn_by_districts();
             $this->generateView('matrix_ugsn');
+        }
+        else if ($type == 'direction'){
+            $this->data['direction'] = $this->model->get_regions_by_directions($district, $ugsn);
+            $this->generateView('matrix_directions');
         }
     }
 

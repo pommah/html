@@ -1,5 +1,4 @@
 <link rel="stylesheet" type="text/css" href="/css/student_list.css">
-<link rel="stylesheet" type="text/css" href="/css/tooltip.css">
 <table class="studentList">
     <?php
         print ("<tr><th>УГСН</th>");
@@ -13,7 +12,7 @@
         for($i=0; $i < count($data['ugsn']); $i+=$count){
             printf("<tr><td style='text-align: left'>%s\n%s</td>", $data['ugsn'][$i]['ID'], $data['ugsn'][$i]['Name']);
             for ($j=0; $j < $count; $j++){
-                printf("<td>%s</td>", $data['ugsn'][$i+$j]['count']);
+                printf("<td onclick='document.location.href = \"/report/matrix/direction/%s/%s\"'>%s</td>", $data['ugsn'][$i+$j]['okrugId'], $data['ugsn'][$i+$j]['ID'], $data['ugsn'][$i+$j]['count']);
             }
             print("</tr>");
         }

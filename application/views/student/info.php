@@ -23,7 +23,7 @@
 </div>
 <div class="info">
     <div class="leftLabel">Профиль:</div>
-    <div class="dataStudent"><?php echo $data['student']['Profile']; ?></div>
+    <div class="dataStudent"><?php echo $data['student']['Profile']==''?$data['student']['Direction']:$data['student']['Profile']; ?></div>
 </div>
 <div class="info">
     <div class="leftLabel">Уровень образования</div>
