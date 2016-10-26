@@ -16,7 +16,8 @@ Class Controller_Report extends Authorized_Controller {
     public function action_index()
     {
         $this->data['generalInfo'] = $this->model->general_info();
-        $this->view->generate('report/general.php','common.php',$this->data);
+        $this->data['pie_data'] = $this->model->get_stud_by_districts_for_pie();
+        $this->generateView('general');
     }
 
     public function action_matrix($type = 'nozology', $district = '8', $ugsn = '010000'){

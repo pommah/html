@@ -56,4 +56,27 @@ Class Model_Report extends Model {
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
+
+    public function get_stud_by_districts_for_pie(){
+        $req = parent::get_db_connection()->query("select Okrug.Id, Okrug.Name, count(LearningStudent.ID) as count
+	from Okrug left join Region on Okrug.ID = Region.ID_Okrug 
+    left join University on University.ID_Region = Region.ID 
+    left join ProgramStudent on ProgramStudent.ID_University = University.ID
+    left join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+    group by Okrug.Id, Okrug.Name");
+        $req->execute();
+        $raw = $req->fetchAll(PDO::FETCH_NAMED);
+        $data = [];
+        $data['header'] = "Распределение студентов с ОВЗ";
+        $data['pie_data'] = [];
+        $data['pie_title'] = [];
+        $data['legend_data'] = ['header' => "Распределение по регионам РФ:", 'colors' => ['#F44336','#9C27B0','#673AB7','#3F51B5', '#2196F3', '#CDDC39','#8BC34A','#FF9800', '#795548','#9E9E9E'], 'title' => []];
+        foreach ($raw as $row){
+            $id = "r".$row['Id'];
+            $data['pie_data'][$id] = $row['count'];
+            $data['pie_title'][$id] = $row['Name']."  федеральный округ";
+            array_push($data['legend_data']['title'], $row['Name']."ФО");
+        }
+        return $data;
+    }
 }

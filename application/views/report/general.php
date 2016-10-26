@@ -29,4 +29,5 @@
         <div class="leftLabel">С поражением опорно-двигательного аппарата:</div>
         <div class="rightLabel"><?php echo $data['generalInfo'][0]['MusculeSkelete']; ?></div>
     </div>
+    <?php include('application/views/charts/pie.php');?>
 </div>
