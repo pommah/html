@@ -9,6 +9,7 @@
         </select></div>
     <div class='label_input'><div class='left_label'>Дата поступления:</div> <input class='input' type='date' id='begin'></div>
     <div class='label_input'><div class='left_label'>Дата окончания:</div> <input class='input' type='date' id='end'></div>
+    <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchFileReability(this)">Файл реабилитационной программы:</div><input class='input' type='file' id='fileNameReability' disabled></div>
     <div class='label_input'><div class='left_label'>Программа:
         </div><input class='input' type='radio' name="progType" id="radio_exist" value="existing" onclick="radioClicks(this)" checked>Существующая
         <input class='input' type='radio' name="progType" id="radio_new" value="new" onclick="radioClicks(this)">Новая</div>
@@ -52,9 +53,8 @@
         </div>
         <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='fileNameProgram'></div>
         <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchFilePlan(this)">Файл учебного плана:</div><input class='input' type='file' id='fileNamePlan' disabled></div>
-        <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchFileReability(this)">Файл реабилитационной программы:</div><input class='input' type='file' id='fileNameReability' disabled></div>
-
     </div>
+    <button class='button add_student' onclick="cancel()">Отменить</button>
     <button class='button add_student' onclick="save()">Добавить</button>
     <script type="text/javascript" src="/js/ajax.js"></script>
     <script type="text/javascript" src="/js/addStudent.js"></script>

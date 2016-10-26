@@ -124,14 +124,15 @@ class Model_Student extends Model
         return $programs;
     }
 
-    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $programId){
+    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $rehabilitation, $programId){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL addStudent(?, ?, ?, ?, ?)");
+        $add = $conn->prepare("CALL addStudent(?, ?, ?, ?, ?, ?)");
         $add->bindParam(1, $name);
         $add->bindParam(2, $nozoologyGroupId);
         $add->bindParam(3, $beginDate);
         $add->bindParam(4, $endDate);
         $add->bindParam(5, $programId);
+        $add->bindParam(6, $rehabilitation);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){
@@ -142,7 +143,7 @@ class Model_Student extends Model
         }
     }
 
-    public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $directionId, $profile, $level, $studyPeriod, $form, $programFile, $planFile, $reabilityFile, $universityId){
+    public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $rehabilitation, $directionId, $profile, $level, $studyPeriod, $form, $programFile, $planFile, $universityId){
         $conn = parent::get_db_connection();
         $add = $conn->prepare("CALL addStudentAndProgram(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?)");
         $add->bindParam(1, $name);
@@ -156,7 +157,7 @@ class Model_Student extends Model
         $add->bindParam(9, $form);
         $add->bindParam(10, $programFile);
         $add->bindParam(11, $planFile);
-        $add->bindParam(12, $reabilityFile);
+        $add->bindParam(12, $rehabilitation);
         $add->bindParam(13, $universityId);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
@@ -168,7 +169,7 @@ class Model_Student extends Model
         }
     }
 
-    public function edit_student_add_new_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $fRehabilitation, $universityId, $reason){
+    public function edit_student_add_new_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $fRehabilitation, $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $universityId, $reason){
         $conn = parent::get_db_connection();
         $add = $conn->prepare("CALL addNewProgram(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?)");
         $add->bindParam(1,$direction);
@@ -196,7 +197,7 @@ class Model_Student extends Model
         }
     }
 
-    public function edit_student_change_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $fRehabilitation, $universityId, $programId){
+    public function edit_student_change_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $fRehabilitation, $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $universityId, $programId){
         $conn = parent::get_db_connection();
         $add = $conn->prepare("CALL changeProgramActual(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?)");
         $add->bindParam(1,$studentId);
@@ -224,9 +225,9 @@ class Model_Student extends Model
         }
     }
 
-    public function edit_student_switch_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $programId, $reason){
+    public function edit_student_switch_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $rehabilitation, $programId, $reason){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL changeProgramExist(?,?,?,?,?,  ?,?)");
+        $add = $conn->prepare("CALL changeProgramExist(?,?,?,?,?,  ?,?,?)");
         $add->bindParam(1,$programId);
         $add->bindParam(2,$studentId);
         $add->bindParam(3,$reason);
@@ -234,6 +235,7 @@ class Model_Student extends Model
         $add->bindParam(5,$dateEnd);
         $add->bindParam(6,$name);
         $add->bindParam(7,$nozology);
+        $add->bindParam(8,$rehabilitation);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){
@@ -244,14 +246,15 @@ class Model_Student extends Model
         }
     }
 
-    public function edit_student_change_info($studentId, $name, $nozology, $dateBegin, $dateEnd){
+    public function edit_student_change_info($studentId, $name, $nozology, $dateBegin, $dateEnd, $rehabilitation){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL changeInfoStudent(?,?,?,?,?)");
+        $add = $conn->prepare("CALL changeInfoStudent(?,?,?,?,?,?)");
         $add->bindParam(1,$name);
         $add->bindParam(2,$nozology);
         $add->bindParam(3,$dateBegin);
         $add->bindParam(4,$dateEnd);
         $add->bindParam(5,$studentId);
+        $add->bindParam(6,$rehabilitation);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){

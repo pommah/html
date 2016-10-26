@@ -43,3 +43,7 @@ function saveChanges() {
         }
     });
 }
+
+function cancel() {
+    window.history.back();
+}

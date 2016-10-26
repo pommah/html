@@ -10,7 +10,7 @@
     }
     print("</tr>");
     for($i=0; $i < count($data['direction']); $i+=$count){
-        printf("<tr><td style='text-align: left'>%s</td>", $data['direction'][$i]['Name']);
+        printf("<tr onclick='document.location.href=\"/university/index/region/%s\"'><td style='text-align: left'>%s</td>",$data['direction'][$i]['ID'] , $data['direction'][$i]['Name']);
         for ($j=0; $j < $count; $j++){
             printf("<td>%s</td>", $data['direction'][$i+$j]['count']);
 

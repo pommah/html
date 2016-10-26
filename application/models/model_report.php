@@ -28,13 +28,13 @@ Class Model_Report extends Model {
     }
 
     public function get_regions_by_directions($district, $ugsn){
-        $req = parent::get_db_connection()->prepare("select Name, ID_Direction, dirName, sum(count) as count
-	from (select Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(*) as count
+        $req = parent::get_db_connection()->prepare("select ID, Name, ID_Direction, dirName, sum(count) as count
+	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(*) as count
 		from ((((Region inner join University on Region.ID = University.ID_Region) inner join ProgramStudent on University.ID = ProgramStudent.ID_University) inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID) inner join Direction on ProgramStudent.ID_Direction = Direction.ID) where Region.ID_Okrug = ? AND Direction.ID_Ugsn = ? 
-		group by Region.Name, ProgramStudent.ID_Direction, Direction.Name
-	union select Region.Name, Direction.ID, Direction.Name as dirName, 0 as count
+		group by Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name
+	union select Region.ID, Region.Name, Direction.ID, Direction.Name as dirName, 0 as count
 		from Region cross join Direction where Region.ID_Okrug = ? AND Direction.ID_Ugsn = ?) t	
-	group by Name, ID_Direction, dirName");
+	group by ID, Name, ID_Direction, dirName");
         $req->bindParam(1,$district);
         $req->bindParam(2,$ugsn);
         $req->bindParam(3,$district);

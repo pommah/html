@@ -24,6 +24,7 @@
     <div class="dataStudent"><input class="input dataStudent" type="date" id="dateEnd" value="<?php echo $data['student']['DateEnd']; ?>"></div>
 </div>
 
+<div class='info'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'fileNameReability')">Файл реабилитационной программы:</div><input class='input' type='file' id='fileNameReability' disabled></div>
 
 <div class="info">
     <div class="leftLabel">Программа обучения:</div>
@@ -63,13 +64,9 @@
         <div class="leftLabel">Программа обучения:</div>
         <div class="dataStudent"><a href="<?php echo $data['student']['File']; ?>">Программа обучения</a></div>
     </div>
-    <div class="info">
+    <div class="info last">
         <div class="leftLabel">Учебный план:</div>
         <div class="dataStudent"><a href="<?php echo $data['student']['Plan']; ?>">Учебный план</a></div>
-    </div>
-    <div class="info last">
-        <div class="leftLabel">Реабилитационная программа:</div>
-        <div class="dataStudent"><a href="<?php echo $data['student']['Rehabilitation']; ?>">Реабилитационная программа</a></div>
     </div>
 </div>
 <div id="div_current_edit" style="display: none">
@@ -112,8 +109,7 @@
         </select>
     </div>
     <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='ce_fileNameProgram'></div>
-    <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'ce_fileNamePlan')">Файл учебного плана:</div><input class='input' type='file' id='ce_fileNamePlan' disabled></div>
-    <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'ce_fileNameReability')">Файл реабилитационной программы:</div><input class='input' type='file' id='ce_fileNameReability' disabled></div>
+    <div class='label_input last'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'ce_fileNamePlan')">Файл учебного плана:</div><input class='input' type='file' id='ce_fileNamePlan' disabled></div>
 </div>
 <div id="div_current_change" style="display: none">
     <select class='input' id="program">
@@ -123,7 +119,7 @@
         }
         ?>
     </select>
-    <div class='label_input'> <div class='left_label'>Причина изменения:</div> <input class='input' type='text' id='cc_reason'></div>
+    <div class='label_input last'> <div class='left_label'>Причина изменения:</div> <input class='input' type='text' id='cc_reason'></div>
 </div>
 <div id="div_add_new" style="display: none">
     <span class='labelInputDirection'>Направление:</span><br><select class='input' id='an_direction' size='10'>
@@ -159,10 +155,10 @@
     </div>
     <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='an_fileNameProgram'></div>
     <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'an_fileNamePlan')">Файл учебного плана:</div><input class='input' type='file' id='an_fileNamePlan' disabled></div>
-    <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'an_fileNameReability')">Файл реабилитационной программы:</div><input class='input' type='file' id='an_fileNameReability' disabled></div>
-    <div class='label_input'> <div class='left_label'>Причина изменения:</div> <input class='input' type='text' id='an_reason'></div>
+    <div class='label_input last'> <div class='left_label'>Причина изменения:</div> <input class='input' type='text' id='an_reason'></div>
 </div>
 
+<button class="button saveButton" onclick="cancel()">Отменить</button>
 <button class="button saveButton" onclick="saveStudentChanges()">Сохранить</button>
 
 <div class="individualTrack">

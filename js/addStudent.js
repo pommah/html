@@ -3,11 +3,13 @@ function save() {
     var noz = document.getElementById('noz_group');
     var dateBegin = document.getElementById('begin');
     var dateEnd = document.getElementById('end');
+    var fileReability = document.getElementById('fileNameReability');
 
     var dataId = id.value;
     var dataNoz = noz.selectedOptions[0].id.substr(1);
     var dataDateBegin = dateBegin.value.split("-").join(".");
     var dataDateEnd = dateEnd.value.split("-").join(".");
+    var dataFileReability = 'c.pdf';
 
     var regularId = /^[А-яA-z ]{3,50}$/;
     var regularNoz = /^[0-9]$/;
@@ -30,6 +32,8 @@ function save() {
         return false;
     }
 
+    dataFileReability = document.getElementById('fileNameReability').disabled ? null : dataFileReability;
+
     var data;
 
     if (document.getElementById('radio_exist').checked){
@@ -40,7 +44,7 @@ function save() {
             alert("Недопустимая программа");
             return false;
         }
-        data = "student="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataProgram;
+        data = "student="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataFileReability+";"+dataProgram;
     }
     else if (document.getElementById('radio_new').checked){
         var direction = document.getElementById('direction');
@@ -50,7 +54,6 @@ function save() {
         var fileProgram = document.getElementById('fileNameProgram');
         var profile = document.getElementById('profile');
         var filePlan = document.getElementById('fileNamePlan');
-        var fileReability = document.getElementById('fileNameReability');
 
         var dataDirection = direction.selectedOptions[0].id;
         var dataLevel = level.selectedOptions[0].value;
@@ -59,7 +62,6 @@ function save() {
         var dataFileProgram = 'a.pdf';
         var dataProfile = profile.value;
         var dataFilePlan = 'b.pdf';
-        var dataFileReability = 'c.pdf';
 
         var regularDirection = /^[0-9]{6}$/;
         var regularLevel = /^[А-я]{6,40}$/;
@@ -94,9 +96,8 @@ function save() {
         }
 
         dataFilePlan = document.getElementById('fileNamePlan').disabled ? null : dataFilePlan;
-        dataFileReability = document.getElementById('fileNameReability').disabled ? null : dataFileReability;
 
-        data = "student_and_program="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataFileProgram+";"+dataFilePlan+";"+dataFileReability;
+        data = "student_and_program="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataFileReability+";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataFileProgram+";"+dataFilePlan;
     }
 
     var send = new Ajax("POST","/student/add");
@@ -132,6 +133,10 @@ function switchFilePlan(checkbox) {
 
 function switchFileReability(checkbox) {
     document.getElementById('fileNameReability').disabled = !checkbox.checked;
+}
+
+function cancel() {
+    window.history.back();
 }
 
 onload = function(){

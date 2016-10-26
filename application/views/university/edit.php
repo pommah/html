@@ -22,7 +22,7 @@
             printf("<option %s id='state'>Государственный</option>", $state);
         ?>
     </select></div>
-<button class="button">Отменить</button>
+<button class="button" onclick="cancel()">Отменить</button>
 <button class="button" onclick="saveChanges()">Сохранить</button>
 <link rel="stylesheet" type="text/css" href="/css/student.css">
 <script type="text/javascript" src="/js/editUniversity.js"></script>

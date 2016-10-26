@@ -14,11 +14,13 @@ function saveStudentChanges(){
     var nozology = document.getElementById('noz_group');
     var dateBegin = document.getElementById('dateBegin');
     var dateEnd = document.getElementById('dateEnd');
+    var rehabilitation = document.getElementById('fileNameReability');
 
     var dataName = name.value;
     var dataNozology = nozology.selectedOptions[0].id.substr(1);
     var dataDateBegin = dateBegin.value.split("-").join(".");
     var dataDateEnd = dateEnd.value.split("-").join(".");
+    var dataRehabilitation = 'c.pdf';
 
     var regularId = /^[А-яA-z ]{3,50}$/;
     var regularNoz = /^[0-9]$/;
@@ -41,7 +43,9 @@ function saveStudentChanges(){
         return false;
     }
 
-    var data = dataName+";"+dataNozology+";"+dataDateBegin+";"+dataDateEnd;
+    dataRehabilitation = document.getElementById('fileNameReability').disabled ? null : dataRehabilitation;
+
+    var data = dataName+";"+dataNozology+";"+dataDateBegin+";"+dataDateEnd+";"+dataRehabilitation;
 
 
     var radioCurrentInfo = document.getElementById('current_info');
@@ -123,7 +127,6 @@ function parseProgramData(prefix) {
     var form = document.getElementById(prefix+'form');
     var program = document.getElementById(prefix+'fileNameProgram');
     var plan = document.getElementById(prefix+'fileNamePlan');
-    var rehabilitation = document.getElementById(prefix+'fileNameReability');
 
     var dataDirection = direction.selectedOptions[0].id;
     var dataProfile = profile.value;
@@ -132,7 +135,6 @@ function parseProgramData(prefix) {
     var dataForm = form.selectedOptions[0].value;
     var dataProgram = 'a.pdf';
     var dataPlan = 'b.pdf';
-    var dataRehabilitation = 'c.pdf';
 
     var regularDirection = /^[0-9]{6}$/;
     var regularLevel = /^[А-я]{6,40}$/;
@@ -166,7 +168,6 @@ function parseProgramData(prefix) {
         dataProfile = null;
     }
     dataPlan = document.getElementById(prefix+'fileNamePlan').disabled ? null : dataPlan;
-    dataRehabilitation = document.getElementById(prefix+'fileNameReability').disabled ? null : dataRehabilitation;
 
     return ";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataProgram+";"+dataPlan+";"+dataRehabilitation;
 }
@@ -298,6 +299,10 @@ function addModule() {
             alert(data);
         }
     })
+}
+
+function cancel() {
+    window.history.back();
 }
 
 function saveTrack() {
