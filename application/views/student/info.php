@@ -88,7 +88,14 @@
             printf("<td rowspan='%s'>%s</td>", $rowspan, $i);
             printf("<td rowspan='%s'>%s</td>", $rowspan, $info['Status']);
             $file = $info['File'] != null ? $info['File'] : '-';
-            if($file!='-') $file = "<a class='href' href='/orders/".$file."'>Прикрепленный файл</a>";
+            if($file!='-') {
+                $type = explode(".",$file);
+                $im_file = null;
+                switch($type[1]) {
+                    case "pdf": $im_file="/images/pdf_file.png";
+                }
+                $file = "<a class='href' href='/orders/" . $file . "'><img width='30' src='".$im_file."'></a>";
+            }
             printf("<td rowspan='%s'>%s</td>", $rowspan, $file);
             if ($debtCount == 0){
                 print ("<td colspan='2'>-</td>");

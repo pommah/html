@@ -13,6 +13,7 @@ Class Controller_Student extends Authorized_Controller {
 
     function action_index($id = null) {
         if ($this->get_user_type() == UserTypes::UNIVERSITY){
+            echo "Asd";
             $this->data['students'] = $this->model->getStudents($this->get_user_university_id());
         }
         else{
@@ -20,7 +21,9 @@ Class Controller_Student extends Authorized_Controller {
         }
         $this->generateView('index');
     }
-
+    public function action_search($text=null) {
+        $this->generateView('searchStudent');
+    }
     function action_add(){
         if (array_key_exists('student', $_POST)) {
             $student = $_POST['student'];

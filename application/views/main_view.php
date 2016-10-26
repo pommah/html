@@ -22,7 +22,7 @@
                     <form>
                     <input type="text" class="input authInput" id="login" placeholder="Логин" maxlength="18"><br>
                     <input type="password" class="input authInput" id="password" placeholder="Пароль" maxlength="18"><br>
-                    <button class="button authButton" onclick="checkAuth()">Войти</button>
+                    <button class="button authButton" onclick="checkAuth(event)">Войти</button>
                         </form>
                     <div class="forget_pass">
                         <a class="forget_href" href="forgetpass">Забыли пароль?</a>

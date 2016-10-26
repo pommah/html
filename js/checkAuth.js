@@ -2,7 +2,8 @@ onload = function () {
     document.getElementById('login').focus();
 }
 
-function checkAuth() {
+function checkAuth(e) {
+    e.preventDefault();
     var login = document.getElementById('login');
     var password = document.getElementById('password');
     var error = document.getElementById('error_line');
