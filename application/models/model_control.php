@@ -1,7 +1,6 @@
 <?php
 class Model_Control extends Model
 {
-
     public function get_data_user() {
         include('modules/db.php');
         $user = [];
