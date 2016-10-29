@@ -1,4 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/css/report.css">
+<link rel="stylesheet" type="text/css" href="/css/student_list.css">
 <div class="blockReport">
     <div class="headReport">Общая информация о системе</div>
     <div class="item">
@@ -29,5 +30,9 @@
         <div class="leftLabel">С поражением опорно-двигательного аппарата:</div>
         <div class="rightLabel"><?php echo $data['generalInfo'][0]['MusculeSkelete']; ?></div>
     </div>
-    <?php include('application/views/charts/pie.php');?>
+    <?php echo Controller_Report::draw_pie($data['pie_region'], "  федеральный округ", "Распределение студентов по округам");
+    echo Controller_Report::draw_pie($data['pie_nozology'], '', 'Распределение студентов по нозологическим группам');
+    echo Controller_Report::draw_pie($data['pie_year'], ' год', 'Распределение студентов по дате поступления');
+    echo Controller_Report::draw_pie($data['pie_level'], '', 'Распределение студентов по уровню образования');
+    echo Controller_Report::draw_pie($data['pie_form'], ' форма обучения', 'Распределение студентов по форме обучения');?>
 </div>

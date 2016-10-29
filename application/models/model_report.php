@@ -66,17 +66,39 @@ Class Model_Report extends Model {
     group by Okrug.Id, Okrug.Name");
         $req->execute();
         $raw = $req->fetchAll(PDO::FETCH_NAMED);
-        $data = [];
-        $data['header'] = "Распределение студентов с ОВЗ";
-        $data['pie_data'] = [];
-        $data['pie_title'] = [];
-        $data['legend_data'] = ['header' => "Распределение по регионам РФ:", 'colors' => ['#F44336','#9C27B0','#673AB7','#3F51B5', '#2196F3', '#CDDC39','#8BC34A','#FF9800', '#795548','#9E9E9E'], 'title' => []];
-        foreach ($raw as $row){
-            $id = "r".$row['Id'];
-            $data['pie_data'][$id] = $row['count'];
-            $data['pie_title'][$id] = $row['Name']."  федеральный округ";
-            array_push($data['legend_data']['title'], $row['Name']."ФО");
-        }
-        return $data;
+        return $raw;
+    }
+
+    public function  get_stud_by_nozology_for_pie(){
+        $req = parent::get_db_connection()->query("select Student.ID_NozologyGroup, NozologyGroup.Name, count(*) as count
+	from LearningStudent inner join Student On LearningStudent.ID_Student = Student.ID 
+    inner join NozologyGroup on Student.ID_NozologyGroup = NozologyGroup.ID
+    Group by Student.ID_NozologyGroup, NozologyGroup.Name");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function get_stud_by_year_for_pie(){
+        $req = parent::get_db_connection()->query("select year(DateBegin) as Name, count(*) as count
+	from LearningStudent
+    group by year(DateBegin)");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function get_stud_by_level_for_pie(){
+        $req = parent::get_db_connection()->query("select ifnull(ProgramStudent.Level, 'Отсутствует') as Name, count(*) as count
+	from LearningStudent inner join ProgramStudent On ProgramStudent.ID = LearningStudent.ID_Student
+    group by ProgramStudent.Level");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function get_stud_by_form_for_pie(){
+        $req = parent::get_db_connection()->query("select ifnull(ProgramStudent.Form, 'Отсутствует') as Name, count(*) as count
+	from LearningStudent inner join ProgramStudent On ProgramStudent.ID = LearningStudent.ID_Student
+    group by ProgramStudent.Form");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
     }
 }
