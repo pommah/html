@@ -1,4 +1,5 @@
 <link type="text/css" rel="stylesheet" href="/modules/map/map.css"/>
+
 <h1 id="header"></h1>
 <div id="map_russia">
     <object type="image/svg+xml" data="/modules/map/russia.svg" onload="svg_ready(this)" id="svg">
@@ -16,6 +17,31 @@
         <label>Регионы<input type="radio" name="filter" value="1"></label>
     </fieldset>
 </form>
+<script type="text/javascript">
+    var region_data = {
+        <?php
+        $i=0;
+        foreach ($data['statistic'] as $value) {
+            if($i!=0) echo ",\n";
+            $numReg = $value['ID'];
+            $allStud = $value['allst'];
+            $badStud = $value['bad'];
+            if($numReg<10 && $numReg>0) {
+                $numReg = "0".$numReg;
+            }
+            $percent = null;
+            if($badStud == 0 || $allStud == 0) {
+                $percent = "0";
+            }
+            else {
+                $percent = ($badStud/$allStud)*100;
+            }
+            echo "r".$numReg.": ".$percent;
+            $i++;
+    }
+        ?>
+    }
+</script>
 <script src="/modules/map/regions.js"></script>
 <script src="/modules/map/map-data.js"></script>
 <script src="/modules/map/map.js"></script>
