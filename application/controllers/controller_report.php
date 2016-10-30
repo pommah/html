@@ -60,25 +60,63 @@ Class Controller_Report extends Authorized_Controller {
             $sum+=$val['count'];
         }
         usort($data, "Controller_Report::cmp");
-        $svg = "<svg style='width:300px; height: 300px;' viewBox=\"0 0 100 100\">";
-        $table = "<table class='studentList'><tr><th>Номер</th><th>Название</th><th>Цвет</th><th>Число</th><th>Проценты</th></tr>";
+        $svg = "<svg style='width:300px; height: 300px; display: inline-block;' viewBox=\"0 0 100 100\">";
+        $path = "";
+        $text = "";
+        $table = "<table style=' margin-left: 50px; display: inline-block;' class='studentList'><tr><th>Номер</th><th>Название</th><th>Цвет</th><th>Число</th><th>Проценты</th></tr>";
         $sumAngle = 90;
         $count = 0;
         foreach ($data as $val){
             $per = $val['count'] / $sum;
-            $x1 = 50 - 50*cos(deg2rad($sumAngle));
-            $y1 = 50 - 50*sin(deg2rad($sumAngle));
-            $sumAngle+= $per*360;
-            $newX = 50 - 50*cos(deg2rad($sumAngle));
-            $newY = 50 - 50*sin(deg2rad($sumAngle));
             $perStr = sprintf("%.2f", $per*100);
             $hint =  $val['Name'].$entityName." - ".$val['count']." (".$perStr."%)";
-            $svg.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50'><title>%s</title></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
+            $textX = 0;
+            $textY = 0;
+            if ($per<0.5){
+                $x1 = 50 - 50*cos(deg2rad($sumAngle));
+                $y1 = 50 - 50*sin(deg2rad($sumAngle));
+                $sumAngle+= $per*360;
+                $newX = 50 - 50*cos(deg2rad($sumAngle));
+                $newY = 50 - 50*sin(deg2rad($sumAngle));
+                if ($sumAngle > 445){
+                    $newX = 50;
+                    $newY = 0;
+                }
+                $textX = ($x1+$newX)/2;
+                $textY = ($y1+$newY)/2;
+                $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50'><title>%s</title></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
+            }else{
+                $parts = $per/2;
+                for ($i=1; $i<=2; $i++){
+                    $x1 = 50 - 50*cos(deg2rad($sumAngle));
+                    $y1 = 50 - 50*sin(deg2rad($sumAngle));
+                    $sumAngle+= $parts*360;
+                    $newX = 50 - 50*cos(deg2rad($sumAngle));
+                    $newY = 50 - 50*sin(deg2rad($sumAngle));
+                    if ($sumAngle > 445){
+                        $newX = 50;
+                        $newY = 0;
+                    }
+                    if ($i == 1){
+                        $textX = ($x1+$newX)/2;
+                        $textY = ($y1+$newY)/2;
+                    }
+                    $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50'><title>%s</title></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
+
+                }
+            }
+            if ($sumAngle > 370 && $sumAngle < 450){
+                $textY+=10;
+            }else if($sumAngle > 90 && $sumAngle < 280){
+                $textX-=10;
+            }
+            if ($per > 0.05){
+                $text.=sprintf("<text x='%d' y='%d' font-size='6px' fill='white'>%s</text>", $textX, $textY, $perStr."%");
+            }
             $table.= sprintf("<tr><td>%s</td><td>%s</td><td style='background-color: %s;'></td><td>%s</td><td>%s</td></tr>", $count + 1, $val['Name'], Utils::$colors[$count], $val['count'], $perStr);
             $count++;
         }
-        $svg.="</svg>";
         $table.="</table>";
-        return "<div style='width: 350px; display: inline-block;'><h3>".$header."</h3>".$svg.$table."</div>";
+        return "<div><h3>".$header."</h3>".$svg.$path.$text."</svg>".$table."</div>";
     }
 }
