@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/css/report.css">
 <link rel="stylesheet" type="text/css" href="/css/student_list.css">
+<script type="text/javascript" src="/js/pieHint.js"></script>
 <div class="blockReport">
     <div class="headReport">Общая информация о системе</div>
     <div class="item">
