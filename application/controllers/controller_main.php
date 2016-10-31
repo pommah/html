@@ -17,6 +17,7 @@ class Controller_Main extends Authorized_Controller
             switch ($this->auth) {
                 case 2: $location='/student'; break;
                 case 1: $location='/university'; break;
+                case 3: $location='/user'; break;
             }
             header("Location: ".$location);
         }

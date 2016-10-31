@@ -68,6 +68,10 @@ class Authorized_Controller extends Controller
                     [ "href" => "/infographics", "title" => "Инфографика", "submenus" => []]
                 ];
                 break;
+            case UserTypes::ADMIN:
+                return [
+                    [ "href" => "/user", "title" => "Пользователи", "submenus" => ["Добавить" => "/user/add"]]
+                ];
         }
     }
 

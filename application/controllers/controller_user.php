@@ -7,9 +7,15 @@ class Controller_User extends Authorized_Controller
         $this->model = new Model_User();
     }
 
+    public function action_add()
+    {
+        $this->generateView('add');
+    }
+
     public function action_index()
     {
-        $this->action_info();
+        $this->data['users'] = $this->model->get_all_users();
+        $this->generateView('index');
     }
 
     public function action_info(){

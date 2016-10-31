@@ -1,7 +1,7 @@
 <?php
 class Model_User extends Model
 {
-    public function get_user_data(){
+    public function get_user_data($id){
         $userData = [];
         $conn = parent::get_db_connection();
         $query = $conn->prepare("SELECT Name, Login, Email, Permission FROM User WHERE Login = ?");
@@ -23,5 +23,12 @@ class Model_User extends Model
         $query->bindParam(3, $_SESSION['login']);
         $query->execute();
         echo "OK";
+    }
+
+    public function get_all_users(){
+        $req = parent::get_db_connection()->query("select User.ID, User.Name, Permission, ifnull(University.FullName, '-') as Univer, Login, Email 
+	from User left join University on User.ID_Univer = University.ID");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
     }
 }
