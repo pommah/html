@@ -75,7 +75,7 @@
     <div class="prompt" id="promt"></div>
     <table class="studentList">
         <tr>
-            <th>№ модуля</th>
+            <th>№ семестра</th>
             <th>Статус</th>
             <th>Примечание</th>
             <th colspan="2">Задолженности</th>

@@ -23,7 +23,7 @@
         $i=0;
         foreach ($data['statistic'] as $value) {
             if($i!=0) echo ",\n";
-            $numReg = $value['ID'];
+            $numReg = $value['Code'];
             $allStud = $value['allst'];
             $badStud = $value['bad'];
             if($numReg<10 && $numReg>0) {

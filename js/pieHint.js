@@ -9,6 +9,7 @@ function createHint() {
     span.style.color = "fff";
     span.style.border = "1px solid white";
     span.style.borderRadius = "5px";
+    span.style.line
     document.getElementsByClassName("data_content")[0].appendChild(span);
     hint = document.getElementById("hint");
     hideHint();
@@ -17,7 +18,7 @@ function createHint() {
 function displayHint(event ,text) {
     hint.style.visibility = "visible";
     hint.innerText = text;
-    hint.style.left=event.pageX+"px";
+    hint.style.left=(event.pageX+20)+"px";
     hint.style.top=event.pageY+"px";
 }
 

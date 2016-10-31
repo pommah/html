@@ -60,7 +60,7 @@ Class Controller_Report extends Authorized_Controller {
             $sum+=$val['count'];
         }
         usort($data, "Controller_Report::cmp");
-        $svg = "<svg style='width:300px; height: 300px; display: inline-block;' viewBox=\"0 0 100 100\">";
+        $svg = "<svg style='width:300px; height: 300px; vertical-align: top; display: inline-block;' viewBox=\"0 0 100 100\">";
         $path = "";
         $text = "";
         $table = "<table style=' margin-left: 50px; display: inline-block;' class='studentList'><tr><th>Номер</th><th>Название</th><th>Цвет</th><th>Число</th><th>Проценты</th></tr>";
@@ -84,7 +84,7 @@ Class Controller_Report extends Authorized_Controller {
                 }
                 $textX = ($x1+$newX)/2;
                 $textY = ($y1+$newY)/2;
-                $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmouseover='displayHint(event, \"%s\");'></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
+                $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");' ></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
             }else{
                 $parts = $per/2;
                 for ($i=1; $i<=2; $i++){
@@ -101,7 +101,7 @@ Class Controller_Report extends Authorized_Controller {
                         $textX = ($x1+$newX)/2;
                         $textY = ($y1+$newY)/2;
                     }
-                    $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmouseover='displayHint(event, \"%s\");'></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
+                    $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");'></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
 
                 }
             }
@@ -111,7 +111,7 @@ Class Controller_Report extends Authorized_Controller {
                 $textX-=10;
             }
             if ($per > 0.05){
-                $text.=sprintf("<text x='%d' y='%d' font-size='6px' fill='white'>%s</text>", $textX, $textY, $perStr."%");
+            //$text.=sprintf("<text x='%d' y='%d' font-size='6px' fill='white'>%s</text>", $textX, $textY, $perStr."%");
             }
             $table.= sprintf("<tr><td>%s</td><td>%s</td><td style='background-color: %s;'></td><td>%s</td><td><strong>%s</strong></td></tr>", $count + 1, $val['Name'], Utils::$colors[$count], $val['count'], $perStr."%");
             $count++;

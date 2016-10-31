@@ -164,21 +164,30 @@
 <div class="individualTrack">
     <div class="headTrack">Индивидуальная траектория студента</div>
     <?php
-    print("<table id='trackTable' class='trackTable'><tr>");
+    printf("<table id='trackTable' class='trackTable'><tr class='headTrackTable'><td class='firstColumn'>%s</td> <td colspan='%s'>Учебная работа</td> <td>Психолого педагогическое сопровождени</td><td>Профориетация</td><td>ДОТ</td><td>Портфолио</td>
+     </tr><tr><td class='firstColumn'>Общеобразовательные/адаптивные дисциплины</td>",$data['student']['Name'],count($data['student']['Track'])+1);
     for($i=1; $i<=sizeof($data['student']['Track']); $i++) {
         if(array_key_exists($i, $data['student']['Track'])) {
             $color = $data['student']['Track'][$i]['Color'];
             $text = null;
             foreach ($data['student']['Track'][$i]['Note'] as $key => $value) {
-                $text = $text.' '.$key.'='.$value;
+                $text = $text.'&'.$key.'='.$value;
             }
-            printf("<td bgcolor='%s' id='module_%s' onclick=\"prompEdit('%s', '%s','%s','%s','%s')\">%s</td>", $color, $i,$data['student']['Track'][$i]['ID'],$i, $data['student']['Track'][$i]['Status'],$text,$data['student']['Track'][$i]['File'], $i);
+            $adaptive = '';
+            $adaptiveData = null;
+            if(count($data['student']['Track'][$i]['Adaptive'])) {
+                $adaptive = "<div class='adaptiveBlock' >".count($data['student']['Track'][$i]['Adaptive'])."</div>";
+                foreach ($data['student']['Track'][$i]['Adaptive'] as $key => $value) {
+                    $adaptiveData = $adaptiveData.';'.$value;
+                }
+            }
+            printf("<td bgcolor='%s' id='module_%s' onclick=\"prompEdit('%s', '%s','%s','%s','%s','%s')\">%s%s</td>", $color, $i,$data['student']['Track'][$i]['ID'],$i, $data['student']['Track'][$i]['Status'],$text,$data['student']['Track'][$i]['File'],$adaptiveData, $i,$adaptive);
         }
         else {
             printf("<td>%s</td>", $i);
         }
     }
-    print("<td onclick='addModule()' class='plus icon'></td></tr></table>");
+    print("<td onclick='addModule()' style='color: #5b78b4'>Добавить</td><td>Ссылка на файл</td><td>Ссылка на файл</td><td>Ссылка на файл</td><td>Ссылка на файл</td></tr></table>");
     ?>
     <div class="prompt" id="promt"></div>
 </div>

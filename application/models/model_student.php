@@ -62,10 +62,16 @@ class Model_Student extends Model
                             }
                             break;
                     }
+                    $reqAdaptive = $conn->query("SELECT * FROM AdaptiveDiscipline WHERE ID_Semester='$row[ID]'");
+                    $adaptive = [];
+                    while($row2 = $reqAdaptive->fetch()) {
+                        $adaptive[] = $row2['Name'];
+                    }
                     $student['Track'][$row['NumberSemester']] = [
                         "ID" => $row['ID'],
                         "Status" => $row['Status'],
                         "Note" => $note,
+                        "Adaptive" => $adaptive,
                         "Color" => $color,
                         "File" => $row['Note']
                     ];
@@ -266,10 +272,6 @@ class Model_Student extends Model
     }
 
     public function changeDebt($id, $status, $debts, $file) {
-        include_once "application/core/OlFile.php";
-        $olFile = new OlFile("text.txt");
-        $olFile->createAndUpload("keklool");
-        exit();
         $conn = parent::get_db_connection();
         $debts = explode(",", $debts);
         $query = '';
@@ -281,9 +283,9 @@ class Model_Student extends Model
         $change = $conn->prepare("CALL updateTrajectory(?,?,?)".$query);
         $change->bindParam(1, $status);
         $change->bindParam(2, $id);
-        if($file)
-        {
-            $olFile = new OlFile(null,"orders");
+        if($file) {
+            include_once "application/core/OlFile.php";
+            $olFile = new OlFile(null, "orders");
             $file = $olFile->saveFile($file);
         }
         $change->bindParam(3, $file);

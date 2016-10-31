@@ -41,10 +41,33 @@
     border-collapse: collapse;
     border: 1px solid #b2b2b2;
 }
+.trackTable tr:first-of-type {
+    border-bottom: 1px solid #b2b2b2;
+    font-size: 14px;
+}
+.firstColumn {
+    width: 5em;
+    font-size: 14px;
+
+}
+.headTrackTable td {
+    border-right: 1px solid #b2b2b2;
+}
 .trackTable td{
+    position: relative;
     padding: 25px;
     cursor: default;
 }
 .trackTable td:hover {
     opacity: 0.8;
+}
+.adaptiveBlock {
+    position: absolute;
+    background-color: #80aaff;
+    margin-left: -25px;
+    text-align: center;
+    bottom: 0;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    width: 100%
 }

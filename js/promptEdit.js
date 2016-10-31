@@ -198,12 +198,15 @@ function switchByCheckbox(checked, switchingId) {
 
 var numModule = null;
 var nowInfo = null;
+var nowAdapt = null;
 var nowStatus = null;
 var debtArr = new Array();
+var adaptArr = new Array();
 var idModule = null;
-function prompEdit(id, num, status, text, file) {
+function prompEdit(id, num, status, text, file, adaptive) {
     idModule = id;
     debtArr = [];
+    adaptArr = [];
     numModule = num;
     nowStatus = status;
     prom = document.getElementById('promt');
@@ -211,17 +214,20 @@ function prompEdit(id, num, status, text, file) {
     //prom.style.border = "1px solid #8e8e8e";
     var info = '';
     parseDebt(text);
+    parseAdaptive(adaptive);
     var nowFile = '';
     if(file) nowFile = "<a href='/orders/"+file+"'>Прикрепленный файл</a>";
-    prom.innerHTML = "<div class='numbSemestr'>"+num+"-й модуль.</div>" +
+    prom.innerHTML = "<div class='numbSemestr'>"+num+"-й семестр.</div>" +
         "<div class='statusSemestr'>"+status+"</div>" +
         "<div class='textSemestr'>" +
         "<div id='status_line'>"+getStatus(status)+" <button class='button' id='change_status_module' onclick='addDebt(true)'>Добавить долг</button></div>" +
         "<div id='addSubject'></div>" +
+            "<div id='adaptiveDisc'></div>"+
             "<div class='fileTrack href'>" + nowFile +
         "<input type='file' id='fileTrack'></div>" +
         "<button class='button saveTrajectory' onclick='saveTrack()'>Сохранить</button> </div>";
     showDebt();
+    showAdaptive();
 }
 
 function getStatus(status) {
@@ -235,9 +241,17 @@ function getStatus(status) {
     select+="</select>";
     return select;
 }
-
+function parseAdaptive(text) {
+    text = text.split(";");
+    var name = new Array();
+    for(var i=0; i<text.length; i++) {
+        if(text[i]) {
+            adaptArr.push(text[i]);
+        }
+    }
+}
 function parseDebt(text) {
-    text = text.split(" ");
+    text = text.split("&");
     var name = new Array();
     for(var i=0; i<text.length; i++) {
         if(text[i]) {
@@ -253,6 +267,16 @@ function addDebt(show) {
     }
     if(show)
         showDebt();
+}
+function showAdaptive() {
+    info = '';
+    if(adaptArr) info+= 'Адаптивные дисциплины:';
+    for(var i=0; i<adaptArr.length; i++) {
+        info += "<div class='adapt' id='adapt_"+i+"'>" +
+            "<input type='text' id='adaptVal_"+i+"' class='input subject' placeholder='Укажите адаптивную дисциплину' value='"+adaptArr[i]+"'><span class='delDebt'  onclick='delAdaptive("+i+")'>Удалить</span><br></div>";
+    }
+    nowAdapt = info;
+    document.getElementById('adaptiveDisc').innerHTML = info;
 }
 function showDebt() {
     info = '';
@@ -320,35 +344,15 @@ function saveTrack() {
     }
     getFile =document.getElementById('fileTrack').files[0];
     var ajax = new Ajax("POST","/student/change_debt");
-    if(getFile) {
-        var file = '';
-        var fileReader = new FileReader();
-        fileReader.onload = function (e) {
-            file = e.target.result;
-            ajax.setData("id=" + idModule + "&status=" + nowStatus + "&debts=" + debts + "&file=" + file);
-            ajax.send(function (data) {
-                if (data == "OK") {
-                    alert('Изменения cохранены');
-                    location.reload();
-                }
-                else {
-                    document.getElementById('promt').innerHTML = data;
-                }
-            })
+    ajax.setData("id=" + idModule + "&status=" + nowStatus + "&debts=" + debts);
+    if(getFile)
+        ajax.appendFile('file',getFile);
+    ajax.send(function (data) {
+        if(data=="OK") {
+            alert('Изменения применены');
+            location.reload();
         }
-        fileReader.readAsDataURL(getFile);
-    }
-    else {
-        ajax.setData("id=" + idModule + "&status=" + nowStatus + "&debts=" + debts);
-        ajax.send(function (data) {
-            if (data == "OK") {
-                alert('Изменения cохранены');
-                location.reload();
-            }
-            else {
-                alert(data);
-            }
-        })
-    }
-
+        else
+            alert(data);
+    });
 }
