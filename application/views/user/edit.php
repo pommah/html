@@ -1,15 +1,15 @@
 <link rel="stylesheet" type="text/css" href="/css/student.css">
 <div class="info">
     <div class="leftLabel">Логин:</div>
-    <div class="dataStudent"><?php echo $data['userData']['login']; ?></div>
+    <div class="dataStudent"><?php echo $data['userData']['Login']; ?></div>
 </div>
 <div class="info">
     <div class="leftLabel">Имя:</div>
-    <div class="dataStudent"><input id="name" class="input dataStudent" size="25" type="text" value="<?php echo $data['userData']['name']; ?>"></div>
+    <div class="dataStudent"><input id="name" class="input dataStudent" size="25" type="text" value="<?php echo $data['userData']['Name']; ?>"></div>
 </div>
 <div class="info">
     <div class="leftLabel">E-mail:</div>
-    <div class="dataStudent"><input id="email" class="input dataStudent" size="25" type="text" value="<?php echo $data['userData']['e-mail']; ?>"></div>
+    <div class="dataStudent"><input id="email" class="input dataStudent" size="25" type="text" value="<?php echo $data['userData']['Email']; ?>"></div>
 </div>
 <div class="info">
     <div class="leftLabel">Старый пароль:</div>
@@ -21,7 +21,7 @@
 </div>
 <div class="info">
     <div class="leftLabel">Уровень доступа:</div>
-    <div class="dataStudent"><?php echo $data['userData']['permission']; ?></div>
+    <div class="dataStudent"><?php echo UserTypes::ARRAY[$data['userData']['Permission']]; ?></div>
 </div>
 <button class="button saveButton" onclick="parseAndSendData()">Сохранить</button>
 

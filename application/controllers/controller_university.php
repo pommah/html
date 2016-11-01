@@ -1,4 +1,5 @@
 <?php
+include 'application/controllers/controller_report.php';
 class Controller_University extends Authorized_Controller
 {
     public function  __construct()

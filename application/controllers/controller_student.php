@@ -21,9 +21,7 @@ Class Controller_Student extends Authorized_Controller {
         }
         $this->generateView('index');
     }
-    public function action_search($text=null) {
-        $this->generateView('searchStudent');
-    }
+
     function action_add(){
         if (array_key_exists('student', $_POST)) {
             $student = $_POST['student'];

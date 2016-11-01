@@ -18,18 +18,18 @@ class Controller_User extends Authorized_Controller
         $this->generateView('index');
     }
 
-    public function action_info(){
-        $this->data['userData'] = $this->model->get_user_data();
+    public function action_info($id){
+        $this->data['userData'] = $this->model->get_user_data($id);
         $this->generateView('info');
     }
 
-    public function action_edit(){
+    public function action_edit($id){
         if (array_key_exists('userdata', $_POST)) {
             $userData = $_POST['userdata'];
             $dataArray = explode(";", $userData);
             echo $this->model->update_user_data($dataArray);
         }else{
-            $this->data['userData'] = $this->model->get_user_data();
+            $this->data['userData'] = $this->model->get_user_data($id);
             $this->generateView('edit');
         }
     }

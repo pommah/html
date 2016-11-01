@@ -31,9 +31,9 @@
         <div class="leftLabel">С поражением опорно-двигательного аппарата:</div>
         <div class="rightLabel"><?php echo $data['generalInfo'][0]['MusculeSkelete']; ?></div>
     </div>
-    <?php echo Controller_Report::draw_pie($data['pie_region'], "  федеральный округ", "Распределение студентов по округам");
-    echo Controller_Report::draw_pie($data['pie_nozology'], '', 'Распределение студентов по нозологическим группам');
-    echo Controller_Report::draw_pie($data['pie_year'], ' год', 'Распределение студентов по дате поступления');
-    echo Controller_Report::draw_pie($data['pie_level'], '', 'Распределение студентов по уровню образования');
-    echo Controller_Report::draw_pie($data['pie_form'], ' форма обучения', 'Распределение студентов по форме обучения');?>
+    <?php echo Controller_Report::draw_pie($data['pie_region'], "  федеральный округ", "Распределение студентов по округам", 'Name', 'count');
+    echo Controller_Report::draw_pie($data['pie_nozology'], '', 'Распределение студентов по нозологическим группам', 'Name', 'count');
+    echo Controller_Report::draw_pie($data['pie_year'], ' год', 'Распределение студентов по дате поступления', 'Name', 'count');
+    echo Controller_Report::draw_pie($data['pie_level'], '', 'Распределение студентов по уровню образования', 'Name', 'count');
+    echo Controller_Report::draw_pie($data['pie_form'], ' форма обучения', 'Распределение студентов по форме обучения', 'Name', 'count');?>
 </div>

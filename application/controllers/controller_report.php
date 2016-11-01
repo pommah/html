@@ -27,15 +27,42 @@ Class Controller_Report extends Authorized_Controller {
 
     public function action_matrix($type = 'nozology', $district = '8', $ugsn = '010000'){
         if ($type == 'nozology'){
-            $this->data['nozology'] = $this->model->get_regions_by_nozology_group();
+            $this->data['to'] = "/report/matrix/nozology_district";
+            $this->data['colName'] = "Округ \\ Нозологическая группа";
+            $this->data['nozology'] = $this->model->get_districts_by_nozology_group();
+            $this->generateView('matrix_nozology');
+        }
+        else if($type == 'nozology_district'){
+            $this->data['to'] = "/university/index/region";
+            $this->data['colName'] = "Регион \\ Нозологическая группа";
+            $this->data['nozology'] = $this->model->get_regions_by_nozology_group($district);
             $this->generateView('matrix_nozology');
         }
         else if ($type == 'ugsn'){
+            $this->data['to'] = "direction";
             $this->data['ugsn'] = $this->model->get_ugsn_by_districts();
+            $this->generateView('matrix_ugsn');
+        }
+        else if ($type == 'ugsn_lag'){
+            $this->data['to'] = "direction_lag";
+            $this->data['ugsn'] = $this->model->get_ugsn_lag_by_districts();
+            $this->generateView('matrix_ugsn');
+        }
+        else if ($type == 'ugsn_expelled'){
+            $this->data['to'] = "direction_expelled";
+            $this->data['ugsn'] = $this->model->get_ugsn_expelled_by_districts();
             $this->generateView('matrix_ugsn');
         }
         else if ($type == 'direction'){
             $this->data['direction'] = $this->model->get_regions_by_directions($district, $ugsn);
+            $this->generateView('matrix_directions');
+        }
+        else if ($type == 'direction_lag'){
+            $this->data['direction'] = $this->model->get_regions_lag_by_directions($district, $ugsn);
+            $this->generateView('matrix_directions');
+        }
+        else if ($type == 'direction_expelled'){
+            $this->data['direction'] = $this->model->get_regions_expelled_by_directions($district, $ugsn);
             $this->generateView('matrix_directions');
         }
     }
@@ -48,18 +75,16 @@ Class Controller_Report extends Authorized_Controller {
         return 'application/views/report/' . $viewName;
     }
 
-    public static function cmp($a, $b)
-    {
-        $diff = $b['count'] - $a['count'];
-        return $diff > 0 ? 1 : ($diff < 0 ? -1 : 0);
-    }
-
-    public static function draw_pie($data, $entityName, $header){
+    public static function draw_pie($data, $entityName, $header, $colName, $colNum){
         $sum = 0;
         foreach ($data as $val){
-            $sum+=$val['count'];
+            $sum+=$val[$colNum];
         }
-        usort($data, "Controller_Report::cmp");
+        usort($data, function($a, $b) use($colNum){
+            $diff = $b[$colNum] - $a[$colNum];
+            return $diff > 0 ? 1 : ($diff < 0 ? -1 : 0);
+        });
+
         $svg = "<svg style='width:300px; height: 300px; vertical-align: top; display: inline-block;' viewBox=\"0 0 100 100\">";
         $path = "";
         $text = "";
@@ -67,11 +92,15 @@ Class Controller_Report extends Authorized_Controller {
         $sumAngle = 90;
         $count = 0;
         foreach ($data as $val){
-            $per = $val['count'] / $sum;
+            $per = $val[$colNum] / $sum;
             $perStr = sprintf("%.2f", $per*100);
-            $hint =  $val['Name'].$entityName." - ".$val['count']." (".$perStr."%)";
+            $hint =  $val[$colName].$entityName." - ".$val[$colNum]." (".$perStr."%)";
             $textX = 0;
             $textY = 0;
+            $color = '#607D8B';
+            if ($count < 18){
+                $color = Utils::$colors[$count];
+            }
             if ($per<0.5){
                 $x1 = 50 - 50*cos(deg2rad($sumAngle));
                 $y1 = 50 - 50*sin(deg2rad($sumAngle));
@@ -84,7 +113,7 @@ Class Controller_Report extends Authorized_Controller {
                 }
                 $textX = ($x1+$newX)/2;
                 $textY = ($y1+$newY)/2;
-                $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");' ></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
+                $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");' ></path>", $color, $x1, $y1, $newX, $newY, $hint);
             }else{
                 $parts = $per/2;
                 for ($i=1; $i<=2; $i++){
@@ -101,7 +130,7 @@ Class Controller_Report extends Authorized_Controller {
                         $textX = ($x1+$newX)/2;
                         $textY = ($y1+$newY)/2;
                     }
-                    $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");'></path>", Utils::$colors[$count], $x1, $y1, $newX, $newY, $hint);
+                    $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");'></path>", $color, $x1, $y1, $newX, $newY, $hint);
 
                 }
             }
@@ -113,7 +142,7 @@ Class Controller_Report extends Authorized_Controller {
             if ($per > 0.05){
             //$text.=sprintf("<text x='%d' y='%d' font-size='6px' fill='white'>%s</text>", $textX, $textY, $perStr."%");
             }
-            $table.= sprintf("<tr><td>%s</td><td>%s</td><td style='background-color: %s;'></td><td>%s</td><td><strong>%s</strong></td></tr>", $count + 1, $val['Name'], Utils::$colors[$count], $val['count'], $perStr."%");
+            $table.= sprintf("<tr><td>%s</td><td>%s</td><td style='background-color: %s;'></td><td>%s</td><td><strong>%s</strong></td></tr>", $count + 1, $val[$colName], $color, $val[$colNum], $perStr."%");
             $count++;
         }
         $table.="</table>";

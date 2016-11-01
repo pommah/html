@@ -4,15 +4,12 @@ class Model_User extends Model
     public function get_user_data($id){
         $userData = [];
         $conn = parent::get_db_connection();
-        $query = $conn->prepare("SELECT Name, Login, Email, Permission FROM User WHERE Login = ?");
-        $query->bindParam(1, $_SESSION['login']);
+        $query = $conn->prepare("select User.Name, Permission, ifnull(University.FullName, '-') as Univer, University.ID as UniverId, Login, Email 
+	from User left join University on User.ID_Univer = University.ID
+    where User.ID = ?");
+        $query->bindParam(1, $id);
         $query->execute();
-        $data = $query->fetch(PDO::FETCH_NAMED);
-        $userData['login'] = $data['Login'];
-        $userData['name'] = $data['Name'];
-        $userData['e-mail'] = $data['Email'];
-        $userData['permission'] = $data['Permission'];
-        return $userData;
+        return $query->fetch(PDO::FETCH_NAMED);
     }
 
     public function update_user_data($dataArray){

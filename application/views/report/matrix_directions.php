@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="/css/student_list.css">
 <table class="studentList">
 <?php
-    print ("<tr><th>Направления</th>");
+    print ("<tr><th>Регион \ Направления</th>");
     $firstval =  $data['direction']['0']['Name'];
     $count = 0;
     while ($data['direction'][$count]['Name'] == $firstval){

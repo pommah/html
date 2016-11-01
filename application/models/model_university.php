@@ -28,27 +28,43 @@ class Model_University extends Model
     }
 
     public function get_universities($regionId){
-        $req = parent::get_db_connection()->prepare("SELECT University.ID, Region.Name, University.FullName, count(LearningStudent.ID) AS count
-	from ((University left join Region On University.ID_Region=Region.ID) left join ProgramStudent ON University.ID = ProgramStudent.ID_University) left join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        $req = parent::get_db_connection()->prepare("select University.ID, University.FullName,
+    count(distinct ProgramStudent.ID) as Programs, 
+    count(LearningStudent.ID_Program) as Students
+	from Region left join University on University.ID_Region = Region.ID
+    left join ProgramStudent on ProgramStudent.ID_University = University.ID
+    left join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
     where Region.ID = ?
-	group by University.ID, Region.Name, University.FullName");
+	group by University.ID, University.FullName");
         $req->bindParam(1, $regionId);
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
 
     public function get_districts(){
-        $req = parent::get_db_connection()->query("select Okrug.ID, Okrug.Name, count(Region.ID) as count
+        $req = parent::get_db_connection()->query("select Okrug.ID, Okrug.Name, 
+	count(distinct Region.ID) as Regions, 
+    count(distinct ProgramStudent.ID) as Programs, 
+    count(LearningStudent.ID_Program) as Students
 	from Okrug inner join Region on Okrug.ID = Region.ID_Okrug
-    group  by Okrug.ID, Okrug.Name");
+    left join University on University.ID_Region = Region.ID
+    left join ProgramStudent on ProgramStudent.ID_University = University.ID
+    left join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+	group by Okrug.ID, Okrug.Name");
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
     public function get_regions($districtId){
-        $req = parent::get_db_connection()->prepare("select Region.ID, Region.Name, count(University.ID) as count
-	from (Region left join University on Region.ID = University.ID_Region) inner join Okrug On Region.ID_Okrug = Okrug.ID
+        $req = parent::get_db_connection()->prepare("select Region.ID, Region.Name, 
+	count(distinct University.ID) as Univers, 
+    count(distinct ProgramStudent.ID) as Programs, 
+    count(LearningStudent.ID_Program) as Students
+	from Okrug inner join Region on Region.ID_Okrug = Okrug.ID
+    left join University on University.ID_Region = Region.ID
+    left join ProgramStudent on ProgramStudent.ID_University = University.ID
+    left join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
     where Okrug.ID = ?
-    group by Region.ID, Region.Name");
+	group by Region.ID, Region.Name");
         $req->bindParam(1, $districtId);
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);

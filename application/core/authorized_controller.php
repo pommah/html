@@ -62,9 +62,12 @@ class Authorized_Controller extends Controller
             case UserTypes::MINISTRY:
                 return [
                     [ "href" => "/university", "title" => "Университеты", "submenus" => []],
-                    [ "href" => "/student/search", "title" => "Студенты", "submenus" => []],
                     [ "href" => "/report", "title" => "Отчеты", "submenus" => []],
-                    [ "href" => "/report/matrix/nozology", "title" => "Матрицы", "submenus" => ["По нозологической группе" => "/report/matrix/nozology", "По УГСН" => "/report/matrix/ugsn"]],
+                    [ "href" => "/report/matrix/nozology", "title" => "Матрицы", "submenus" =>
+                        ["Все студенты по нозологической группе" => "/report/matrix/nozology",
+                            "Все студенты по УГСН" => "/report/matrix/ugsn",
+                            "Неуспевающие студенты по УГСН" => "/report/matrix/ugsn_lag",
+                            "Отчисленные студенты по УГСН" => "/report/matrix/ugsn_expelled"]],
                     [ "href" => "/infographics", "title" => "Инфографика", "submenus" => []]
                 ];
                 break;
