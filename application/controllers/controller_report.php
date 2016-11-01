@@ -1,5 +1,6 @@
 <?php
 include 'application/core/utils.php';
+include_once "application/core/OlFile.php";
 Class Controller_Report extends Authorized_Controller {
     public $data = [];
     public function __construct()
@@ -67,12 +68,144 @@ Class Controller_Report extends Authorized_Controller {
         }
     }
 
+    public function action_ugsn_district($target = 'all', $export = null, $separator = 'libre'){
+        if ($target == 'all'){
+            $this->data['values'] = $this->model->report_all_ugsn_district();
+            if ($export == null){
+                $this->data['header'] = "Все студенты по ФО и УГСН";
+                $this->generateView('exportable');
+            }
+            else{
+                $data = $this->report_to_csv($this->data['values'], $separator);
+                $this->give_file($data, "ugsn_district");
+            }
+        }
+        else if ($target == 'lag'){
+            $this->data['values'] = $this->model->report_ugsn_district('Задолженность');
+            if ($export == null){
+                $this->data['header'] = "Неуспевающие студенты по ФО и УГСН";
+                $this->generateView('exportable');
+            }
+            else{
+                $data = $this->report_to_csv($this->data['values'], $separator);
+                $this->give_file($data, "ugsn_district_lag");
+            }
+        }
+        else if ($target == 'expelled'){
+            $this->data['values'] = $this->model->report_ugsn_district('Отчислен');
+            if ($export == null){
+                $this->data['header'] = "Отчисленные студенты по ФО и УГСН";
+                $this->generateView('exportable');
+            }
+            else{
+                $data = $this->report_to_csv($this->data['values'], $separator);
+                $this->give_file($data, "ugsn_district_expel");
+            }
+        }
+        else if ($target == 'export'){
+            $data = $this->report_to_csv($this->model->report_all_ugsn_district(), $separator);
+            $this->give_file($data, "ugsn_district");
+        }
+    }
+
+    public function action_region_direction($target = 'all', $export = null, $separator = 'libre'){
+        if ($target == 'all'){
+            $this->data['values'] = $this->model->report_all_direction_region();
+            if ($export == null){
+                $this->data['header'] = "Все студенты по регионам и направлениям";
+                $this->generateView('exportable');
+            }
+            else{
+                $data = $this->report_to_csv($this->data['values'], $separator);
+                $this->give_file($data, "region_direction");
+            }
+        }
+        else if ($target == 'lag'){
+            $this->data['values'] = $this->model->report_direction_region('Задолженность');
+            if ($export == null){
+                $this->data['header'] = "Неуспевающие студенты по регионам и направлениям";
+                $this->generateView('exportable');
+            }
+            else{
+                $data = $this->report_to_csv($this->data['values'], $separator);
+                $this->give_file($data, "region_direction_lag");
+            }
+        }
+        else if ($target == 'expelled'){
+            $this->data['values'] = $this->model->report_direction_region('Отчислен');
+            if ($export == null){
+                $this->data['header'] = "Отчисленные студенты по регионам и направлениям";
+                $this->generateView('exportable');
+            }
+            else{
+                $data = $this->report_to_csv($this->data['values'], $separator);
+                $this->give_file($data, "region_direction_expel");
+            }
+        }
+        else if ($target == 'export'){
+            $data = $this->report_to_csv($this->model->report_all_direction_region(), $separator);
+            $this->give_file($data, "region_direction");
+        }
+    }
+
+    public function action_region_nozology($export = null, $separator = 'libre'){
+        $this->data['values'] = $this->model->report_region_nozology();
+        if ($export == null){
+            $this->data['header'] = "Все студенты по регионам и нозологическим группам";
+            $this->generateView('exportable');
+        }
+        else{
+            $data = $this->report_to_csv($this->data['values'], $separator);
+            $this->give_file($data, "region_nozology");
+        }
+    }
+
+    public function action_ugsn_nozology($export = null, $separator = 'libre'){
+        $this->data['values'] = $this->model->report_ugsn_nozology();
+        if ($export == null){
+            $this->data['header'] = "Все студенты по УГСН и нозологическим группам";
+            $this->generateView('exportable');
+        }
+        else{
+            $data = $this->report_to_csv($this->data['values'], $separator);
+            $this->give_file($data, "ugsn_nozology");
+        }
+    }
+
     private function generateView($actionName){
         $this->view->generate($this->getViewPath($actionName.'.php'), 'common.php', $this->data);
     }
 
     private function getViewPath($viewName){
         return 'application/views/report/' . $viewName;
+    }
+
+    private function give_file($data, $prefix){
+        $now = new DateTime('NOW');
+        $prefix = $now->format("H:i:s d.m.Y ").$prefix;
+        $olFile = new OlFile($prefix.".csv");
+        $olFile->createAndUpload($data);
+    }
+
+    private function report_to_csv($data, $separator){
+        $sep = ",";
+        if ($separator == 'excel'){
+            $sep = ";";
+        }
+        $csv = "";
+        $firstval =  $data['0']['rowName'];
+        $count = 0;
+        while ($data[$count]['rowName'] == $firstval){
+            $csv.=$sep."\"".$data[$count]['colName']."\"";
+            $count++;
+        }
+        for($i=0; $i < count($data); $i+=$count) {
+            $csv .= "\n\"".$data[$i]['rowName']."\"";
+            for ($j = 0; $j < $count; $j++) {
+                $csv .= $sep . $data[$i + $j]['value'];
+            }
+        }
+        return $csv;
     }
 
     public static function draw_pie($data, $entityName, $header, $colName, $colNum){

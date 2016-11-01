@@ -214,4 +214,108 @@ Class Model_Report extends Model {
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
+
+    public function report_all_ugsn_district(){
+        $req = parent::get_db_connection()->query("select  concat(ID, ' ',Name) as rowName, okrug as colName, sum(count) as value
+	from (
+	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, Count(*) as count
+		from (((((Region inner join University on Region.ID = University.ID_Region) inner join ProgramStudent on University.ID = ProgramStudent.ID_University) inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID) inner join Direction on ProgramStudent.ID_Direction = Direction.ID) inner join UGSN on Direction.ID_Ugsn = UGSN.ID) inner join Okrug on Okrug.Id = Region.ID_Okrug
+		group by UGSN.ID, UGSN.Name, Okrug.ID, Okrug.Name
+	union
+	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, 0 as count
+		from UGSN cross join Okrug ) t
+    group by ID, Name, okrug");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function report_ugsn_district($status){
+        $req = parent::get_db_connection()->prepare("select concat(ID, ' ', Name) as rowName, okrug as colName, sum(count) as value
+	from (
+	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, Count(distinct LearningStudent.Id) as count
+		from Region inner join University on Region.ID = University.ID_Region
+        inner join ProgramStudent on University.ID = ProgramStudent.ID_University
+        inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        inner join Trajectory on Trajectory.ID_Learning = LearningStudent.ID
+        inner join Direction on ProgramStudent.ID_Direction = Direction.ID
+        inner join UGSN on Direction.ID_Ugsn = UGSN.ID 
+        inner join Okrug on Okrug.Id = Region.ID_Okrug
+        where Trajectory.Status = ?
+		group by UGSN.ID, UGSN.Name, Okrug.ID, Okrug.Name
+	union
+	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, 0 as count
+		from UGSN cross join Okrug ) t
+    group by ID, Name, okrug");
+        $req->bindParam(1, $status);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function report_direction_region($status){
+        $req = parent::get_db_connection()->prepare("select Name as rowName, concat(ID_Direction, ' ', dirName) as colName, sum(count) as value
+	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
+		from Region inner join University on Region.ID = University.ID_Region
+        inner join ProgramStudent on University.ID = ProgramStudent.ID_University
+        inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        inner join Direction on ProgramStudent.ID_Direction = Direction.ID 
+        inner join Trajectory on Trajectory.ID_Learning = LearningStudent.ID
+        where Trajectory.Status = ?
+		group by Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name
+	union select Region.ID, Region.Name, Direction.ID, Direction.Name as dirName, 0 as count
+		from Region cross join Direction) t	
+	group by Name, ID_Direction, dirName");
+        $req->bindParam(1, $status);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function report_all_direction_region(){
+        $req = parent::get_db_connection()->query("select Name as rowName, concat(ID_Direction, ' ', dirName) as colName, sum(count) as value
+	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
+		from Region inner join University on Region.ID = University.ID_Region
+        inner join ProgramStudent on University.ID = ProgramStudent.ID_University
+        inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        inner join Direction on ProgramStudent.ID_Direction = Direction.ID
+		group by Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name
+	union select Region.ID, Region.Name, Direction.ID, Direction.Name as dirName, 0 as count
+		from Region cross join Direction) t	
+	group by Name, ID_Direction, dirName");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function report_region_nozology()
+    {
+        $req = parent::get_db_connection()->query("select name as rowName, nozology as colName, sum(c) as value
+	from (
+     select Region.Name as name, NozologyGroup.Name as nozology, count(LearningStudent.Id) as c 
+     from University inner join ProgramStudent on ProgramStudent.ID_University = University.ID
+     inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+     inner join Region on Region.ID = University.ID_Region
+     inner join NozologyGroup on NozologyGroup.ID = ProgramStudent.ID_NozologyGroup
+     Group by Region.Name, NozologyGroup.Name
+     union select Region.Name as name, NozologyGroup.Name as nozology, 0 as c 
+     from Region cross join NozologyGroup
+    ) t
+    Group by name, nozology");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function report_ugsn_nozology()
+    {
+        $req = parent::get_db_connection()->query("select ugsn as rowName, name as colName, sum(count) as value
+	from (select concat(UGSN.ID, ' ', UGSN.Name) as ugsn, NozologyGroup.Name as name, count(distinct LearningStudent.ID) as count
+		from ProgramStudent inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+		inner join NozologyGroup on NozologyGroup.ID = ProgramStudent.ID_NozologyGroup
+		inner join Direction on ProgramStudent.ID_Direction = Direction.ID
+		inner join UGSN on UGSN.ID = Direction.ID_Ugsn
+		group by UGSN.ID, UGSN.Name, NozologyGroup.Name
+	union select concat(UGSN.ID, ' ', UGSN.Name) as ugsn, NozologyGroup.Name as name, 0 as count
+		from UGSN cross join NozologyGroup
+		group by UGSN.ID, UGSN.Name, NozologyGroup.Name) t
+    group by ugsn, name");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
 }

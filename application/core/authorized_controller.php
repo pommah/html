@@ -62,12 +62,21 @@ class Authorized_Controller extends Controller
             case UserTypes::MINISTRY:
                 return [
                     [ "href" => "/university", "title" => "Университеты", "submenus" => []],
-                    [ "href" => "/report", "title" => "Отчеты", "submenus" => []],
-                    [ "href" => "/report/matrix/nozology", "title" => "Матрицы", "submenus" =>
-                        ["Все студенты по нозологической группе" => "/report/matrix/nozology",
-                            "Все студенты по УГСН" => "/report/matrix/ugsn",
-                            "Неуспевающие студенты по УГСН" => "/report/matrix/ugsn_lag",
-                            "Отчисленные студенты по УГСН" => "/report/matrix/ugsn_expelled"]],
+                    [ "href" => "/report", "title" => "Отчеты", "submenus" => [
+                        "Все студенты по ФО и УГСН" => "/report/ugsn_district",
+                        "Все студенты по регионам и направлениям" => "/report/region_direction",
+                        "Все студенты по УГСН и нозологическим группам" => "/report/ugsn_nozology",
+                        "Все студенты по регионам и нозологическим группам" => "/report/region_nozology",
+                        "Неуспевающие студенты по ФО и УГСН" => "/report/ugsn_district/lag",
+                        "Неуспевающие студенты по регионам и направлениям" => "/report/region_direction/lag",
+                        "Отчисленные студенты по ФО и УГСН" => "/report/ugsn_district/expelled",
+                        "Отчисленные студенты по регионам и направлениям" => "/report/region_direction/expelled"
+                    ]],
+                    [ "href" => "/report/matrix/nozology", "title" => "Матрицы", "submenus" => [
+                        "Все студенты по нозологической группе" => "/report/matrix/nozology",
+                        "Все студенты по УГСН" => "/report/matrix/ugsn",
+                        "Неуспевающие студенты по УГСН" => "/report/matrix/ugsn_lag",
+                        "Отчисленные студенты по УГСН" => "/report/matrix/ugsn_expelled"]],
                     [ "href" => "/infographics", "title" => "Инфографика", "submenus" => []]
                 ];
                 break;
