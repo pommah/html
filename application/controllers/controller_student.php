@@ -26,16 +26,91 @@ Class Controller_Student extends Authorized_Controller {
         if (array_key_exists('student', $_POST)) {
             $student = $_POST['student'];
             $data = explode(";", $student);
-            $rehabilitationFile = $data[4] == 'null' ? null : $data[4];
-            echo $this->model->add_student_to_programm($data[0], $data[1], $data[2], $data[3], $rehabilitationFile, $data[5]);
+
+            include_once "application/core/OlFile.php";
+            $rehabilitationFile = $_POST['fileRehabilitation'];
+            if($rehabilitationFile) {
+                $olFile = new OlFile(null, "files/rehabilitation");
+                $rehabilitationFile = $olFile->saveFile($rehabilitationFile);
+            }
+            $psychoFile = $_POST['filePsycho'];
+            if($psychoFile) {
+                $olFile = new OlFile(null, "files/psychology");
+                $psychoFile = $olFile->saveFile($psychoFile);
+            }
+            $careerFile = $_POST['fileCareer'];
+            if($careerFile) {
+                $olFile = new OlFile(null, "files/career");
+                $careerFile = $olFile->saveFile($careerFile);
+            }
+            $employmentFile = $_POST['fileEmployment'];
+            if($employmentFile) {
+                $olFile = new OlFile(null, "files/employment");
+                $employmentFile = $olFile->saveFile($employmentFile);
+            }
+            $distanceFile = $_POST['fileDistance'];
+            if($distanceFile) {
+                $olFile = new OlFile(null, "files/distance");
+                $distanceFile = $olFile->saveFile($distanceFile);
+            }
+            $portfolioFile = $_POST['filePortfolio'];
+            if($portfolioFile) {
+                $olFile = new OlFile(null, "files/portfolio");
+                $portfolioFile = $olFile->saveFile($portfolioFile);
+            }
+
+            echo $this->model->add_student_to_programm($data[0], $data[1], $data[2], $data[3], $rehabilitationFile, $data[4], $psychoFile, $careerFile, $employmentFile, $distanceFile, $portfolioFile);
         }else if(array_key_exists('student_and_program', $_POST)){
             $studentProgram = $_POST['student_and_program'];
             $data = explode(";", $studentProgram);
-            $universityId = 1;
-            $profile = $data[6] == 'null' ? null : $data[6];
-            $planFile = $data[11] == 'null' ? null : $data[11];
-            $rehabilitationFile = $data[4] == 'null' ? null : $data[4];
-            echo $this->model->add_student_and_program($data[0], $data[1], $data[2], $data[3],$rehabilitationFile, $data[5], $profile, $data[7], $data[8], $data[9], $data[10], $planFile, $universityId);
+            $universityId = parent::get_user_university_id();
+            $profile = $data[5] == 'null' ? null : $data[5];
+
+            include_once "application/core/OlFile.php";
+            $rehabilitationFile = $_POST['fileRehabilitation'];
+            if($rehabilitationFile) {
+                $olFile = new OlFile(null, "files/rehabilitation");
+                $rehabilitationFile = $olFile->saveFile($rehabilitationFile);
+            }
+            $psychoFile = $_POST['filePsycho'];
+            if($psychoFile) {
+                $olFile = new OlFile(null, "files/psychology");
+                $psychoFile = $olFile->saveFile($psychoFile);
+            }
+            $careerFile = $_POST['fileCareer'];
+            if($careerFile) {
+                $olFile = new OlFile(null, "files/career");
+                $careerFile = $olFile->saveFile($careerFile);
+            }
+            $employmentFile = $_POST['fileEmployment'];
+            if($employmentFile) {
+                $olFile = new OlFile(null, "files/employment");
+                $employmentFile = $olFile->saveFile($employmentFile);
+            }
+            $distanceFile = $_POST['fileDistance'];
+            if($distanceFile) {
+                $olFile = new OlFile(null, "files/distance");
+                $distanceFile = $olFile->saveFile($distanceFile);
+            }
+            $portfolioFile = $_POST['filePortfolio'];
+            if($portfolioFile) {
+                $olFile = new OlFile(null, "files/portfolio");
+                $portfolioFile = $olFile->saveFile($portfolioFile);
+            }
+            $programFile = $_POST['fileProgram'];
+            if($programFile) {
+                $olFile = new OlFile(null, "files/programs");
+                $programFile = $olFile->saveFile($programFile);
+            }
+            $planFile = $_POST['filePlan'];
+            if($planFile) {
+                $olFile = new OlFile(null, "files/plans");
+                $planFile = $olFile->saveFile($planFile);
+            }
+
+            echo $this->model->add_student_and_program($data[0], $data[1], $data[2], $data[3], $rehabilitationFile,
+                $data[4], $profile, $data[6], $data[7], $data[8], $programFile, $planFile, $universityId, $psychoFile,
+                $careerFile, $employmentFile, $distanceFile, $portfolioFile);
         }else{
             $this->data['directions'] = $this->model->get_direction();
             $this->data['nozology'] = $this->model->get_nozoology_groups();

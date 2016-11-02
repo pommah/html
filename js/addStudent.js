@@ -4,12 +4,22 @@ function save() {
     var dateBegin = document.getElementById('begin');
     var dateEnd = document.getElementById('end');
     var fileReability = document.getElementById('fileNameReability');
+    var filePsycho = document.getElementById('fileNamePsycho');
+    var fileCareer = document.getElementById('fileNameCareer');
+    var fileEmployment = document.getElementById('fileNameEmployment');
+    var fileDistance = document.getElementById('fileNameDistance');
+    var filePortfolio = document.getElementById('fileNamePortfolio');
 
     var dataId = id.value;
     var dataNoz = noz.selectedOptions[0].id.substr(1);
     var dataDateBegin = dateBegin.value.split("-").join(".");
     var dataDateEnd = dateEnd.value.split("-").join(".");
-    var dataFileReability = 'c.pdf';
+    var dataFileReability = fileReability.files[0];
+    var dataFilePsycho = filePsycho.files[0];
+    var dataFileCareer = fileCareer.files[0];
+    var dataFileEmployment = fileEmployment.files[0];
+    var dataFileDistance = fileDistance.files[0];
+    var dataFilePortfolio = filePortfolio.files[0];
 
     var regularId = /^[А-яA-z ]{3,50}$/;
     var regularNoz = /^[0-9]$/;
@@ -32,7 +42,12 @@ function save() {
         return false;
     }
 
-    dataFileReability = document.getElementById('fileNameReability').disabled ? null : dataFileReability;
+    dataFileReability = fileReability.disabled ? null : dataFileReability;
+    dataFilePsycho = filePsycho.disabled ? null : dataFilePsycho;
+    dataFileCareer = fileCareer.disabled ? null : dataFileCareer;
+    dataFileEmployment = fileEmployment.disabled ? null : dataFileEmployment;
+    dataFileDistance = fileDistance.disabled ? null : dataFileDistance;
+    dataFilePortfolio = filePortfolio.disabled ? null : dataFilePortfolio;
 
     var data;
 
@@ -44,7 +59,7 @@ function save() {
             alert("Недопустимая программа");
             return false;
         }
-        data = "student="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataFileReability+";"+dataProgram;
+        data = "student="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataProgram;
     }
     else if (document.getElementById('radio_new').checked){
         var direction = document.getElementById('direction');
@@ -59,9 +74,9 @@ function save() {
         var dataLevel = level.selectedOptions[0].value;
         var dataPeriod = period.value;
         var dataForm = form.selectedOptions[0].value;
-        var dataFileProgram = 'a.pdf';
+        var dataFileProgram = fileProgram.files[0];
         var dataProfile = profile.value;
-        var dataFilePlan = 'b.pdf';
+        var dataFilePlan = filePlan.files[0];
 
         var regularDirection = /^[0-9]{6}$/;
         var regularLevel = /^[А-я]{6,40}$/;
@@ -95,13 +110,29 @@ function save() {
             dataProfile = null;
         }
 
-        dataFilePlan = document.getElementById('fileNamePlan').disabled ? null : dataFilePlan;
+        //dataFilePlan = document.getElementById('fileNamePlan').disabled ? null : dataFilePlan;
 
-        data = "student_and_program="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataFileReability+";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataFileProgram+";"+dataFilePlan;
+        data = "student_and_program="+dataId+";"+dataNoz+";"+dataDateBegin+";"+dataDateEnd+";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm;
     }
 
     var send = new Ajax("POST","/student/add");
     send.setData(data);
+    if(dataFileProgram)
+        send.appendFile('fileProgram',dataFileProgram);
+    if(dataFileReability)
+        send.appendFile('fileRehabilitation',dataFileReability);
+    if(dataFilePsycho)
+        send.appendFile('filePsycho',dataFilePsycho);
+    if(dataFileCareer)
+        send.appendFile('fileCareer',dataFileCareer);
+    if(dataFileEmployment)
+        send.appendFile('fileEmployment',dataFileEmployment);
+    if(dataFileDistance)
+        send.appendFile('fileDistance',dataFileDistance);
+    if(dataFilePortfolio)
+        send.appendFile('filePortfolio',dataFilePortfolio);
+    if(dataFilePlan)
+        send.appendFile('filePlan',dataFilePlan);
     send.send(function (data) {
         status = data;
         if(status=="OK") {
@@ -123,16 +154,8 @@ function radioClicks($radio) {
     }
 }
 
-function switchProfile(checkbox) {
-    document.getElementById('profile').disabled = !checkbox.checked;
-}
-
-function switchFilePlan(checkbox) {
-    document.getElementById('fileNamePlan').disabled = !checkbox.checked;
-}
-
-function switchFileReability(checkbox) {
-    document.getElementById('fileNameReability').disabled = !checkbox.checked;
+function switchByCheckbox(checked, switchingId) {
+    document.getElementById(switchingId).disabled = !checked;
 }
 
 function cancel() {

@@ -18,7 +18,7 @@ class Model_Student extends Model
         $conn = parent::get_db_connection();
         $req = $conn->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
           AS \"Direction\", ProgramStudent.PeriodOfStudy, ProgramStudent.NameFileProgram, LearningStudent.ID AS LearnID, LearningStudent.DateBegin, LearningStudent.DateEnd, ProgramStudent.Level,
-          ProgramStudent.Form, Profile, NameFilePlan, NameFileReabilitProgram, ProgramStudent.ID AS progId
+          ProgramStudent.Form, Profile, NameFilePlan, NameFileReabilitProgram, ProgramStudent.ID AS progId, PsyсhologyFile, CareerFile, EmploymentFile, DistanceFile, Portfolio
 	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
 	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
 	      LearningStudent.ID_Program) INNER JOIN Direction ON Direction.ID = ProgramStudent.ID_Direction
@@ -43,7 +43,12 @@ class Model_Student extends Model
                     "Rehabilitation" => $row['NameFileReabilitProgram'],
                     "ProgramId" => $row['progId'],
                     "Period" => $row['PeriodOfStudy'],
-                    "LearnID" => $row['LearnID']
+                    "LearnID" => $row['LearnID'],
+                    "Psychology" => $row['PsyсhologyFile'],
+                    "Career" => $row['CareerFile'],
+                    "Employment" => $row['EmploymentFile'],
+                    "Distance" => $row['DistanceFile'],
+                    "Portfolio" => $row['Portfolio']
                 ];
             }
             $reqTrack = $conn->query("SELECT * FROM Trajectory WHERE ID_Learning = '$LearnID'");
@@ -130,15 +135,20 @@ class Model_Student extends Model
         return $programs;
     }
 
-    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $rehabilitation, $programId){
+    public function add_student_to_programm($name, $nozoologyGroupId, $beginDate, $endDate, $rehabilitation, $programId, $psycho, $career, $employee, $distance, $portfolio){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL addStudent(?, ?, ?, ?, ?, ?)");
+        $add = $conn->prepare("CALL addStudent(?,?,?,?,?,   ?,?,?,?,?,  ?)");
         $add->bindParam(1, $name);
         $add->bindParam(2, $nozoologyGroupId);
         $add->bindParam(3, $beginDate);
         $add->bindParam(4, $endDate);
         $add->bindParam(5, $programId);
         $add->bindParam(6, $rehabilitation);
+        $add->bindParam(7, $psycho);
+        $add->bindParam(8, $career);
+        $add->bindParam(9, $employee);
+        $add->bindParam(10, $distance);
+        $add->bindParam(11, $portfolio);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){
@@ -149,9 +159,11 @@ class Model_Student extends Model
         }
     }
 
-    public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $rehabilitation, $directionId, $profile, $level, $studyPeriod, $form, $programFile, $planFile, $universityId){
+    public function add_student_and_program($name, $nozoologyGroupId, $beginDate, $endDate, $rehabilitation,
+                                            $directionId, $profile, $level, $studyPeriod, $form, $programFile, $planFile,
+                                            $universityId, $psycho, $career, $employee, $distance, $portfolio){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL addStudentAndProgram(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?)");
+        $add = $conn->prepare("CALL addStudentAndProgram(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?,   ?,?,?)");
         $add->bindParam(1, $name);
         $add->bindParam(2, $nozoologyGroupId);
         $add->bindParam(3, $beginDate);
@@ -165,7 +177,14 @@ class Model_Student extends Model
         $add->bindParam(11, $planFile);
         $add->bindParam(12, $rehabilitation);
         $add->bindParam(13, $universityId);
-        $add->execute();
+        $add->bindParam(14, $psycho);
+        $add->bindParam(15, $career);
+        $add->bindParam(16, $employee);
+        $add->bindParam(17, $distance);
+        $add->bindParam(18, $portfolio);
+        if(!$add->execute()){
+            echo $add->errorInfo()[2];
+        }
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){
             echo "OK";

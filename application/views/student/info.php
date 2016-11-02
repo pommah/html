@@ -41,18 +41,24 @@
         <?php echo $data['student']['Form']; ?>
     </div>
 </div>
-<div class="info">
-    <div class="leftLabel">Программа обучения:</div>
-    <div class="dataStudent"><a href="<?php echo $data['student']['File']; ?>">Программа обучения</a></div>
-</div>
-<div class="info">
-    <div class="leftLabel">Учебный план:</div>
-    <div class="dataStudent"><a href="<?php echo $data['student']['Plan']; ?>">Учебный план</a></div>
-</div>
-<div class="info">
-    <div class="leftLabel">Реабилитационная программа:</div>
-    <div class="dataStudent"><a href="<?php echo $data['student']['Rehabilitation']; ?>">Реабилитационная программа</a></div>
-</div>
+<?php
+function print_file_info($file, $description, $folder){
+    if ($file != null){
+        print("<div class=\"info\">");
+        printf("<div class=\"leftLabel\">%s:</div>", $description);
+        printf("<div class=\"dataStudent\"><img src='/images/pdf_file.png' width='18'/><a href=\"/files/%s/%s\">%s</a></div>", $folder, $file, $description);
+        print ("</div>");
+    }
+}
+print_file_info($data['student']['File'], "Программа обучения", "programs");
+print_file_info($data['student']['Plan'], "Учебный план", "plans");
+print_file_info($data['student']['Rehabilitation'], "Реабилитационная программа", "rehabilitation");
+print_file_info($data['student']['Psychology'], "Психолого-педагогическое сопровождение", "psychology");
+print_file_info($data['student']['Career'], "Профориентация", "career");
+print_file_info($data['student']['Employment'], "Трудоустройство", "employment");
+print_file_info($data['student']['Distance'], "Дистанционные образовательные технологии", "distance");
+print_file_info($data['student']['Portfolio'], "Электронное портфолио", "portfolio");
+?>
 <div class="individualTrack">
     <div class="headTrack">Индивидуальная траектория студента</div>
     <?php

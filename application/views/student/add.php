@@ -9,7 +9,19 @@
         </select></div>
     <div class='label_input'><div class='left_label'>Дата поступления:</div> <input class='input' type='date' id='begin'></div>
     <div class='label_input'><div class='left_label'>Дата окончания:</div> <input class='input' type='date' id='end'></div>
-    <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchFileReability(this)">Файл реабилитационной программы:</div><input class='input' type='file' id='fileNameReability' disabled></div>
+    <?php
+    function print_file_option($name, $id){
+        print ("<div class='label_input'><div class='left_label'>");
+        printf("<input type=\"checkbox\" onclick=\"switchByCheckbox(this.checked, '%s')\">%s:</div>", $id, $name);
+        printf("<input class='input' type='file' accept='application/pdf,.doc, .docx' id='%s' disabled></div>", $id);
+    }
+    print_file_option("Файл реабилитационной программы", "fileNameReability");
+    print_file_option("Психолого-педагогическое сопровождение", "fileNamePsycho");
+    print_file_option("Профориентация", "fileNameCareer");
+    print_file_option("Трудоустройство", "fileNameEmployment");
+    print_file_option("Дистанционная образовательная технология", "fileNameDistance");
+    print_file_option("Электронное портфолио", "fileNamePortfolio");
+    ?>
     <div class='label_input'><div class='left_label'>Программа:
         </div><input class='input' type='radio' name="progType" id="radio_exist" value="existing" onclick="radioClicks(this)" checked>Существующая
         <input class='input' type='radio' name="progType" id="radio_new" value="new" onclick="radioClicks(this)">Новая</div>
@@ -31,7 +43,7 @@
             }
         ?>
     </select>
-        <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchProfile(this)">Профиль:</div> <input class='input' type='text' id='profile' disabled></div>
+        <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(this.checked, 'profile')">Профиль:</div> <input class='input' type='text' id='profile' disabled></div>
         <div class='label_input'> <div class='left_label'>Уровень образования:</div>
             <select class="input" id='level'>
                 <?php
@@ -51,8 +63,8 @@
                 ?>
             </select>
         </div>
-        <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='fileNameProgram'></div>
-        <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchFilePlan(this)">Файл учебного плана:</div><input class='input' type='file' id='fileNamePlan' disabled></div>
+        <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' accept='application/pdf,.doc, .docx' id='fileNameProgram'></div>
+        <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(this.checked, 'fileNamePlan')">Файл учебного плана:</div><input class='input' type='file' accept='application/pdf,.doc, .docx' id='fileNamePlan' disabled></div>
     </div>
     <button class='button add_student' onclick="cancel()">Отменить</button>
     <button class='button add_student' onclick="save()">Добавить</button>
