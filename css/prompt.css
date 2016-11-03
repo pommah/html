@@ -18,3 +18,21 @@
 .textSemestr {
     margin-top: 7px;
 }
+.dataDebt {
+    display: inline-block;
+    color: #00153e;
+
+}
+.strDebt {
+    margin-top: 3px;
+}
+#adaptiveDisc {
+    color: gray;
+    font-size: 15px;
+    margin-top: 7px;
+}
+.adapt {
+    color: #00153e;
+    font-size: 17px;
+    margin-top: 5px;
+}
