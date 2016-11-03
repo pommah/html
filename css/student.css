@@ -39,11 +39,12 @@
 .trackTable {
     margin-top: 30px;
     border-collapse: collapse;
-    border: 1px solid #b2b2b2;
 }
 .trackTable tr:first-of-type {
-    border-bottom: 1px solid #b2b2b2;
     font-size: 14px;
+}
+.trackTable tr{
+    text-align: center;
 }
 .firstColumn {
     width: 5em;
@@ -51,15 +52,19 @@
 
 }
 .headTrackTable td {
-    border-right: 1px solid #b2b2b2;
+    background: linear-gradient(to top, #80aaff, #a3d3ff);
 }
 .trackTable td{
     position: relative;
     padding: 25px;
     cursor: default;
+    background-color: white;
 }
 .trackTable td:hover {
     opacity: 0.8;
+}
+.headTrackTable td:hover {
+    opacity: 1.0;
 }
 .adaptiveBlock {
     position: absolute;

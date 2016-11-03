@@ -59,13 +59,13 @@ class Model_Student extends Model
                     switch ($row['Status']) {
                         case 'Активен': $color = '#ccccb3'; break;
                         case 'Закончен': $color = '#66ff66'; break;
-                        case 'Задолженность': $color = '#ffff33';
-                                              $idSem = $row['ID'];
+                        case 'Задолженность': $color = '#ffff33'; $idSem = $row['ID'];
                             $reqDebt = $conn->query("SELECT * FROM BacklogDiscipline WHERE ID_Semester='$idSem'");
                             while($row1 = $reqDebt->fetch()) {
                                 $note[$row1['Name']] = $row1['Deadline'];
                             }
                             break;
+                        case 'Отчислен': $color='#ff3333'; break;
                     }
                     $reqAdaptive = $conn->query("SELECT * FROM AdaptiveDiscipline WHERE ID_Semester='$row[ID]'");
                     $adaptive = [];
@@ -290,16 +290,22 @@ class Model_Student extends Model
         }
     }
 
-    public function changeDebt($id, $status, $debts, $file) {
+    public function changeDebt($id, $status, $debts, $adapts, $file) {
         $conn = parent::get_db_connection();
         $debts = explode(",", $debts);
-        $query = '';
+        $query = 'CALL updateTrajectory(?,?,?)';
         if($status=='Задолженность') {
             foreach ($debts as $value) {
                 $query = $query . "; CALL addBacklogDiscipline(?,?,?)";
             }
         }
-        $change = $conn->prepare("CALL updateTrajectory(?,?,?)".$query);
+        if($adapts) {
+            $adapts = explode(",", $adapts);
+            foreach ($adapts as $value) {
+                    $query = $query."; CALL addAdaptive(?,?)";
+            }
+        }
+        $change = $conn->prepare($query);
         $change->bindParam(1, $status);
         $change->bindParam(2, $id);
         if($file) {
@@ -308,8 +314,8 @@ class Model_Student extends Model
             $file = $olFile->saveFile($file);
         }
         $change->bindParam(3, $file);
+        $i = 4;
         if($status=='Задолженность') {
-            $i = 4;
             foreach ($debts as $value) {
                 $arr = explode(":", $value);
                 $change->bindParam($i, $id);
@@ -320,7 +326,17 @@ class Model_Student extends Model
                 $i++;
             }
         }
+        if($adapts) {
+            for($j=0; $j<count($adapts); $j++) {
+                $change->bindParam($i, $id);
+                $i++;
+                $change->bindParam($i, $adapts[$j]);
+                $i++;
+            }
+        }
+        
         $change->execute();
+
         if(!$change->errorCode()[0]) {
             return "OK";
         }

@@ -12,6 +12,13 @@ class Controller_User extends Authorized_Controller
         $this->generateView('add');
     }
 
+    public function action_get_universitys() {
+        $array = [];
+        $array = $this->model->get_universitys();
+        $univer = json_encode($array,JSON_UNESCAPED_UNICODE);
+        echo $univer;
+    }
+
     public function action_index()
     {
         $this->data['users'] = $this->model->get_all_users();

@@ -33,9 +33,10 @@
 }
 .plus.icon {
     color: #000;
-    position: absolute;
+    position: relative;
     margin-top: 10px;
     cursor: pointer;
+    padding-right: 40px;
 }
 .plus.icon:before {
     content: '';
@@ -55,7 +56,6 @@
 }
 #adaptiveDisc {
     color: gray;
-    font-weight: bold;
     font-size: 15px;
  margin-top: 7px;
 }

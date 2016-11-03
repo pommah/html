@@ -28,36 +28,12 @@ Class Controller_Student extends Authorized_Controller {
             $data = explode(";", $student);
 
             include_once "application/core/OlFile.php";
-            $rehabilitationFile = $_POST['fileRehabilitation'];
-            if($rehabilitationFile) {
-                $olFile = new OlFile(null, "files/rehabilitation");
-                $rehabilitationFile = $olFile->saveFile($rehabilitationFile);
-            }
-            $psychoFile = $_POST['filePsycho'];
-            if($psychoFile) {
-                $olFile = new OlFile(null, "files/psychology");
-                $psychoFile = $olFile->saveFile($psychoFile);
-            }
-            $careerFile = $_POST['fileCareer'];
-            if($careerFile) {
-                $olFile = new OlFile(null, "files/career");
-                $careerFile = $olFile->saveFile($careerFile);
-            }
-            $employmentFile = $_POST['fileEmployment'];
-            if($employmentFile) {
-                $olFile = new OlFile(null, "files/employment");
-                $employmentFile = $olFile->saveFile($employmentFile);
-            }
-            $distanceFile = $_POST['fileDistance'];
-            if($distanceFile) {
-                $olFile = new OlFile(null, "files/distance");
-                $distanceFile = $olFile->saveFile($distanceFile);
-            }
-            $portfolioFile = $_POST['filePortfolio'];
-            if($portfolioFile) {
-                $olFile = new OlFile(null, "files/portfolio");
-                $portfolioFile = $olFile->saveFile($portfolioFile);
-            }
+            $rehabilitationFile = $this->check_files('fileRehabilitation',"files/rehabilitation");
+            $psychoFile = $this->check_files('filePsycho',"files/psychology");
+            $careerFile = $this->check_files('fileCareer',"files/career");
+            $employmentFile = $this->check_files('fileEmployment',"files/employment");
+            $distanceFile = $this->check_files('fileDistance',"files/distance");
+            $portfolioFile = $this->check_files('filePortfolio',"files/portfolio");
 
             echo $this->model->add_student_to_programm($data[0], $data[1], $data[2], $data[3], $rehabilitationFile, $data[4], $psychoFile, $careerFile, $employmentFile, $distanceFile, $portfolioFile);
         }else if(array_key_exists('student_and_program', $_POST)){
@@ -67,46 +43,14 @@ Class Controller_Student extends Authorized_Controller {
             $profile = $data[5] == 'null' ? null : $data[5];
 
             include_once "application/core/OlFile.php";
-            $rehabilitationFile = $_POST['fileRehabilitation'];
-            if($rehabilitationFile) {
-                $olFile = new OlFile(null, "files/rehabilitation");
-                $rehabilitationFile = $olFile->saveFile($rehabilitationFile);
-            }
-            $psychoFile = $_POST['filePsycho'];
-            if($psychoFile) {
-                $olFile = new OlFile(null, "files/psychology");
-                $psychoFile = $olFile->saveFile($psychoFile);
-            }
-            $careerFile = $_POST['fileCareer'];
-            if($careerFile) {
-                $olFile = new OlFile(null, "files/career");
-                $careerFile = $olFile->saveFile($careerFile);
-            }
-            $employmentFile = $_POST['fileEmployment'];
-            if($employmentFile) {
-                $olFile = new OlFile(null, "files/employment");
-                $employmentFile = $olFile->saveFile($employmentFile);
-            }
-            $distanceFile = $_POST['fileDistance'];
-            if($distanceFile) {
-                $olFile = new OlFile(null, "files/distance");
-                $distanceFile = $olFile->saveFile($distanceFile);
-            }
-            $portfolioFile = $_POST['filePortfolio'];
-            if($portfolioFile) {
-                $olFile = new OlFile(null, "files/portfolio");
-                $portfolioFile = $olFile->saveFile($portfolioFile);
-            }
-            $programFile = $_POST['fileProgram'];
-            if($programFile) {
-                $olFile = new OlFile(null, "files/programs");
-                $programFile = $olFile->saveFile($programFile);
-            }
-            $planFile = $_POST['filePlan'];
-            if($planFile) {
-                $olFile = new OlFile(null, "files/plans");
-                $planFile = $olFile->saveFile($planFile);
-            }
+            $rehabilitationFile = $this->check_files('fileRehabilitation',"files/rehabilitation");
+            $psychoFile = $this->check_files('filePsycho',"files/psychology");
+            $careerFile = $this->check_files('fileCareer',"files/career");
+            $employmentFile = $this->check_files('fileEmployment',"files/employment");
+            $distanceFile = $this->check_files('fileDistance',"files/distance");
+            $portfolioFile = $this->check_files('filePortfolio',"files/portfolio");
+            $programFile = $this->check_files('fileProgram',"files/programs");
+            $planFile = $this->check_files('filePlan',"files/plans");
 
             echo $this->model->add_student_and_program($data[0], $data[1], $data[2], $data[3], $rehabilitationFile,
                 $data[4], $profile, $data[6], $data[7], $data[8], $programFile, $planFile, $universityId, $psychoFile,
@@ -117,6 +61,16 @@ Class Controller_Student extends Authorized_Controller {
             $this->data['programs'] = $this->model->get_programs();
             $this->generateView('add');
         }
+    }
+
+    function check_files($post, $path) {
+        if(isset($_POST[$post])) {
+            $file=$_POST[$post];
+            $olFile = new OlFile(null, $path);
+            return $olFile->saveFile($file);
+        }
+        else
+            return null;
     }
 
     function action_edit($id = null){
@@ -181,11 +135,12 @@ Class Controller_Student extends Authorized_Controller {
         $id = $_POST['id'];
         $status = $_POST['status'];
         $debts = $_POST['debts'];
+        $adapts = $_POST['adapts'];
         if(isset($_POST['file']))
             $file = $_POST['file'];
         else
             $file = null;
-        $log = $this->model->changeDebt($id,$status,$debts,$file);
+        $log = $this->model->changeDebt($id,$status,$debts,$adapts,$file);
         exit($log);
     }
 

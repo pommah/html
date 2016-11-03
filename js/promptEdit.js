@@ -216,7 +216,7 @@ function prompEdit(id, num, status, text, file, adaptive) {
     parseDebt(text);
     parseAdaptive(adaptive);
     var nowFile = '';
-    if(file) nowFile = "<a href='/orders/"+file+"'>Прикрепленный файл</a>";
+    if(file) nowFile = "<a href='/orders/"+file+"'><img width='40' src='"+image_file(file)+"'></a>";
     prom.innerHTML = "<div class='numbSemestr'>"+num+"-й семестр.</div>" +
         "<div class='statusSemestr'>"+status+"</div>" +
         "<div class='textSemestr'>" +
@@ -224,14 +224,14 @@ function prompEdit(id, num, status, text, file, adaptive) {
         "<div id='addSubject'></div>" +
             "<div id='adaptiveDisc'></div>"+
             "<div class='fileTrack href'>" + nowFile +
-        "<input type='file' id='fileTrack'></div>" +
+        "<br><input type='file' id='fileTrack'></div>" +
         "<button class='button saveTrajectory' onclick='saveTrack()'>Сохранить</button> </div>";
     showDebt();
     showAdaptive();
 }
 
 function getStatus(status) {
-    var allStatus = ["Активен","Задолженность","Закончен"];
+    var allStatus = ["Активен","Задолженность","Закончен","Отчислен"];
     select = "<select id='changeStatus' onchange='setStatus(this.value)' class='input'>";
     allStatus.forEach(function (item, i, arr) {
         if(item==status) selected="selected";
@@ -268,9 +268,14 @@ function addDebt(show) {
     if(show)
         showDebt();
 }
+function addAdaptive(show) {
+    adaptArr.push('');
+    if(show)
+        showAdaptive();
+}
 function showAdaptive() {
     info = '';
-    if(adaptArr) info+= 'Адаптивные дисциплины:';
+    info+= '<b>Адаптивные дисциплины:</b> <button class="button" onclick="addAdaptive(true)">Добавить</button>';
     for(var i=0; i<adaptArr.length; i++) {
         info += "<div class='adapt' id='adapt_"+i+"'>" +
             "<input type='text' id='adaptVal_"+i+"' class='input subject' placeholder='Укажите адаптивную дисциплину' value='"+adaptArr[i]+"'><span class='delDebt'  onclick='delAdaptive("+i+")'>Удалить</span><br></div>";
@@ -286,7 +291,10 @@ function showDebt() {
     nowInfo = info;
     document.getElementById('addSubject').innerHTML = info;
 }
-
+function delAdaptive(i) {
+    adaptArr.splice(i,1);
+    showAdaptive();
+}
 function setStatus(status) {
     nowStatus = status;
     button = "<button class='button' id='change_status_module' onclick='addDebt(true)'>Добавить долг</button>";
@@ -329,22 +337,42 @@ function cancel() {
     window.history.back();
 }
 
+function image_file(file) {
+    file = file.split(".");
+    var image = '';
+    switch (file[1]) {
+        case 'pdf': image='/images/pdf_file.png'; break;
+        case 'doc':
+        case 'docx': image='/images/doc_file.png'; break;
+    }
+    return image;
+}
+
 function saveTrack() {
     var status = nowStatus;
     var module = numModule;
     var debts = '';
+    var adaptDisc = '';
     if(status=='Задолженность') {
         elems = document.getElementsByClassName('attr');
         for(var i=0; i<elems.length; i++) {
             nameDebt = document.getElementById('debt_'+i).value;
             dateDebt = document.getElementById('date_'+i).value;
-            debts+=nameDebt+':'+dateDebt+',';
+            if(nameDebt.length && dateDebt.length)
+                debts+=nameDebt+':'+dateDebt+',';
         }
         debts=debts.substring(0, debts.length - 1);
     }
+    adapts = document.getElementsByClassName('adapt');
+    for(i=0; i<adapts.length; i++) {
+        adapt = document.getElementById("adaptVal_"+i).value;
+        if(adapt.length)
+            adaptDisc+=adapt+',';
+    }
+    adaptDisc=adaptDisc.substring(0, adaptDisc.length - 1);
     getFile =document.getElementById('fileTrack').files[0];
     var ajax = new Ajax("POST","/student/change_debt");
-    ajax.setData("id=" + idModule + "&status=" + nowStatus + "&debts=" + debts);
+    ajax.setData("id=" + idModule + "&status=" + nowStatus + "&debts=" + debts + "&adapts=" + adaptDisc);
     if(getFile)
         ajax.appendFile('file',getFile);
     ajax.send(function (data) {
@@ -353,6 +381,6 @@ function saveTrack() {
             location.reload();
         }
         else
-            alert(data);
+            console.log(data);
     });
 }

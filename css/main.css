@@ -36,14 +36,17 @@ a {
 }
 .userMenu{
     position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9;
     float: left;
     width: 18%;
     margin-right: 1%;
-    margin-top: -90px;
-    padding-top: 90px;
+
     height: 100%;
     background-color: #f9f9f9;
     box-shadow: inset 1px 0 7px 0px #909090;
+    overflow: auto;
 }
 .userMenu > a{
     text-decoration: none;
@@ -54,6 +57,9 @@ a {
     border-bottom: 1px solid #e1e1e1;
     padding-bottom: 7px;
 
+}
+.userMenu > a:first-of-type {
+    margin-top: 90px;
 }
 .userMenu a:hover {
     color: #3547c3;

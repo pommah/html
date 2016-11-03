@@ -41,6 +41,9 @@ Ajax.prototype = {
                             this.xhttp.send();
                         }
                 }
+            else {
+                this.xhttp.send();
+            }
         }
         else if (this.type == "GET") {
             this.xhttp.open("GET", this.path, true);

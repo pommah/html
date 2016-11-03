@@ -164,8 +164,42 @@
 <div class="individualTrack">
     <div class="headTrack">Индивидуальная траектория студента</div>
     <?php
-    printf("<table id='trackTable' class='trackTable'><tr class='headTrackTable'><td class='firstColumn'>%s</td> <td colspan='%s'>Учебная работа</td> <td>Психолого педагогическое сопровождени</td><td>Профориетация</td><td>ДОТ</td><td>Портфолио</td>
-     </tr><tr><td class='firstColumn'>Общеобразовательные/адаптивные дисциплины</td>",$data['student']['Name'],count($data['student']['Track'])+1);
+    function image_file($name) {
+        $name = explode(".",$name);
+        $image = '';
+        switch ($name[1]) {
+            case "pdf": $image="/images/pdf_file.png"; break;
+            case "doc":
+            case "docx": $image="/images/doc_file.png"; break;
+        }
+        return $image;
+    }
+
+    $dopcolumnH = '';
+    $dopcolumnL = '';
+    //<td>Психолого педагогическое сопровождени</td><td>Профориетация</td><td>ДОТ</td><td>Портфолио</td>
+    if($data['student']['Psychology']) {
+        $image = image_file($data['student']['Psychology']);
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Psychology']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnH=$dopcolumnH."<td>Психолого педагогическое сопровождение</td>";
+    }
+    if($data['student']['Career']) {
+        $image = image_file($data['student']['Career']);
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Career']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnH=$dopcolumnH."<td>Профориентация</td>";
+    }
+    if($data['student']['Distance']) {
+        $image = image_file($data['student']['Distance']);
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Distance']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnH=$dopcolumnH."<td>ДОТ</td>";
+    }
+    if($data['student']['Portfolio']) {
+        $image = image_file($data['student']['Portfolio']);
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Portfolio']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnH=$dopcolumnH."<td>Портфолио</td>";
+    }
+    printf("<table id='trackTable' class='trackTable'><tr class='headTrackTable'><td class='firstColumn'>%s</td> <td colspan='%s'>Учебная работа</td>%s
+     </tr><tr><td class='firstColumn'>Общеобразовательные/адаптивные дисциплины</td>",$data['student']['Name'],count($data['student']['Track'])+1,$dopcolumnH);
     for($i=1; $i<=sizeof($data['student']['Track']); $i++) {
         if(array_key_exists($i, $data['student']['Track'])) {
             $color = $data['student']['Track'][$i]['Color'];
@@ -181,13 +215,13 @@
                     $adaptiveData = $adaptiveData.';'.$value;
                 }
             }
-            printf("<td bgcolor='%s' id='module_%s' onclick=\"prompEdit('%s', '%s','%s','%s','%s','%s')\">%s%s</td>", $color, $i,$data['student']['Track'][$i]['ID'],$i, $data['student']['Track'][$i]['Status'],$text,$data['student']['Track'][$i]['File'],$adaptiveData, $i,$adaptive);
+            printf("<td style='background-color: %s' id='module_%s' onclick=\"prompEdit('%s', '%s','%s','%s','%s','%s')\">%s%s</td>", $color, $i,$data['student']['Track'][$i]['ID'],$i, $data['student']['Track'][$i]['Status'],$text,$data['student']['Track'][$i]['File'],$adaptiveData, $i,$adaptive);
         }
         else {
             printf("<td>%s</td>", $i);
         }
     }
-    print("<td onclick='addModule()' style='color: #5b78b4'>Добавить</td><td>Ссылка на файл</td><td>Ссылка на файл</td><td>Ссылка на файл</td><td>Ссылка на файл</td></tr></table>");
+    printf("<td onclick='addModule()' class='plus icon'></td>%s</tr></table>",$dopcolumnL);
     ?>
     <div class="prompt" id="promt"></div>
 </div>

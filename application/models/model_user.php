@@ -12,6 +12,12 @@ class Model_User extends Model
         return $query->fetch(PDO::FETCH_NAMED);
     }
 
+    public function get_universitys() {
+        $conn = parent::get_db_connection();
+        $req = $conn->query("SELECT ID, FullName, ShortName FROM University ORDER BY FullName");
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
     public function update_user_data($dataArray){
         $conn = parent::get_db_connection();
         $query = $conn->prepare("UPDATE User SET Name=?, Email=? WHERE Login=?");

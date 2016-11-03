@@ -12,7 +12,7 @@ function prompShow(num, status, text, file) {
     var info = '';
     var name = Array();
     if(file) file = "<a class='href' href='/orders/"+file+"'>Прикрепленный файл</a>";
-    text = text.split(" ");
+    text = text.split(";");
     for(var i=0; i<text.length; i++) {
         if(text[i]) {
             name = text[i].split("=");

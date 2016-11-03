@@ -62,21 +62,63 @@ print_file_info($data['student']['Portfolio'], "Электронное порт�
 <div class="individualTrack">
     <div class="headTrack">Индивидуальная траектория студента</div>
     <?php
-    print("<table id='trackTable' class='trackTable'><tr>");
+    function image_file($name) {
+        $name = explode(".",$name);
+        $image = '';
+        switch ($name[1]) {
+            case "pdf": $image="/images/pdf_file.png"; break;
+            case "doc":
+            case "docx": $image="/images/doc_file.png"; break;
+        }
+        return $image;
+    }
+
+    $dopcolumnH = '';
+    $dopcolumnL = '';
+    if($data['student']['Psychology']) {
+        $image = image_file($data['student']['Psychology']);
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Psychology']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnH=$dopcolumnH."<td>Психолого педагогическое сопровождение</td>";
+    }
+    if($data['student']['Career']) {
+        $image = image_file($data['student']['Career']);
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Career']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnH=$dopcolumnH."<td>Профориентация</td>";
+    }
+    if($data['student']['Distance']) {
+        $image = image_file($data['student']['Distance']);
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Distance']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnH=$dopcolumnH."<td>ДОТ</td>";
+    }
+    if($data['student']['Portfolio']) {
+        $image = image_file($data['student']['Portfolio']);
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Portfolio']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnH=$dopcolumnH."<td>Портфолио</td>";
+    }
+    printf("<table id='trackTable' class='trackTable'><tr class='headTrackTable'><td class='firstColumn'>%s</td> <td colspan='%s'>Учебная работа</td>%s
+     </tr><tr><td class='firstColumn'>Общеобразовательные/адаптивные дисциплины</td>",$data['student']['Name'],count($data['student']['Track'])+1,$dopcolumnH);
     for($i=1; $i<=sizeof($data['student']['Track']); $i++) {
         if(array_key_exists($i, $data['student']['Track'])) {
             $color = $data['student']['Track'][$i]['Color'];
             $text = null;
             foreach ($data['student']['Track'][$i]['Note'] as $key => $value) {
-                $text = $text.' '.$key.'='.$value;
+                $text = $text.';'.$key.'='.$value;
             }
-            printf("<td bgcolor='%s' onmouseover=\"prompShow('%s','%s','%s','%s')\">%s</td>",$color, $i, $data['student']['Track'][$i]['Status'],$text,$data['student']['Track'][$i]['File'], $i);
+            $adaptive = '';
+            $adaptiveData = null;
+            if(count($data['student']['Track'][$i]['Adaptive'])) {
+                $adaptive = "<div class='adaptiveBlock' >".count($data['student']['Track'][$i]['Adaptive'])."</div>";
+                foreach ($data['student']['Track'][$i]['Adaptive'] as $key => $value) {
+                    $adaptiveData = $adaptiveData.';'.$value;
+                }
+            }
+            printf("<td style='background-color: %s' onmouseover=\"prompShow('%s','%s','%s','%s','%s')\">%s%s</td>",$color, $i, $data['student']['Track'][$i]['Status'],$text,$data['student']['Track'][$i]['File'],$adaptiveData, $i,$adaptive);
         }
         else {
             printf("<td>%s</td>", $i);
         }
     }
-    print("</tr></table>");
+    printf("%s</tr></table>",$dopcolumnL);
     ?>
     <div class="prompt" id="promt"></div>
     <table class="studentList">
