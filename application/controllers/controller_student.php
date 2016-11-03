@@ -56,7 +56,7 @@ Class Controller_Student extends Authorized_Controller {
                 $data[4], $profile, $data[6], $data[7], $data[8], $programFile, $planFile, $universityId, $psychoFile,
                 $careerFile, $employmentFile, $distanceFile, $portfolioFile);
         }else{
-            $this->data['directions'] = $this->model->get_direction();
+            $this->data['directions'] = $this->model->get_university_direction($this->get_user_university_id());
             $this->data['nozology'] = $this->model->get_nozoology_groups();
             $this->data['programs'] = $this->model->get_programs();
             $this->generateView('add');
@@ -104,7 +104,7 @@ Class Controller_Student extends Authorized_Controller {
             $student = $this->model->about_student($id);
             if($student) {
                 $this->data['student'] = $student;
-                $this->data['directions'] = $this->model->get_direction();
+                $this->data['directions'] = $this->model->get_university_direction($this->get_user_university_id());
                 $this->data['nozology'] = $this->model->get_nozoology_groups();
                 $this->data['programs'] = $this->model->get_programs();
                 $this->generateView('edit');

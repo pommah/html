@@ -110,6 +110,28 @@ class Model_Student extends Model
         return $dir;
     }
 
+    public function get_university_direction($id) {
+        $req = parent::get_db_connection()->query("SELECT UGSN.ID as ugsnId, UGSN.Name as ugsnName,
+        Direction.ID as dirId, Direction.Name as dirName 
+        FROM (UGSN INNER JOIN Direction ON UGSN.ID = Direction.ID_Ugsn) INNER JOIN UniversityDirection 
+        ON Direction.ID=UniversityDirection.ID_Direction WHERE UniversityDirection.ID_University=".$id);
+        while ($row = $req->fetch()) {
+            if(!$nowUgsn || $nowUgsn!=$row['ugsnId']) {
+                $dir[$row['ugsnId']] = [
+                    "ugsnName" => $row['ugsnName'],
+                    "listDir" => [
+                        $row['dirId'] => $row['dirName']
+                    ]
+                ];
+                $nowUgsn = $row['ugsnId'];
+            }
+            else {
+                $dir[$row['ugsnId']]['listDir'][$row['dirId']] = $row['dirName'];
+            }
+        }
+        return $dir;
+    }
+
     public function get_nozoology_groups(){
         $req = parent::get_db_connection()->query("SELECT * FROM NozologyGroup");
         $req->execute();
