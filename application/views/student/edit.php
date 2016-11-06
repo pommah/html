@@ -23,8 +23,24 @@
     <div class="leftLabel">Дата конца обучения:</div>
     <div class="dataStudent"><input class="input dataStudent" type="date" id="dateEnd" value="<?php echo $data['student']['DateEnd']; ?>"></div>
 </div>
-
-<div class='info'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'fileNameReability')">Файл реабилитационной программы:</div><input class='input' type='file' id='fileNameReability' disabled></div>
+<?php
+function print_file_picker($id, $text, $current, $folder){
+    print("<div class='info'> <div class='left_label'>");
+    printf("<input type=\"checkbox\" onclick=\"switchByCheckbox(checked, '%s')\">%s:</div>", $id, $text);
+    printf("<input class='input dataStudent' type='file' id='%s' disabled>", $id);
+    if ($current != null){
+        print("<img style='padding: 0px 10px;' width='30' src='/images/pdf_file.png'>");
+        printf("<a href='/files/%s/%s'>Текущий файл</a>", $folder, $current);
+    }
+    print(" </div>");
+}
+print_file_picker("fileNameReability", "Файл реабилитационной программы", $data['student']['Rehabilitation'], 'rehabilitation');
+print_file_picker("fileNamePsycho", "Психолого-педагогическое сопровождение", $data['student']['Psychology'], 'psychology');
+print_file_picker("fileNameCareer", "Профориентация", $data['student']['Career'], 'career');
+print_file_picker("fileNameEmployment", "Трудоустройство", $data['student']['Employment'], 'employment');
+print_file_picker("fileNameDistance", "Дистанционная образовательная технология", $data['student']['Distance'], 'distance');
+print_file_picker("fileNamePortfolio", "Электронное портфолио", $data['student']['Portfolio'], 'portfolio');
+?>
 
 <div class="info">
     <div class="leftLabel">Программа обучения:</div>
@@ -154,7 +170,9 @@
         </select>
     </div>
     <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='an_fileNameProgram'></div>
-    <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'an_fileNamePlan')">Файл учебного плана:</div><input class='input' type='file' id='an_fileNamePlan' disabled></div>
+    <?php
+    print_file_picker("an_fileNamePlan", "Файл учебного плана");
+    ?>
     <div class='label_input last'> <div class='left_label'>Причина изменения:</div> <input class='input' type='text' id='an_reason'></div>
 </div>
 
@@ -185,17 +203,17 @@
     }
     if($data['student']['Career']) {
         $image = image_file($data['student']['Career']);
-        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Career']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/career/".$data['student']['Career']."'><img width='50' src='".$image."'></a></td>";
         $dopcolumnH=$dopcolumnH."<td>Профориентация</td>";
     }
     if($data['student']['Distance']) {
         $image = image_file($data['student']['Distance']);
-        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Distance']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/distance/".$data['student']['Distance']."'><img width='50' src='".$image."'></a></td>";
         $dopcolumnH=$dopcolumnH."<td>ДОТ</td>";
     }
     if($data['student']['Portfolio']) {
         $image = image_file($data['student']['Portfolio']);
-        $dopcolumnL=$dopcolumnL."<td><a href='/files/psychology/".$data['student']['Portfolio']."'><img width='50' src='".$image."'></a></td>";
+        $dopcolumnL=$dopcolumnL."<td><a href='/files/portfolio/".$data['student']['Portfolio']."'><img width='50' src='".$image."'></a></td>";
         $dopcolumnH=$dopcolumnH."<td>Портфолио</td>";
     }
     printf("<table id='trackTable' class='trackTable'><tr class='headTrackTable'><td class='firstColumn'>%s</td> <td colspan='%s'>Учебная работа</td>%s

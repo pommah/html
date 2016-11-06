@@ -7,11 +7,11 @@ Class Controller_Report extends Authorized_Controller {
     {
         parent::__construct();
         $this->model = new Model_Report();
-        if($this->auth!=UserTypes::MINISTRY) {
+        if($this->auth != (UserTypes::MINISTRY || UserTypes::ADMIN)) {
             header("Location: /");
         }
         else {
-            $this->data['menu'] = parent::get_menu(UserTypes::MINISTRY);
+            $this->data['menu'] = parent::get_menu(parent::get_user_type());
         }
     }
 

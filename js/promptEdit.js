@@ -14,13 +14,23 @@ function saveStudentChanges(){
     var nozology = document.getElementById('noz_group');
     var dateBegin = document.getElementById('dateBegin');
     var dateEnd = document.getElementById('dateEnd');
-    var rehabilitation = document.getElementById('fileNameReability');
+    var fileRehabilitation = document.getElementById('fileNameReability');
+    var filePsycho = document.getElementById('fileNamePsycho');
+    var fileCareer = document.getElementById('fileNameCareer');
+    var fileEmployment = document.getElementById('fileNameEmployment');
+    var fileDistance = document.getElementById('fileNameDistance');
+    var filePortfolio = document.getElementById('fileNamePortfolio');
 
     var dataName = name.value;
     var dataNozology = nozology.selectedOptions[0].id.substr(1);
     var dataDateBegin = dateBegin.value.split("-").join(".");
     var dataDateEnd = dateEnd.value.split("-").join(".");
-    var dataRehabilitation = 'c.pdf';
+    var dataRehabilitation = fileRehabilitation.files[0];
+    var dataFilePsycho = filePsycho.files[0];
+    var dataFileCareer = fileCareer.files[0];
+    var dataFileEmployment = fileEmployment.files[0];
+    var dataFileDistance = fileDistance.files[0];
+    var dataFilePortfolio = filePortfolio.files[0];
 
     var regularId = /^[А-яA-z ]{3,50}$/;
     var regularNoz = /^[0-9]$/;
@@ -43,9 +53,14 @@ function saveStudentChanges(){
         return false;
     }
 
-    dataRehabilitation = document.getElementById('fileNameReability').disabled ? null : dataRehabilitation;
+    dataRehabilitation = fileRehabilitation.disabled ? null : dataRehabilitation;
+    dataFilePsycho = filePsycho.disabled ? null : dataFilePsycho;
+    dataFileCareer = fileCareer.disabled ? null : dataFileCareer;
+    dataFileEmployment = fileEmployment.disabled ? null : dataFileEmployment;
+    dataFileDistance = fileDistance.disabled ? null : dataFileDistance;
+    dataFilePortfolio = filePortfolio.disabled ? null : dataFilePortfolio;
 
-    var data = dataName+";"+dataNozology+";"+dataDateBegin+";"+dataDateEnd+";"+dataRehabilitation;
+    var data = dataName+";"+dataNozology+";"+dataDateBegin+";"+dataDateEnd;
 
 
     var radioCurrentInfo = document.getElementById('current_info');
@@ -69,6 +84,20 @@ function saveStudentChanges(){
     }
 
     var send = new Ajax("POST",document.location.href);
+    if(dataRehabilitation)
+        send.appendFile('fileRehabilitation',dataRehabilitation);
+    if(dataFilePsycho)
+        send.appendFile('filePsycho',dataFilePsycho);
+    if(dataFileCareer)
+        send.appendFile('fileCareer',dataFileCareer);
+    if(dataFileEmployment)
+        send.appendFile('fileEmployment',dataFileEmployment);
+    if(dataFileDistance)
+        send.appendFile('fileDistance',dataFileDistance);
+    if(dataFilePortfolio)
+        send.appendFile('filePortfolio',dataFilePortfolio);
+    if(dataFilePlan)
+        send.appendFile('filePlan',dataFilePlan);
     send.setData(data);
     send.send(function (data) {
         status = data;
@@ -169,7 +198,7 @@ function parseProgramData(prefix) {
     }
     dataPlan = document.getElementById(prefix+'fileNamePlan').disabled ? null : dataPlan;
 
-    return ";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataProgram+";"+dataPlan+";"+dataRehabilitation;
+    return ";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataProgram+";"+dataPlan;
 }
 
 function radioClicks(radio) {

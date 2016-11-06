@@ -82,7 +82,18 @@ class Authorized_Controller extends Controller
                 break;
             case UserTypes::ADMIN:
                 return [
-                    [ "href" => "/user", "title" => "Пользователи", "submenus" => ["Добавить" => "/user/add"]]
+                    [ "href" => "/user", "title" => "Пользователи", "submenus" => ["Добавить" => "/user/add"]],
+                    [ "href" => "/university", "title" => "Университеты", "submenus" => []],
+                    [ "href" => "/report", "title" => "Отчеты", "submenus" => [
+                        "Все студенты по ФО и УГСН" => "/report/ugsn_district",
+                        "Все студенты по регионам и направлениям" => "/report/region_direction",
+                        "Все студенты по УГСН и нозологическим группам" => "/report/ugsn_nozology",
+                        "Все студенты по регионам и нозологическим группам" => "/report/region_nozology",
+                        "Неуспевающие студенты по ФО и УГСН" => "/report/ugsn_district/lag",
+                        "Неуспевающие студенты по регионам и направлениям" => "/report/region_direction/lag",
+                        "Отчисленные студенты по ФО и УГСН" => "/report/ugsn_district/expelled",
+                        "Отчисленные студенты по регионам и направлениям" => "/report/region_direction/expelled"
+                    ]]
                 ];
         }
     }

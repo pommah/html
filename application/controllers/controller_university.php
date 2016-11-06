@@ -24,7 +24,7 @@ class Controller_University extends Authorized_Controller
 
     public function action_index($type = 'all', $id = '1')
     {
-        if (parent::get_user_type() == UserTypes::MINISTRY){
+        if (parent::get_user_type() == (UserTypes::MINISTRY || UserTypes::ADMIN)){
             if ($type == 'all'){
                 $this->data['districts'] = $this->model->get_districts();
                 $this->generateView('index');

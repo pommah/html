@@ -42,7 +42,6 @@ class Model_Student extends Model
                     "Plan" => $row['NameFilePlan'],
                     "Rehabilitation" => $row['NameFileReabilitProgram'],
                     "ProgramId" => $row['progId'],
-                    "Period" => $row['PeriodOfStudy'],
                     "LearnID" => $row['LearnID'],
                     "Psychology" => $row['PsyсhologyFile'],
                     "Career" => $row['CareerFile'],
@@ -111,6 +110,7 @@ class Model_Student extends Model
     }
 
     public function get_university_direction($id) {
+        $nowUgsn = null;
         $req = parent::get_db_connection()->query("SELECT UGSN.ID as ugsnId, UGSN.Name as ugsnName,
         Direction.ID as dirId, Direction.Name as dirName 
         FROM (UGSN INNER JOIN Direction ON UGSN.ID = Direction.ID_Ugsn) INNER JOIN UniversityDirection 
@@ -293,15 +293,21 @@ class Model_Student extends Model
         }
     }
 
-    public function edit_student_change_info($studentId, $name, $nozology, $dateBegin, $dateEnd, $rehabilitation){
+    public function edit_student_change_info($studentId, $name, $nozology, $dateBegin, $dateEnd, $rehabilitation,
+                                             $psycho, $career, $employee, $distance, $portfolio){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL changeInfoStudent(?,?,?,?,?,?)");
+        $add = $conn->prepare("CALL changeInfoStudent(?,?,?,?,?,  ?,?,?,?,?,   ?)");
         $add->bindParam(1,$name);
         $add->bindParam(2,$nozology);
         $add->bindParam(3,$dateBegin);
         $add->bindParam(4,$dateEnd);
         $add->bindParam(5,$studentId);
         $add->bindParam(6,$rehabilitation);
+        $add->bindParam(7, $psycho);
+        $add->bindParam(8, $career);
+        $add->bindParam(9, $employee);
+        $add->bindParam(10, $distance);
+        $add->bindParam(11, $portfolio);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){
