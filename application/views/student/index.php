@@ -16,7 +16,7 @@
         printf("<td>%s</td>", $student['Name']);
         printf("<td>%s</td>", $student['NozologyGroup']);
         printf("<td>%s</td>", $student['Direction']);
-        printf("<td><a title='%s' href='%s'><img width='40' src='/images/pdf_file.png'></a></td>", $student['NameFileProgram'],$student['NameFileProgram']);
+        printf("<td><a title='%s' href='files/programs/%s'><img width='40' src='/images/pdf_file.png'></a></td>", $student['NameFileProgram'],$student['NameFileProgram']);
         if($data['user']['permission']==2)
         printf("<td><img src='/images/delete_file.png' width='18' onclick='deleteStud(event, \"%s\")'><img src='/images/edit_file.png' width='18' onclick='event.stopPropagation(); window.location.href=\"/student/edit/%s\"'>
         </td>", $student['ID'], $student['ID']);

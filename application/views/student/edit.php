@@ -26,11 +26,20 @@
 <?php
 function print_file_picker($id, $text, $current, $folder){
     print("<div class='info'> <div class='left_label'>");
-    printf("<input type=\"checkbox\" onclick=\"switchByCheckbox(checked, '%s')\">%s:</div>", $id, $text);
-    printf("<input class='input dataStudent' type='file' id='%s' disabled>", $id);
+    printf("%s:</div>", $text);
+    printf("<select id='select_%s' onchange='processSelect(this, \"%s\", \"%s\")' class='input dataStudent'>", $folder, $folder, $id);
+    if($current != null){
+        printf ("<option id='%s'>Оставить текущий файл</option>", $current);
+        print ("<option>Удалить файл</option>");
+    }
+    else{
+        print ("<option>Отсутсвует</option>");
+    }
+    print ("<option>Загрузить новый файл</option>");
+    print ("</select>");
+    printf("<input class='input dataStudent' type='file' id='%s' style='display: none;'>", $id);
     if ($current != null){
-        print("<img style='padding: 0px 10px;' width='30' src='/images/pdf_file.png'>");
-        printf("<a href='/files/%s/%s'>Текущий файл</a>", $folder, $current);
+        printf("<a id='%s' href='/files/%s/%s'>Текущий файл</a>", $folder, $folder, $current);
     }
     print(" </div>");
 }
@@ -100,9 +109,9 @@ print_file_picker("fileNamePortfolio", "Электронное портфоли�
         }
         ?>
     </select>
-    <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'ce_profile')">Профиль:</div> <input class='input' type='text' id='ce_profile' disabled></div>
-    <div class='label_input'> <div class='left_label'>Уровень образования:</div>
-        <select class="input" id='ce_level'>
+    <div class='info'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'ce_profile')">Профиль:</div> <input class='input dataStudent' type='text' id='ce_profile' disabled></div>
+    <div class='info'> <div class='left_label'>Уровень образования:</div>
+        <select class="input dataStudent" id='ce_level'>
             <?php
             $currLevel = $data['student']['Level'];
             foreach (Utils::$levels as $level){
@@ -112,9 +121,9 @@ print_file_picker("fileNamePortfolio", "Электронное портфоли�
             ?>
         </select>
     </div>
-    <div class='label_input'> <div class='left_label'>Период обучения:</div><input class='input' type='number' id='ce_period' value="<?php echo $data['student']['Period'];?>"></div>
-    <div class='label_input'> <div class='left_label'>Форма обучения:</div>
-        <select class="input" id='ce_form'>
+    <div class='info'> <div class='left_label'>Период обучения:</div><input class='input dataStudent' type='number' id='ce_period' value="<?php echo $data['student']['Period'];?>"></div>
+    <div class='info'> <div class='left_label'>Форма обучения:</div>
+        <select class="input dataStudent" id='ce_form'>
             <?php
             $currForm = $data['student']['Form'];
             foreach (Utils::$forms as $form){
@@ -124,18 +133,17 @@ print_file_picker("fileNamePortfolio", "Электронное портфоли�
             ?>
         </select>
     </div>
-    <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='ce_fileNameProgram'></div>
-    <div class='label_input last'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'ce_fileNamePlan')">Файл учебного плана:</div><input class='input' type='file' id='ce_fileNamePlan' disabled></div>
+    <div class='info'> <div class='left_label'>Файл программы:</div><input class='input dataStudent' type='file' id='ce_fileNameProgram'></div>
+    <?php print_file_picker("ce_fileNamePlan", "Файл учебного плана", $data['student']['Plan'], 'plans'); ?>
 </div>
 <div id="div_current_change" style="display: none">
-    <select class='input' id="program">
+    <select class='input dataStudent' id="program">
         <?php
         foreach ($data['programs'] as $id => $description){
             printf("<option id='p%s'>%s</option>", $id, $description);
         }
         ?>
     </select>
-    <div class='label_input last'> <div class='left_label'>Причина изменения:</div> <input class='input' type='text' id='cc_reason'></div>
 </div>
 <div id="div_add_new" style="display: none">
     <span class='labelInputDirection'>Направление:</span><br><select class='input' id='an_direction' size='10'>
@@ -149,9 +157,9 @@ print_file_picker("fileNamePortfolio", "Электронное портфоли�
     }
     ?>
     </select>
-    <div class='label_input'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'an_profile')">Профиль:</div> <input class='input' type='text' id='an_profile' disabled></div>
-    <div class='label_input'> <div class='left_label'>Уровень образования:</div>
-        <select class="input" id='an_level'>
+    <div class='info'> <div class='left_label'><input type="checkbox" onclick="switchByCheckbox(checked, 'an_profile')">Профиль:</div> <input class='input dataStudent' type='text' id='an_profile' disabled></div>
+    <div class='info'> <div class='left_label'>Уровень образования:</div>
+        <select class="input dataStudent" id='an_level'>
             <?php
             foreach (Utils::$levels as $level){
                 printf("<option>%s</option>", $level);
@@ -159,9 +167,9 @@ print_file_picker("fileNamePortfolio", "Электронное портфоли�
             ?>
         </select>
     </div>
-    <div class='label_input'> <div class='left_label'>Период обучения:</div><input class='input' type='number' id='an_period'></div>
-    <div class='label_input'> <div class='left_label'>Форма обучения:</div>
-        <select class="input" id='an_form'>
+    <div class='info'> <div class='left_label'>Период обучения:</div><input class='input dataStudent' type='number' id='an_period'></div>
+    <div class='info'> <div class='left_label'>Форма обучения:</div>
+        <select class="input dataStudent" id='an_form'>
             <?php
             foreach (Utils::$forms as $form){
                 printf("<option>%s</option>", $form);
@@ -169,11 +177,10 @@ print_file_picker("fileNamePortfolio", "Электронное портфоли�
             ?>
         </select>
     </div>
-    <div class='label_input'> <div class='left_label'>Файл программы:</div><input class='input' type='file' id='an_fileNameProgram'></div>
+    <div class='info'> <div class='left_label'>Файл программы:</div><input class='input dataStudent' type='file' id='an_fileNameProgram'></div>
     <?php
-    print_file_picker("an_fileNamePlan", "Файл учебного плана");
+    print_file_picker("an_fileNamePlan", "Файл учебного плана", null, "an_plans");
     ?>
-    <div class='label_input last'> <div class='left_label'>Причина изменения:</div> <input class='input' type='text' id='an_reason'></div>
 </div>
 
 <button class="button saveButton" onclick="cancel()">Отменить</button>

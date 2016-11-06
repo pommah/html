@@ -73,33 +73,85 @@ Class Controller_Student extends Authorized_Controller {
             return null;
     }
 
+    function process_file($post, $path){
+        if (isset($_POST["new".$post])){
+            return $this->check_files("new".$post, $path);
+        } else if (isset($_POST[$post])){
+            if ($_POST[$post] == 'null'){
+                return null;
+            }
+            else{
+                return $_POST[$post];
+            }
+        }
+    }
+
     function action_edit($id = null){
         if (array_key_exists('currInfo', $_POST)) {
             $req = $_POST['currInfo'];
             $data = explode(";", $req);
-            $rehabilitationFile = $data[4] == 'null' ? null : $data[4];
-            echo $this->model->edit_student_change_info($id, $data[0], $data[1], $data[2], $data[3], $rehabilitationFile);
+
+            include_once "application/core/OlFile.php";
+            $rehabilitationFile = $this->process_file("fileRehabilitation", "files/rehabilitation");
+            $psychoFile = $this->process_file('filePsycho',"files/psychology");
+            $careerFile = $this->process_file('fileCareer',"files/career");
+            $employmentFile = $this->process_file('fileEmployment',"files/employment");
+            $distanceFile = $this->process_file('fileDistance',"files/distance");
+            $portfolioFile = $this->process_file('filePortfolio',"files/portfolio");
+
+            echo $this->model->edit_student_change_info($id, $data[0], $data[1], $data[2], $data[3], $rehabilitationFile, $psychoFile, $careerFile, $employmentFile, $distanceFile, $portfolioFile);
         } else if (array_key_exists('currEdit', $_POST)) {
             $req = $_POST['currEdit'];
             $data = explode(";", $req);
-            $universityId = 1;
-            $profile = $data[6] == 'null' ? null : $data[6];
-            $planFile = $data[11] == 'null' ? null : $data[11];
-            $rehabilitationFile = $data[4] == 'null' ? null : $data[4];
-            echo $this->model->edit_student_change_program($id, $data[0], $data[1], $data[2], $data[3], $rehabilitationFile, $data[5], $profile, $data[7], $data[8], $data[9], $data[10], $planFile, $universityId, $data[12]);
+            $universityId = parent::get_user_university_id();
+            $profile = $data[5] == 'null' ? null : $data[5];
+
+            include_once "application/core/OlFile.php";
+            $program = $this->check_files("fileProgram", "files/programs");
+            $planFile = $this->process_file("filePlan", "files/plans");
+            $rehabilitationFile = $this->process_file("fileRehabilitation", "files/rehabilitation");
+            $psychoFile = $this->process_file('filePsycho',"files/psychology");
+            $careerFile = $this->process_file('fileCareer',"files/career");
+            $employmentFile = $this->process_file('fileEmployment',"files/employment");
+            $distanceFile = $this->process_file('fileDistance',"files/distance");
+            $portfolioFile = $this->process_file('filePortfolio',"files/portfolio");
+
+            echo $this->model->edit_student_change_program($id, $data[0], $data[1], $data[2], $data[3], $rehabilitationFile,
+                $data[4], $profile, $data[6], $data[7], $data[8], $program, $planFile, $universityId, $data[9], $psychoFile,
+                $careerFile, $employmentFile, $distanceFile, $portfolioFile);
         } else if (array_key_exists('currChange', $_POST)) {
             $req = $_POST['currChange'];
             $data = explode(";", $req);
-            $rehabilitationFile = $data[4] == 'null' ? null : $data[4];
-            echo $this->model->edit_student_switch_program($id, $data[0], $data[1], $data[2], $data[3], $rehabilitationFile, $data[5], $data[6]);
+
+            include_once "application/core/OlFile.php";
+            $rehabilitationFile = $this->process_file("fileRehabilitation", "files/rehabilitation");
+            $psychoFile = $this->process_file('filePsycho',"files/psychology");
+            $careerFile = $this->process_file('fileCareer',"files/career");
+            $employmentFile = $this->process_file('fileEmployment',"files/employment");
+            $distanceFile = $this->process_file('fileDistance',"files/distance");
+            $portfolioFile = $this->process_file('filePortfolio',"files/portfolio");
+
+            echo $this->model->edit_student_switch_program($id, $data[0], $data[1], $data[2], $data[3], $rehabilitationFile,
+                $data[4], null, $psychoFile, $careerFile, $employmentFile, $distanceFile, $portfolioFile);
         } else if (array_key_exists('saveNew', $_POST)) {
             $req = $_POST['saveNew'];
             $data = explode(";", $req);
-            $universityId = 1;
-            $profile = $data[6] == 'null' ? null : $data[6];
-            $planFile = $data[11] == 'null' ? null : $data[11];
-            $rehabilitationFile = $data[4] == 'null' ? null : $data[4];
-            echo $this->model->edit_student_add_new_program($id, $data[0], $data[1], $data[2], $data[3], $rehabilitationFile, $data[5], $profile, $data[7], $data[8], $data[9], $data[10], $planFile, $universityId, $data[12]);
+            $universityId = parent::get_user_university_id();
+            $profile = $data[5] == 'null' ? null : $data[5];
+
+            include_once "application/core/OlFile.php";
+            $program = $this->check_files("fileProgram", "files/programs");
+            $planFile = $this->process_file("filePlan", "files/plans");
+            $rehabilitationFile = $this->process_file("fileRehabilitation", "files/rehabilitation");
+            $psychoFile = $this->process_file('filePsycho',"files/psychology");
+            $careerFile = $this->process_file('fileCareer',"files/career");
+            $employmentFile = $this->process_file('fileEmployment',"files/employment");
+            $distanceFile = $this->process_file('fileDistance',"files/distance");
+            $portfolioFile = $this->process_file('filePortfolio',"files/portfolio");
+
+            echo $this->model->edit_student_add_new_program($id, $data[0], $data[1], $data[2], $data[3], $rehabilitationFile,
+                $data[4], $profile, $data[6], $data[7], $data[8], $program, $planFile, $universityId, null, $psychoFile,
+                $careerFile, $employmentFile, $distanceFile, $portfolioFile);
         } else{
             $student = $this->model->about_student($id);
             if($student) {

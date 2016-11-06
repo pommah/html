@@ -216,9 +216,11 @@ class Model_Student extends Model
         }
     }
 
-    public function edit_student_add_new_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $fRehabilitation, $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $universityId, $reason){
+    public function edit_student_add_new_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $fRehabilitation,
+                                                 $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $universityId,
+                                                 $reason,  $psycho, $career, $employee, $distance, $portfolio){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL addNewProgram(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?)");
+        $add = $conn->prepare("CALL addNewProgram(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?,   ?,?,?,?,?)");
         $add->bindParam(1,$direction);
         $add->bindParam(2,$profile);
         $add->bindParam(3,$level);
@@ -234,6 +236,11 @@ class Model_Student extends Model
         $add->bindParam(13,$reason);
         $add->bindParam(14,$dateBegin);
         $add->bindParam(15,$dateEnd);
+        $add->bindParam(16, $psycho);
+        $add->bindParam(17, $career);
+        $add->bindParam(18, $employee);
+        $add->bindParam(19, $distance);
+        $add->bindParam(20, $portfolio);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){
@@ -244,9 +251,11 @@ class Model_Student extends Model
         }
     }
 
-    public function edit_student_change_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $fRehabilitation, $direction, $profile, $level, $period, $form, $fProgram, $fPlan, $universityId, $programId){
+    public function edit_student_change_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $fRehabilitation,
+                                                $direction, $profile, $level, $period, $form, $fProgram, $fPlan,
+                                                $universityId, $programId,  $psycho, $career, $employee, $distance, $portfolio){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL changeProgramActual(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?)");
+        $add = $conn->prepare("CALL changeProgramActual(?,?,?,?,?,  ?,?,?,?,?,  ?,?,?,?,?,    ?,?,?,?,?)");
         $add->bindParam(1,$studentId);
         $add->bindParam(2,$name);
         $add->bindParam(3,$nozology);
@@ -262,6 +271,11 @@ class Model_Student extends Model
         $add->bindParam(13,$fRehabilitation);
         $add->bindParam(14,$dateBegin);
         $add->bindParam(15,$dateEnd);
+        $add->bindParam(16, $psycho);
+        $add->bindParam(17, $career);
+        $add->bindParam(18, $employee);
+        $add->bindParam(19, $distance);
+        $add->bindParam(20, $portfolio);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){
@@ -272,9 +286,10 @@ class Model_Student extends Model
         }
     }
 
-    public function edit_student_switch_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $rehabilitation, $programId, $reason){
+    public function edit_student_switch_program($studentId, $name, $nozology, $dateBegin, $dateEnd, $rehabilitation, $programId,
+                                                $reason, $psycho, $career, $employee, $distance, $portfolio){
         $conn = parent::get_db_connection();
-        $add = $conn->prepare("CALL changeProgramExist(?,?,?,?,?,  ?,?,?)");
+        $add = $conn->prepare("CALL changeProgramExist(?,?,?,?,?,  ?,?,?,?,?,   ?,?,?)");
         $add->bindParam(1,$programId);
         $add->bindParam(2,$studentId);
         $add->bindParam(3,$reason);
@@ -283,6 +298,11 @@ class Model_Student extends Model
         $add->bindParam(6,$name);
         $add->bindParam(7,$nozology);
         $add->bindParam(8,$rehabilitation);
+        $add->bindParam(9, $psycho);
+        $add->bindParam(10, $career);
+        $add->bindParam(11, $employee);
+        $add->bindParam(12, $distance);
+        $add->bindParam(13, $portfolio);
         $add->execute();
         $response = $add->fetchAll(PDO::FETCH_NUM);
         if (empty($response)){

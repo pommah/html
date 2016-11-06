@@ -1,6 +1,8 @@
-/**
- * Created by vladislav on 12.10.16.
- */
+var optionNew = "Загрузить новый файл";
+var optionExist = "Оставить текущий файл";
+var optionDelete = "Удалить файл";
+var optionNone = "Отсутсвует";
+
 onload = function () {
     widthTable = document.getElementById('trackTable').offsetWidth;
     document.getElementById('promt').style.width = (widthTable-30)+"px";
@@ -14,23 +16,11 @@ function saveStudentChanges(){
     var nozology = document.getElementById('noz_group');
     var dateBegin = document.getElementById('dateBegin');
     var dateEnd = document.getElementById('dateEnd');
-    var fileRehabilitation = document.getElementById('fileNameReability');
-    var filePsycho = document.getElementById('fileNamePsycho');
-    var fileCareer = document.getElementById('fileNameCareer');
-    var fileEmployment = document.getElementById('fileNameEmployment');
-    var fileDistance = document.getElementById('fileNameDistance');
-    var filePortfolio = document.getElementById('fileNamePortfolio');
 
     var dataName = name.value;
     var dataNozology = nozology.selectedOptions[0].id.substr(1);
     var dataDateBegin = dateBegin.value.split("-").join(".");
     var dataDateEnd = dateEnd.value.split("-").join(".");
-    var dataRehabilitation = fileRehabilitation.files[0];
-    var dataFilePsycho = filePsycho.files[0];
-    var dataFileCareer = fileCareer.files[0];
-    var dataFileEmployment = fileEmployment.files[0];
-    var dataFileDistance = fileDistance.files[0];
-    var dataFilePortfolio = filePortfolio.files[0];
 
     var regularId = /^[А-яA-z ]{3,50}$/;
     var regularNoz = /^[0-9]$/;
@@ -53,15 +43,9 @@ function saveStudentChanges(){
         return false;
     }
 
-    dataRehabilitation = fileRehabilitation.disabled ? null : dataRehabilitation;
-    dataFilePsycho = filePsycho.disabled ? null : dataFilePsycho;
-    dataFileCareer = fileCareer.disabled ? null : dataFileCareer;
-    dataFileEmployment = fileEmployment.disabled ? null : dataFileEmployment;
-    dataFileDistance = fileDistance.disabled ? null : dataFileDistance;
-    dataFilePortfolio = filePortfolio.disabled ? null : dataFilePortfolio;
-
     var data = dataName+";"+dataNozology+";"+dataDateBegin+";"+dataDateEnd;
 
+    var send = new Ajax("POST",document.location.href);
 
     var radioCurrentInfo = document.getElementById('current_info');
     var radioCurrentEdit = document.getElementById('current_edit');
@@ -73,6 +57,8 @@ function saveStudentChanges(){
         var result = saveCurrentEdit();
         if (!result) return;
         data = "currEdit=" + data +result;
+        data = appendFile(data, 'select_plans', send, 'filePlan', 'ce_fileNamePlan');
+        send.appendFile('fileProgram', document.getElementById('ce_fileNameProgram').files[0]);
     } else if (radioCurrentChange.checked){
         var result = saveCurrentChange();
         if (!result) return;
@@ -81,23 +67,16 @@ function saveStudentChanges(){
         var result = saveAddNew();
         if (!result) return;
         data = "saveNew=" + data + result;
+        data = appendFile(data, 'select_an_plans', send, 'filePlan', 'an_fileNamePlan');
+        send.appendFile('fileProgram', document.getElementById('an_fileNameProgram').files[0]);
     }
 
-    var send = new Ajax("POST",document.location.href);
-    if(dataRehabilitation)
-        send.appendFile('fileRehabilitation',dataRehabilitation);
-    if(dataFilePsycho)
-        send.appendFile('filePsycho',dataFilePsycho);
-    if(dataFileCareer)
-        send.appendFile('fileCareer',dataFileCareer);
-    if(dataFileEmployment)
-        send.appendFile('fileEmployment',dataFileEmployment);
-    if(dataFileDistance)
-        send.appendFile('fileDistance',dataFileDistance);
-    if(dataFilePortfolio)
-        send.appendFile('filePortfolio',dataFilePortfolio);
-    if(dataFilePlan)
-        send.appendFile('filePlan',dataFilePlan);
+    data = appendFile(data, 'select_rehabilitation', send, 'fileRehabilitation', 'fileNameReability');
+    data = appendFile(data, 'select_psychology', send, 'filePsycho', 'fileNamePsycho');
+    data = appendFile(data, 'select_career', send, 'fileCareer', 'fileNameCareer');
+    data = appendFile(data, 'select_employment', send, 'fileEmployment', 'fileNameEmployment');
+    data = appendFile(data, 'select_distance', send, 'fileDistance', 'fileNameDistance');
+    data = appendFile(data, 'select_portfolio', send, 'filePortfolio', 'fileNamePortfolio');
     send.setData(data);
     send.send(function (data) {
         status = data;
@@ -110,6 +89,23 @@ function saveStudentChanges(){
     });
 }
 
+function appendFile(data, selectId, ajax, fileId, elementId){
+    var selectedOption = document.getElementById(selectId).selectedOptions[0];
+    if  (selectedOption.value == optionNew){
+        ajax.appendFile("new"+fileId, document.getElementById(elementId).files[0]);
+    }
+    else if (selectedOption.value == optionDelete){
+        data+="&"+fileId+"=null";
+    }
+    else if(selectedOption.value == optionExist){
+        data+="&"+fileId+"="+selectedOption.id;
+    }
+    else if (selectedOption.value == optionNone){
+        data+="&"+fileId+"=null";
+    }
+    return data;
+}
+
 function saveCurrentEdit() {
     var id = document.getElementById("programId").innerText;
     return parseProgramData('ce_')+";"+id;
@@ -117,35 +113,21 @@ function saveCurrentEdit() {
 
 function saveCurrentChange() {
     var program = document.getElementById("program").selectedOptions[0].id.substr(1);
-    var reason = document.getElementById("cc_reason").value;
 
     var regularProgram = /^[0-9]{1,4}$/;
-    var regularReason = /^[А-яA-z ]{3,50}$/;
 
     if (!regularProgram.test(program)){
         alert("Недопустимая программа");
         return false;
     }
 
-    if (!regularReason.test(reason)){
-        alert("Недопустимая причина изменения");
-        return false;
-    }
-
-    return ";"+program+";"+reason;
+    return ";"+program;
 }
 
 function saveAddNew() {
-    var reason = document.getElementById("an_reason").value;
-    var regularReason = /^[А-яA-z ]{3,50}$/;
-    if (!regularReason.test(reason)){
-        alert("Недопустимая причина изменения");
-        return false;
-    }
-
     var result = parseProgramData('an_');
     if (!result) return false;
-    return result+";"+reason;
+    return result;
 }
 
 function parseProgramData(prefix) {
@@ -155,15 +137,13 @@ function parseProgramData(prefix) {
     var period = document.getElementById(prefix+'period');
     var form = document.getElementById(prefix+'form');
     var program = document.getElementById(prefix+'fileNameProgram');
-    var plan = document.getElementById(prefix+'fileNamePlan');
 
     var dataDirection = direction.selectedOptions[0].id;
     var dataProfile = profile.value;
     var dataLevel = level.selectedOptions[0].value;
     var dataPeriod = period.value;
     var dataForm = form.selectedOptions[0].value;
-    var dataProgram = 'a.pdf';
-    var dataPlan = 'b.pdf';
+    var dataProgram = program.files[0];
 
     var regularDirection = /^[0-9]{6}$/;
     var regularLevel = /^[А-я]{6,40}$/;
@@ -196,9 +176,12 @@ function parseProgramData(prefix) {
     else {
         dataProfile = null;
     }
-    dataPlan = document.getElementById(prefix+'fileNamePlan').disabled ? null : dataPlan;
+    if (dataProgram == null){
+        alert("Необходим файл программы обучения");
+        return false;
+    }
 
-    return ";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm+";"+dataProgram+";"+dataPlan;
+    return ";"+dataDirection+";"+dataProfile+";"+dataLevel+";"+dataPeriod+";"+dataForm;
 }
 
 function radioClicks(radio) {
@@ -223,6 +206,24 @@ function hideAllDivs() {
 
 function switchByCheckbox(checked, switchingId) {
     document.getElementById(switchingId).disabled = !checked;
+}
+
+function processSelect(select, textId, fileId) {
+    if (select.selectedOptions[0].value == optionExist){
+        document.getElementById(fileId).style.display = "none";
+        document.getElementById(textId).style.display = "inline";
+    } else if (select.selectedOptions[0].value == optionDelete){
+        document.getElementById(fileId).style.display = "none";
+        document.getElementById(textId).style.display = "none";
+    } else if (select.selectedOptions[0].value == optionNew){
+        var text = document.getElementById(textId);
+        if(text != null){
+            text.style.display = "none";
+        }
+        document.getElementById(fileId).style.display = "inline";
+    } else if(select.selectedOptions[0].value == optionNone){
+        document.getElementById(fileId).style.display = "none";
+    }
 }
 
 var numModule = null;
