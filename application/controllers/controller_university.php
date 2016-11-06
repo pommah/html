@@ -8,6 +8,18 @@ class Controller_University extends Authorized_Controller
         $this->model = new Model_University();
     }
 
+    public function action_add(){
+        if (array_key_exists('data', $_POST)) {
+            $university = $_POST['data'];
+            $data = explode(";", $university);
+            echo $this->model->add_university($data[0], $data[1], $data[3], $data[2]);
+        }
+        else{
+            $this->data['regions'] = $this->model->get_all_regions();
+            $this->generateView('add');
+        }
+    }
+
     public function action_edit(){
         if (array_key_exists('universityData', $_POST)) {
             $university = $_POST['universityData'];

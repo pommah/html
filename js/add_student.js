@@ -18,7 +18,7 @@ function changePermission(type) {
 }
 
 function loadUniversity() {
-    var ajax = new Ajax("POST","/user/get_universitys");
+    var ajax = new Ajax("POST","/user/get_universities");
     ajax.send(function (data) {
         Universitys = JSON.parse(data);
         showUniversity();

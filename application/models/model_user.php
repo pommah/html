@@ -12,7 +12,18 @@ class Model_User extends Model
         return $query->fetch(PDO::FETCH_NAMED);
     }
 
-    public function get_universitys() {
+    public function get_user_data_by_login($login){
+        $userData = [];
+        $conn = parent::get_db_connection();
+        $query = $conn->prepare("select User.Name, Permission, ifnull(University.FullName, '-') as Univer, University.ID as UniverId, Login, Email 
+	from User left join University on User.ID_Univer = University.ID
+    where User.Login = ?");
+        $query->bindParam(1, $login);
+        $query->execute();
+        return $query->fetch(PDO::FETCH_NAMED);
+    }
+
+    public function get_universities() {
         $conn = parent::get_db_connection();
         $req = $conn->query("SELECT ID, FullName, ShortName FROM University ORDER BY FullName");
         return $req->fetchAll(PDO::FETCH_NAMED);

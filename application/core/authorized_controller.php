@@ -83,7 +83,7 @@ class Authorized_Controller extends Controller
             case UserTypes::ADMIN:
                 return [
                     [ "href" => "/user", "title" => "Пользователи", "submenus" => ["Добавить" => "/user/add"]],
-                    [ "href" => "/university", "title" => "Университеты", "submenus" => []],
+                    [ "href" => "/university", "title" => "Университеты", "submenus" => ["Добавить" => "/university/add"]],
                     [ "href" => "/report", "title" => "Отчеты", "submenus" => [
                         "Все студенты по ФО и УГСН" => "/report/ugsn_district",
                         "Все студенты по регионам и направлениям" => "/report/region_direction",

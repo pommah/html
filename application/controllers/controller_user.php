@@ -12,9 +12,9 @@ class Controller_User extends Authorized_Controller
         $this->generateView('add');
     }
 
-    public function action_get_universitys() {
+    public function action_get_universities() {
         $array = [];
-        $array = $this->model->get_universitys();
+        $array = $this->model->get_universities();
         $univer = json_encode($array,JSON_UNESCAPED_UNICODE);
         echo $univer;
     }
@@ -25,8 +25,13 @@ class Controller_User extends Authorized_Controller
         $this->generateView('index');
     }
 
-    public function action_info($id){
-        $this->data['userData'] = $this->model->get_user_data($id);
+    public function action_info($id = null){
+        if ($id == null){
+            $this->data['userData'] = $this->model->get_user_data_by_login($_SESSION['login']);
+        }
+        else{
+            $this->data['userData'] = $this->model->get_user_data($id);
+        }
         $this->generateView('info');
     }
 

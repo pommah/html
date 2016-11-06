@@ -213,6 +213,9 @@ Class Controller_Report extends Authorized_Controller {
         foreach ($data as $val){
             $sum+=$val[$colNum];
         }
+        if ($sum == 0){
+            return "";
+        }
         usort($data, function($a, $b) use($colNum){
             $diff = $b[$colNum] - $a[$colNum];
             return $diff > 0 ? 1 : ($diff < 0 ? -1 : 0);

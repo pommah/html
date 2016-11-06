@@ -69,4 +69,26 @@ class Model_University extends Model
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
+
+    public function get_all_regions(){
+        $req = parent::get_db_connection()->query("select Okrug.Name as okrugName, Region.ID, Region.Name as regionName
+	from Region inner join Okrug on Region.ID_Okrug = Okrug.ID
+    order by Okrug.Name asc, Region.Name asc");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function add_university($fullName, $shortName, $region, $status){
+        $req = parent::get_db_connection()->prepare("insert into University(FullName, ShortName, ID_Region, Status) values(?,?,?,?)");
+        $req->bindParam(1, $fullName);
+        $req->bindParam(2, $shortName);
+        $req->bindParam(3, $region);
+        $req->bindParam(4, $status);
+        if($req->execute()){
+            echo "OK";
+        }
+        else{
+            echo $req->errorInfo()[2];
+        }
+    }
 }
