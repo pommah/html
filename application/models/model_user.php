@@ -12,6 +12,29 @@ class Model_User extends Model
         return $query->fetch(PDO::FETCH_NAMED);
     }
 
+    public function add_user($name,$login, $password, $email, $permission, $university = null) {
+        $conn = parent::get_db_connection();
+        $req = $conn->prepare("INSERT INTO User(Name,Permission,ID_Univer,Login,Password,Email) VALUES(?,?,?,?,?,?)");
+        $req->bindParam(1,$name);
+        $req->bindParam(2,$permission);
+        if($permission==UserTypes::UNIVERSITY) {
+            $req->bindParam(3, $university);
+        }
+        else {
+            $university = null;
+            $req->bindParam(3, $university);
+        }
+        $req->bindParam(4, $login);
+        $pass = substr(md5($password.md5($login)),0,24);
+        $req->bindParam(5, $pass);
+        $req->bindParam(6, $email);
+        $req->execute();
+        if(!$req->errorCode()[0]) {
+            return "OK";
+        }
+        else return $req->errorInfo()[0];
+    }
+
     public function get_user_data_by_login($login){
         $userData = [];
         $conn = parent::get_db_connection();

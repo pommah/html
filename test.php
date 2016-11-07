@@ -1,3 +1,3 @@
 <?php
-echo md5("password17ab892s");
+echo substr(md5("password".md5("admin")),0,24);
 ?>

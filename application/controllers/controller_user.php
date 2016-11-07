@@ -12,6 +12,19 @@ class Controller_User extends Authorized_Controller
         $this->generateView('add');
     }
 
+    public function action_add_user() {
+        $name = $_POST['name'];
+        $login = $_POST['login'];
+        $password = $_POST['password'];
+        $email = $_POST['email'];
+        $permission = $_POST['permission'];
+        $university = '';
+        if(isset($_POST['university'])) {
+        $university = $_POST['university'];
+        }
+        echo $this->model->add_user($name,$login,$password,$email,$permission,$university);
+    }
+
     public function action_get_universities() {
         $array = [];
         $array = $this->model->get_universities();

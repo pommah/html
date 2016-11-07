@@ -8,6 +8,14 @@
     <div class="AddHead">Добавление пользователя</div>
     <div class="blockInput">
         <div>
+            <div class="leftLabel">
+                Имя:
+            </div>
+            <div class="dataUser">
+                <input type="text" id="name" class="input addInput" placeholder="Укажите имя">
+            </div>
+        </div>
+        <div>
         <div class="leftLabel">
             Логин:
         </div>
@@ -64,6 +72,6 @@
         <div id="error"></div>
     </div>
     <script type="text/javascript" src="/js/ajax.js"></script>
-<script type="text/javascript" src="/js/add_student.js"></script>
+<script type="text/javascript" src="/js/add_user.js"></script>
 </body>
 </html>

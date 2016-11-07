@@ -12,12 +12,12 @@ if(!preg_match("/^[А-яёЁA-z0-9-_\.]{5,30}$/u",$password)) {
 
 $req=$conn->prepare("SELECT * FROM User WHERE login=? AND password=?");
 $req->bindParam(1,$login);
-$req->bindParam(2, $password);
+$req->bindParam(2, substr(md5($password.md5($login)),0,24));
 $req->execute();
 if($req->rowCount()) {
     session_start();
     $_SESSION['login'] = $login;
-    $_SESSION['password'] = $password;
+    $_SESSION['password'] = substr(md5($password.md5($login)),0,24);
     echo "OK";
 }
 else
