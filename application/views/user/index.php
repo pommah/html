@@ -15,10 +15,12 @@
             printf("<td>%s</td>", $user['Login']);
             printf("<td>%s</td>", $user['Email']);
             printf("<td>%s</td>", $user['Univer']);
-            printf("<td><img src='/images/delete_file.png' width='18' onclick=''>
+            printf("<td><img src='/images/delete_file.png'  width='18' onclick='deleteUser(%s)'>
                     <img src='/images/edit_file.png' width='18' onclick='event.stopPropagation(); window.location.href=\"/user/edit/%s\"'>
-                    </td>", $user['ID']);
+                    </td>", $user['ID'], $user['ID']);
             print ("</tr>");
         }
     ?>
 </table>
+<script type="text/javascript" src="/js/ajax.js"></script>
+<script type="text/javascript" src="/js/deleteUser.js"></script>

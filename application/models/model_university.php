@@ -7,10 +7,10 @@ class Model_University extends Model
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
 
-    public function get_university_info()
+    public function get_university_info($id)
     {
         $req = parent::get_db_connection()->prepare("SELECT * FROM learn.University WHERE ID=?");
-        $universityId = 1;
+        $universityId = $id;
         $req->bindParam(1, $universityId);
         $req->execute();
         return $req->fetch(PDO::FETCH_NAMED);
@@ -90,5 +90,16 @@ class Model_University extends Model
         else{
             echo $req->errorInfo()[2];
         }
+    }
+
+    public function delete_university($id) {
+        $conn = parent::get_db_connection();
+        $req = $conn->prepare("CALL deleteUniversity(?)");
+        $req->bindParam(1, $id);
+        $req->execute();
+        if(!$req->errorCode()[0]) {
+            return "OK";
+        }
+        else return $req->errorInfo()[0];
     }
 }

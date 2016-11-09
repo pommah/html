@@ -96,7 +96,7 @@ print_file_info($data['student']['Portfolio'], "Электронное порт�
         $dopcolumnH=$dopcolumnH."<td>Портфолио</td>";
     }
     printf("<table id='trackTable' class='trackTable'><tr class='headTrackTable'><td class='firstColumn'>%s</td> <td colspan='%s'>Учебная работа</td>%s
-     </tr><tr><td class='firstColumn'>Общеобразовательные/адаптивные дисциплины</td>",$data['student']['Name'],count($data['student']['Track'])+1,$dopcolumnH);
+     </tr><tr><td class='firstColumn'>Общеобразовательные/адаптивные дисциплины</td>",$data['student']['Name'],count($data['student']['Track']),$dopcolumnH);
     for($i=1; $i<=sizeof($data['student']['Track']); $i++) {
         if(array_key_exists($i, $data['student']['Track'])) {
             $color = $data['student']['Track'][$i]['Color'];

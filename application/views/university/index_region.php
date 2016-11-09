@@ -12,6 +12,7 @@
             printf("<td>%s</td>", $university['FullName']);
             printf("<td>%s</td>", $university['Students']);
             printf("<td>%s</td>", $university['Programs']);
+            printf("<td><img width='30' onclick='delUniver(event,%s)' src='/images/delete_file.png'></td>",$university['ID']);
             print ("</tr>");
         }
     }
@@ -25,4 +26,5 @@ if (!empty($data['universities']['0']['ID'])){
     echo Controller_Report::draw_pie($data['universities'], "", "Распределение студентов по университетам", 'FullName', 'Students');
     echo Controller_Report::draw_pie($data['universities'], "", "Распределение программ по университетам", 'FullName', 'Programs');
 }?>
+<script type="text/javascript" src="/js/ajax.js"></script>
 <script type="text/javascript" src="/js/pieHint.js"></script>

@@ -1,6 +1,31 @@
 <link rel="stylesheet" type="text/css" href="/css/student_list.css">
 <div id="error"></div>
+<link rel="stylesheet" type="text/css" href="/css/tooltip.css">
 <?php
+    if($data['user']['permission']==UserTypes::MINISTRY) {
+        ?>
+        <table class='studentList'>
+            <tr>
+                <th>Идентификатор</th>
+                <th>Траектория</th>
+            </tr>
+            <?php
+            foreach ($data['Trajectories'] as $id => $student) {
+                printf("<tr onclick='document.location.href=\"/student/info/%s\"'><td>%s</td><td><table>", $id, $student['Name']);
+                foreach ($student['Semesters'] as $number => $info) {
+                    $message = "Семестр №" . $number . "\n" . $info['Status'] . "\n" . $info['Note'];
+                    foreach ($info['Disciplines'] as $discipline) {
+                        $message = $message . "\n" . $discipline['Name'] . "\n" . $discipline['Deadline'];
+                    }
+                    printf("<td style='width: 50px; background-color: %s' class='tooltip'><span class='tooltiptext'>%s</span></td>", $info['Color'], $message);
+                }
+                print("</table></td></tr>");
+            }
+
+            ?>
+        </table>
+        <?php
+    }
     print ("<table id='studentList' class='studentList'>
         <tr>
             <th>Идентификатор</th>

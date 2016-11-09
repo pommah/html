@@ -64,6 +64,13 @@ class Controller_User extends Authorized_Controller
         }
     }
 
+    public function action_delete() {
+        if($this->get_user_type()==UserTypes::ADMIN) {
+            $id = $_POST['id'];
+            echo $this->model->delete_user($id);
+        }
+    }
+
     private function generateView($actionName){
         $this->view->generate($this->getViewPath($actionName.'.php'), 'common.php', $this->data);
     }

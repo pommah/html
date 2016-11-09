@@ -28,6 +28,8 @@ class Model_Trajectory extends Model
                         break;
                     case 'Задолженность':
                         $color = '#ffff33';
+                        break;
+                    case 'Отчислен': $color='#ff3333'; break;
                 }
                 $student[$id]['Semesters'][$semester] = ['Status' => $row['Status'], 'Note' => $row['Note'], 'Color' => $color, 'Disciplines' => []];
             }

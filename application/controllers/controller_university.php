@@ -20,15 +20,22 @@ class Controller_University extends Authorized_Controller
         }
     }
 
+    public function action_delete() {
+        if($this->get_user_type()==UserTypes::ADMIN) {
+            $id = $_POST['id'];
+            echo $this->model->delete_university($id);
+        }
+    }
+
     public function action_edit(){
         if (array_key_exists('universityData', $_POST)) {
             $university = $_POST['universityData'];
             $data = explode(";", $university);
-            $universityId = 1;
+            $universityId = $this->get_user_university_id();
             echo $this->model->update_university_data($data[0], $data[1], $data[2], $data[3], $universityId);
         }
         else{
-            $this->data['university'] = $this->model->get_university_info();
+            $this->data['university'] = $this->model->get_university_info($this->get_user_university_id());
             $this->data['regions'] = $this->model->get_region_names();
             $this->generateView('edit');
         }

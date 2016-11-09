@@ -13,11 +13,18 @@ Class Controller_Student extends Authorized_Controller {
 
     function action_index($id = null) {
         if ($this->get_user_type() == UserTypes::UNIVERSITY){
-            echo "Asd";
             $this->data['students'] = $this->model->getStudents($this->get_user_university_id());
         }
         else{
-            $this->data['students'] = $this->model->getStudents($id);
+            if($this->get_user_type()==UserTypes::MINISTRY) {
+                include 'application/models/model_trajectory.php';
+                $trajectory = new Model_Trajectory();
+                $this->data['Trajectories'] = $trajectory->get_Trajectories($id);
+                $this->data['students'] = $this->model->getStudents($id);
+            }
+            else {
+                $this->data['students'] = $this->model->getStudents($id);
+            }
         }
         $this->generateView('index');
     }

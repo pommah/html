@@ -27,3 +27,20 @@ function hideHint() {
 }
 
 onload = createHint();
+
+function delUniver(e,id) {
+    e.stopPropagation();
+    var conf = confirm("Вы уверены, что хотите удалить этот университет? Все студенты и программы этого университета будут удалены");
+    if(conf) {
+        var ajax = new Ajax("POST","/university/delete");
+        ajax.setData("id="+id);
+        ajax.send(function (data) {
+            if(data=='OK') {
+                location.reload();
+            }
+            else {
+                alert(data);
+            }
+        });
+    }
+}
