@@ -10,7 +10,7 @@
         }
         print("</tr>");
         for($i=0; $i < count($data['ugsn']); $i+=$count){
-            printf("<tr><td style='text-align: left'>%s\n%s</td>", $data['ugsn'][$i]['ID'], $data['ugsn'][$i]['Name']);
+            printf("<tr><td style='text-align: left'>%s\n%s</td>", Utils::dotDirect($data['ugsn'][$i]['ID']), $data['ugsn'][$i]['Name']);
             for ($j=0; $j < $count; $j++){
                 printf("<td onclick='document.location.href = \"/report/matrix/%s/%s/%s\"'>%s</td>", $data['to'], $data['ugsn'][$i+$j]['okrugId'], $data['ugsn'][$i+$j]['ID'], $data['ugsn'][$i+$j]['count']);
             }

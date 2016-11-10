@@ -216,7 +216,7 @@ Class Model_Report extends Model {
     }
 
     public function report_all_ugsn_district(){
-        $req = parent::get_db_connection()->query("select  concat(ID, ' ',Name) as rowName, okrug as colName, sum(count) as value
+        $req = parent::get_db_connection()->query("select  concat(substr(ID, 1, 2), '.', substr(ID, 3, 2), '.', substr(ID, 5, 2), ' ',Name) as rowName, okrug as colName, sum(count) as value
 	from (
 	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, Count(*) as count
 		from (((((Region inner join University on Region.ID = University.ID_Region) inner join ProgramStudent on University.ID = ProgramStudent.ID_University) inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID) inner join Direction on ProgramStudent.ID_Direction = Direction.ID) inner join UGSN on Direction.ID_Ugsn = UGSN.ID) inner join Okrug on Okrug.Id = Region.ID_Okrug
@@ -230,7 +230,7 @@ Class Model_Report extends Model {
     }
 
     public function report_ugsn_district($status){
-        $req = parent::get_db_connection()->prepare("select concat(ID, ' ', Name) as rowName, okrug as colName, sum(count) as value
+        $req = parent::get_db_connection()->prepare("select concat(substr(ID, 1, 2), '.', substr(ID, 3, 2), '.', substr(ID, 5, 2), ' ', Name) as rowName, okrug as colName, sum(count) as value
 	from (
 	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, Count(distinct LearningStudent.Id) as count
 		from Region inner join University on Region.ID = University.ID_Region
@@ -252,7 +252,7 @@ Class Model_Report extends Model {
     }
 
     public function report_direction_region($status){
-        $req = parent::get_db_connection()->prepare("select Name as rowName, concat(ID_Direction, ' ', dirName) as colName, sum(count) as value
+        $req = parent::get_db_connection()->prepare("select Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ', dirName) as colName, sum(count) as value
 	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
 		from Region inner join University on Region.ID = University.ID_Region
         inner join ProgramStudent on University.ID = ProgramStudent.ID_University
@@ -270,7 +270,7 @@ Class Model_Report extends Model {
     }
 
     public function report_all_direction_region(){
-        $req = parent::get_db_connection()->query("select Name as rowName, concat(ID_Direction, ' ', dirName) as colName, sum(count) as value
+        $req = parent::get_db_connection()->query("select Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ', dirName) as colName, sum(count) as value
 	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
 		from Region inner join University on Region.ID = University.ID_Region
         inner join ProgramStudent on University.ID = ProgramStudent.ID_University
@@ -305,7 +305,7 @@ Class Model_Report extends Model {
     public function report_ugsn_nozology()
     {
         $req = parent::get_db_connection()->query("select ugsn as rowName, name as colName, sum(count) as value
-	from (select concat(UGSN.ID, ' ', UGSN.Name) as ugsn, NozologyGroup.Name as name, count(distinct LearningStudent.ID) as count
+	from (select concat(substr(UGSN.ID, 1, 2), '.', substr(UGSN.ID, 3, 2), '.', substr(UGSN.ID, 5, 2), ' ', UGSN.Name) as ugsn, NozologyGroup.Name as name, count(distinct LearningStudent.ID) as count
 		from ProgramStudent inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
 		inner join NozologyGroup on NozologyGroup.ID = ProgramStudent.ID_NozologyGroup
 		inner join Direction on ProgramStudent.ID_Direction = Direction.ID

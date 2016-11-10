@@ -33,7 +33,7 @@ function print_file_picker($id, $text, $current, $folder){
         print ("<option>Удалить файл</option>");
     }
     else{
-        print ("<option>Отсутсвует</option>");
+        print ("<option>Отсутствует</option>");
     }
     print ("<option>Загрузить новый файл</option>");
     print ("</select>");

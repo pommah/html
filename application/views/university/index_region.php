@@ -12,7 +12,8 @@
             printf("<td>%s</td>", $university['FullName']);
             printf("<td>%s</td>", $university['Students']);
             printf("<td>%s</td>", $university['Programs']);
-            printf("<td><img width='30' onclick='delUniver(event,%s)' src='/images/delete_file.png'></td>",$university['ID']);
+            if($data['user']['permission']==UserTypes::ADMIN)
+                printf("<td><img width='30' onclick='delUniver(event,%s)' src='/images/delete_file.png'></td>",$university['ID']);
             print ("</tr>");
         }
     }

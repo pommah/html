@@ -8,6 +8,6 @@ class Utils
         '#00BCD4', '#4CAF50', '#CDDC39', '#FFEB3B', '#FFC107', '#FF5722'];
 
     public static function dotDirect($id) {
-        return substr($id, 0, 2).substr($id, 2, 2).substr($id, 4, 2);
+        return substr($id, 0, 2).".".substr($id, 2, 2).".".substr($id, 4, 2);
     }
 }
