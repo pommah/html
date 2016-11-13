@@ -5,7 +5,7 @@
     if (isset($data['data']['0'])){
         $firstval =  $data['data']['0']['rowName'];
         $count = 0;
-        while ($data['data'][$count]['rowName'] == $firstval){
+        while ($count < count($data['data']) && $data['data'][$count]['rowName'] == $firstval){
             printf("<th >%s</th>", $data['data'][$count]['colName']);
             $count++;
         }

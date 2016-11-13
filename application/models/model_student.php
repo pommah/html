@@ -13,6 +13,19 @@ class Model_Student extends Model
         //$list = $req->fetchAll(PDO::FETCH_NAMED);
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
+
+    public function getAllStudents($universityId = 1){
+        $req = parent::get_db_connection()->prepare("SELECT Student.ID, Student.Name, NozologyGroup.Name AS \"NozologyGroup\" , Direction.Name 
+          AS \"Direction\", ProgramStudent.NameFileProgram
+	      FROM (((Student INNER JOIN NozologyGroup ON Student.ID_NozologyGroup=NozologyGroup.ID) INNER JOIN 
+	      LearningStudent ON LearningStudent.ID_Student=Student.ID ) INNER JOIN ProgramStudent ON ProgramStudent.ID =
+	      LearningStudent.ID_Program) INNER JOIN Direction ON Direction.ID = ProgramStudent.ID_Direction
+          WHERE ProgramStudent.ID_University = ?");
+        $req->bindParam(1, $universityId);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
     public  function about_student($id = null) {
         $student = [];
         $conn = parent::get_db_connection();

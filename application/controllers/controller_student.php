@@ -20,7 +20,9 @@ Class Controller_Student extends Authorized_Controller {
                 include 'application/models/model_trajectory.php';
                 $trajectory = new Model_Trajectory();
                 $this->data['Trajectories'] = $trajectory->get_Trajectories($id);
-                $this->data['students'] = $this->model->getStudents($id);
+                $this->data['students'] = $this->model->getAllStudents($id);
+                $this->generateView('ministry_index');
+                return;
             }
             else {
                 $this->data['students'] = $this->model->getStudents($id);

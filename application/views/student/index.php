@@ -50,5 +50,4 @@
     print("</table>");
 ?>
 <script type="text/javascript" src="/js/ajax.js"></script>
-<script type="text/javascript" src="/js/studentList.js"></script>
 <script type="text/javascript" src="/js/deleteStudent.js"></script>

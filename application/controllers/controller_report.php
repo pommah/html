@@ -146,7 +146,6 @@ Class Controller_Report extends Authorized_Controller {
         $this->data['districts'] = $this->model->get_all_districts();
         $this->query_data_for_report($target);
         if ($target == 'all'){
-
             if ($export == null){
                 $this->data['header'] = "Все студенты по регионам и направлениям";
                 $this->generateView('exportable');
@@ -157,7 +156,6 @@ Class Controller_Report extends Authorized_Controller {
             }
         }
         else if ($target == 'lag'){
-
             if ($export == null){
                 $this->data['header'] = "Неуспевающие студенты по регионам и направлениям";
                 $this->generateView('exportable');
@@ -168,7 +166,6 @@ Class Controller_Report extends Authorized_Controller {
             }
         }
         else if ($target == 'expelled'){
-
             if ($export == null){
                 $this->data['header'] = "Отчисленные студенты по регионам и направлениям";
                 $this->generateView('exportable');
@@ -179,7 +176,8 @@ Class Controller_Report extends Authorized_Controller {
             }
         }
         else if ($target == 'export'){
-            $data = $this->report_to_csv($this->model->report_all_direction_region(), $separator);
+            $this->query_data_for_report('all');
+            $data = $this->report_to_csv($this->data['values'], $separator);
             $this->give_file($data, "region_direction");
         }
     }

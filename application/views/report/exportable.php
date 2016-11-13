@@ -1,8 +1,6 @@
 <?php
 $header = $data['header'];
 printf("<h2 style='display: inline-block;'>%s</h2><table class='studentList'><tr><th></th>", $header);
-printf("<button style='margin: 10px;' class='button add_student' onclick='document.location.href += \"%s\"'><img style='margin-right: 5px;' width='25' src='/images/excel_file.png'/>Экспорт в LibreOffice</button>", "/export/libre");
-printf("<button style='margin: 10px;' class='button add_student' onclick='document.location.href += \"%s\"'><img style='margin-right: 5px;' width='25' src='/images/excel_file.png'/>Экспорт в Excel</button>", "/export/excel");
 
 if (isset($data['ugsns'])){
     $ugsnS = 'all';
@@ -15,10 +13,19 @@ if (isset($data['ugsns'])){
         $districtS = $data['district'];
     }
 
+    printf("<form action='%s' method='post'>
+<input style='margin: 5px' class='button add_student' type='submit' value='Экспорт в LibreOffice'>
+<input type='hidden' name='ugsn' value='%s'>
+<input type='hidden' name='district' value='%s'></form>", $_SERVER['REQUEST_URI']."/export/libre", $ugsnS, $districtS);
+    printf("<form action='%s' method='post'>
+<input style='margin: 5px' class='button add_student' type='submit' value='Экспорт в Excel'>
+<input type='hidden' name='ugsn' value='%s'>
+<input type='hidden' name='district' value='%s'></form>", $_SERVER['REQUEST_URI']."/export/excel", $ugsnS, $districtS);
+
     $allDistricts = $districtS == "all"?"selected":"";
     $allUgsn = $ugsnS == "all"?"selected":"";
 
-    printf("<form method='post' action='/report/region_direction'><select class='input' style='margin: 5px;' name='ugsn'><option %S value='all'>Все</option>", $allUgsn);
+    printf("<form method='post' action=''><select class='input' style='margin: 5px;' name='ugsn'><option %S value='all'>Все</option>", $allUgsn);
     foreach ($data['ugsns'] as $ugsn){
         $selected = $ugsn['ID'] == $ugsnS?"selected":"";
         printf("<option %s value='%s'>%s %s</option>", $selected, $ugsn['ID'], Utils::dotDirect($ugsn['ID']), $ugsn['Name']);
@@ -29,6 +36,10 @@ if (isset($data['ugsns'])){
         printf("<option %s value='%s'>%s</option>", $selected, $district['ID'], $district['Name']);
     }
     print ("</select><input class='button' style='margin: 5px;' type='submit' value='Отфильтровать'></form>");
+}
+else{
+    printf("<button style='margin: 10px;' class='button add_student' onclick='document.location.href += \"%s\"'><img style='margin-right: 5px;' width='25' src='/images/excel_file.png'/>Экспорт в LibreOffice</button>", "/export/libre");
+    printf("<button style='margin: 10px;' class='button add_student' onclick='document.location.href += \"%s\"'><img style='margin-right: 5px;' width='25' src='/images/excel_file.png'/>Экспорт в Excel</button>", "/export/excel");
 }
 $info = $data['values'];
 
