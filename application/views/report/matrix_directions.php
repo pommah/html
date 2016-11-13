@@ -1,20 +1,27 @@
 <link rel="stylesheet" type="text/css" href="/css/student_list.css">
 <table class="studentList">
 <?php
-    print ("<tr><th>Регион \ Направления</th>");
-    if (isset($data['direction']['0'])){
-        $firstval =  $data['direction']['0']['Name'];
+    printf ("<tr><th>%s</th>", $data["header"]);
+    if (isset($data['data']['0'])){
+        $firstval =  $data['data']['0']['rowName'];
         $count = 0;
-        while ($data['direction'][$count]['Name'] == $firstval){
-            printf("<th >%s %s</th>", $data['direction'][$count]['ID_Direction'], $data['direction'][$count]['dirName']);
+        while ($data['data'][$count]['rowName'] == $firstval){
+            printf("<th >%s</th>", $data['data'][$count]['colName']);
             $count++;
         }
         print("</tr>");
-        for($i=0; $i < count($data['direction']); $i+=$count){
-            printf("<tr onclick='document.location.href=\"/university/index/region/%s\"'><td style='text-align: left'>%s</td>",$data['direction'][$i]['ID'] , $data['direction'][$i]['Name']);
+        $secondArg = false;
+        if (isset($data['data']['0']['arg2'])){
+            $secondArg = true;
+        }
+        for($i=0; $i < count($data['data']); $i+=$count){
+            printf("<tr><td style='text-align: left'>%s</td>", $data['data'][$i]['rowName']);
             for ($j=0; $j < $count; $j++){
-                printf("<td>%s</td>", $data['direction'][$i+$j]['count']);
-
+                $href = $data['to'].'/'.$data['data'][$i+$j]['arg'];
+                if ($secondArg){
+                    $href.='/'.$data['data'][$i+$j]['arg2'];
+                }
+                printf("<td onclick='document.location.href=\"%s\"'>%s</td>", $href, $data['data'][$i+$j]['count']);
             }
             print("</tr>");
         }

@@ -26,7 +26,7 @@ Class Controller_Report extends Authorized_Controller {
         $this->generateView('general');
     }
 
-    public function action_matrix($type = 'nozology', $district = '8', $ugsn = '010000'){
+    public function action_matrix($type = 'nozology', $arg1 = null, $arg2 = null){
         if ($type == 'nozology'){
             $this->data['to'] = "/report/matrix/nozology_district";
             $this->data['colName'] = "Округ \\ Нозологическая группа";
@@ -34,36 +34,69 @@ Class Controller_Report extends Authorized_Controller {
             $this->generateView('matrix_nozology');
         }
         else if($type == 'nozology_district'){
-            $this->data['to'] = "/university/index/region";
+            $this->data['to'] = "/report/matrix/nozology_region";
             $this->data['colName'] = "Регион \\ Нозологическая группа";
-            $this->data['nozology'] = $this->model->get_regions_by_nozology_group($district);
+            $this->data['nozology'] = $this->model->get_regions_by_nozology_group($arg1);
+            $this->generateView('matrix_nozology');
+        }
+        else if($type == 'nozology_region'){
+            $this->data['to'] = "/student/index";
+            $this->data['colName'] = "Университет \\ Нозологическая группа";
+            $this->data['nozology'] = $this->model->get_universities_by_nozology_group($arg1);
             $this->generateView('matrix_nozology');
         }
         else if ($type == 'ugsn'){
             $this->data['to'] = "direction";
-            $this->data['ugsn'] = $this->model->get_ugsn_by_districts();
-            $this->generateView('matrix_ugsn');
+            $this->data['header'] = "УГСН \\ Округ";
+            $this->data['data'] = $this->model->get_ugsn_by_districts();
+            $this->generateView('matrix_directions');
         }
         else if ($type == 'ugsn_lag'){
             $this->data['to'] = "direction_lag";
-            $this->data['ugsn'] = $this->model->get_ugsn_lag_by_districts();
-            $this->generateView('matrix_ugsn');
+            $this->data['header'] = "УГСН \\ Округ";
+            $this->data['data'] = $this->model->get_ugsn_lag_by_districts();
+            $this->generateView('matrix_directions');
         }
         else if ($type == 'ugsn_expelled'){
             $this->data['to'] = "direction_expelled";
-            $this->data['ugsn'] = $this->model->get_ugsn_expelled_by_districts();
-            $this->generateView('matrix_ugsn');
+            $this->data['header'] = "УГСН \\ Округ";
+            $this->data['data'] = $this->model->get_ugsn_expelled_by_districts();
+            $this->generateView('matrix_directions');
         }
         else if ($type == 'direction'){
-            $this->data['direction'] = $this->model->get_regions_by_directions($district, $ugsn);
+            $this->data['to'] = "/report/matrix/university";
+            $this->data['header'] = "Регион \\ Направления";
+            $this->data['data'] = $this->model->get_regions_by_directions($arg1, $arg2);
             $this->generateView('matrix_directions');
         }
         else if ($type == 'direction_lag'){
-            $this->data['direction'] = $this->model->get_regions_lag_by_directions($district, $ugsn);
+            $this->data['to'] = "/report/matrix/university_lag";
+            $this->data['header'] = "Регион \\ Направления";
+            $this->data['data'] = $this->model->get_regions_lag_by_directions($arg1, $arg2);
             $this->generateView('matrix_directions');
         }
         else if ($type == 'direction_expelled'){
-            $this->data['direction'] = $this->model->get_regions_expelled_by_directions($district, $ugsn);
+            $this->data['to'] = "/report/matrix/university_expelled";
+            $this->data['header'] = "Регион \\ Направления";
+            $this->data['data'] = $this->model->get_regions_expelled_by_directions($arg1, $arg2);
+            $this->generateView('matrix_directions');
+        }
+        else if ($type == 'university'){
+            $this->data['to'] = "/student/index";
+            $this->data['header'] = "Университет \\ Направление";
+            $this->data['data'] = $this->model->get_universities_by_direction($arg1, $arg2);
+            $this->generateView('matrix_directions');
+        }
+        else if ($type == 'university_lag'){
+            $this->data['to'] = "/student/index";
+            $this->data['header'] = "Университет \\ Направление";
+            $this->data['data'] = $this->model->get_universities_lag_by_direction($arg1, $arg2);
+            $this->generateView('matrix_directions');
+        }
+        else if ($type == 'university_expelled'){
+            $this->data['to'] = "/student/index";
+            $this->data['header'] = "Университет \\ Направление";
+            $this->data['data'] = $this->model->get_universities_expelled_by_direction($arg1, $arg2);
             $this->generateView('matrix_directions');
         }
     }
@@ -146,6 +179,11 @@ Class Controller_Report extends Authorized_Controller {
             $data = $this->report_to_csv($this->model->report_all_direction_region(), $separator);
             $this->give_file($data, "region_direction");
         }
+    }
+
+    public function action_region_direction_filter(){
+        //echo printf("<h1>%s</h1>",$_POST['test']);
+        $this->action_index();
     }
 
     public function action_region_nozology($export = null, $separator = 'libre'){

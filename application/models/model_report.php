@@ -32,6 +32,28 @@ Class Model_Report extends Model {
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
 
+    public function get_universities_by_nozology_group($region){
+        $req = parent::get_db_connection()->prepare("select id, name, nozology, sum(c) as count
+	from (
+     select University.ID as id, University.FullName as name, ProgramStudent.ID_NozologyGroup as nozology, count(LearningStudent.Id) as c 
+     from University inner join ProgramStudent on ProgramStudent.ID_University = University.ID
+     inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+     inner join Region on Region.ID = University.ID_Region 
+     inner join Okrug on Okrug.ID = Region.ID_Okrug
+     where LearningStudent.Status = 'Активно' AND Region.ID = ?
+     Group by University.ID, University.FullName, ProgramStudent.ID_NozologyGroup
+     union select University.ID as id, University.FullName as name, NozologyGroup.ID as nozology, 0 as c 
+     from University cross join NozologyGroup 
+     inner join Region on University.ID_Region = Region.ID
+     where Region.ID = ?
+    ) t
+    Group by id, name, nozology");
+        $req->bindParam(1, $region);
+        $req->bindParam(2, $region);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
     public function get_districts_by_nozology_group(){
         $req = parent::get_db_connection()->query("select id, name, nozology, sum(c) as count
 	from (
@@ -57,7 +79,7 @@ Class Model_Report extends Model {
     }
 
     public function get_regions_by_directions($district, $ugsn){
-        $req = parent::get_db_connection()->prepare("select ID, Name, ID_Direction, dirName, sum(count) as count
+        $req = parent::get_db_connection()->prepare("select ID as arg, Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ',dirName) as colName, ID_Direction as arg2, sum(count) as count
 	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(*) as count
 		from ((((Region inner join University on Region.ID = University.ID_Region) inner join ProgramStudent on University.ID = ProgramStudent.ID_University) inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID) inner join Direction on ProgramStudent.ID_Direction = Direction.ID) where Region.ID_Okrug = ? AND Direction.ID_Ugsn = ? 
 		group by Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name
@@ -73,7 +95,7 @@ Class Model_Report extends Model {
     }
 
     public function get_regions_lag_by_directions($district, $ugsn){
-        $req = parent::get_db_connection()->prepare("select ID, Name, ID_Direction, dirName, sum(count) as count
+        $req = parent::get_db_connection()->prepare("select ID as arg, Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ',dirName) as colName, ID_Direction as arg2, sum(count) as count
 	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
 		from Region inner join University on Region.ID = University.ID_Region
         inner join ProgramStudent on University.ID = ProgramStudent.ID_University
@@ -94,7 +116,7 @@ Class Model_Report extends Model {
     }
 
     public function get_regions_expelled_by_directions($district, $ugsn){
-        $req = parent::get_db_connection()->prepare("select ID, Name, ID_Direction, dirName, sum(count) as count
+        $req = parent::get_db_connection()->prepare("select ID as arg, Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ',dirName) as colName, ID_Direction as arg2, sum(count) as count
 	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
 		from Region inner join University on Region.ID = University.ID_Region
         inner join ProgramStudent on University.ID = ProgramStudent.ID_University
@@ -115,7 +137,7 @@ Class Model_Report extends Model {
     }
 
     public function get_ugsn_by_districts(){
-        $req = parent::get_db_connection()->query("select ID, Name, okrugId, okrug, sum(count) as count
+        $req = parent::get_db_connection()->query("select ID as arg2, concat(substr(ID, 1, 2), '.', substr(ID, 3, 2), '.', substr(ID, 5, 2), ' ',Name) as rowName, okrugId as arg, okrug as colName, sum(count) as count
 	from (
 	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, Count(*) as count
 		from (((((Region inner join University on Region.ID = University.ID_Region) inner join ProgramStudent on University.ID = ProgramStudent.ID_University) inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID) inner join Direction on ProgramStudent.ID_Direction = Direction.ID) inner join UGSN on Direction.ID_Ugsn = UGSN.ID) inner join Okrug on Okrug.Id = Region.ID_Okrug
@@ -129,7 +151,7 @@ Class Model_Report extends Model {
     }
 
     public function get_ugsn_lag_by_districts(){
-        $req = parent::get_db_connection()->query("select ID, Name, okrugId, okrug, sum(count) as count
+        $req = parent::get_db_connection()->query("select ID as arg2, concat(substr(ID, 1, 2), '.', substr(ID, 3, 2), '.', substr(ID, 5, 2), ' ',Name) as rowName, okrugId as arg, okrug as colName, sum(count) as count
 	from (
 	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, Count(distinct LearningStudent.Id) as count
 		from Region inner join University on Region.ID = University.ID_Region
@@ -150,7 +172,7 @@ Class Model_Report extends Model {
     }
 
     public function get_ugsn_expelled_by_districts(){
-        $req = parent::get_db_connection()->query("select ID, Name, okrugId, okrug, sum(count) as count
+        $req = parent::get_db_connection()->query("select ID as arg2, concat(substr(ID, 1, 2), '.', substr(ID, 3, 2), '.', substr(ID, 5, 2), ' ',Name) as rowName, okrugId as arg, okrug as colName, sum(count) as count
 	from (
 	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, Count(distinct LearningStudent.Id) as count
 		from Region inner join University on Region.ID = University.ID_Region
@@ -166,6 +188,68 @@ Class Model_Report extends Model {
 	select UGSN.ID, UGSN.Name, Okrug.ID as okrugId, Okrug.Name as okrug, 0 as count
 		from UGSN cross join Okrug ) t
     group by ID, Name, okrugId, okrug");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function get_universities_by_direction($region, $direction){
+        $req = parent::get_db_connection()->prepare("select ID as arg, FullName as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ',dirName) as colName, sum(count) as count
+	from (select University.ID, University.FullName, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(*) as count
+		from  University inner join ProgramStudent on University.ID = ProgramStudent.ID_University 
+        inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        inner join Direction on ProgramStudent.ID_Direction = Direction.ID 
+        where University.ID_Region = ? AND ProgramStudent.ID_Direction = ? 
+		group by University.ID, University.FullName, ProgramStudent.ID_Direction, Direction.Name
+	union select University.ID, University.FullName, Direction.ID, Direction.Name as dirName, 0 as count
+		from University cross join Direction 
+        where University.ID_Region = ? AND Direction.ID = ?) t	
+	group by ID, FullName, ID_Direction, dirName");
+        $req->bindParam(1, $region);
+        $req->bindParam(2, $direction);
+        $req->bindParam(3, $region);
+        $req->bindParam(4, $direction);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function get_universities_lag_by_direction($region, $direction){
+        $req = parent::get_db_connection()->prepare("select ID as arg, FullName as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ',dirName) as colName, sum(count) as count
+	from (select University.ID, University.FullName, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(DISTINCT LearningStudent.ID) as count
+		from  University inner join ProgramStudent on University.ID = ProgramStudent.ID_University 
+        inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        inner join Direction on ProgramStudent.ID_Direction = Direction.ID
+        inner join Trajectory on Trajectory.ID_Learning = LearningStudent.ID
+        where University.ID_Region = ? AND ProgramStudent.ID_Direction = ? AND Trajectory.Status = 'Задолженность' 
+		group by University.ID, University.FullName, ProgramStudent.ID_Direction, Direction.Name
+	union select University.ID, University.FullName, Direction.ID, Direction.Name as dirName, 0 as count
+		from University cross join Direction 
+        where University.ID_Region = ? AND Direction.ID = ?) t	
+	group by ID, FullName, ID_Direction, dirName");
+        $req->bindParam(1, $region);
+        $req->bindParam(2, $direction);
+        $req->bindParam(3, $region);
+        $req->bindParam(4, $direction);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function get_universities_expelled_by_direction($region, $direction){
+        $req = parent::get_db_connection()->prepare("select ID as arg, FullName as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ',dirName) as colName, sum(count) as count
+	from (select University.ID, University.FullName, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(DISTINCT LearningStudent.ID) as count
+		from  University inner join ProgramStudent on University.ID = ProgramStudent.ID_University 
+        inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        inner join Direction on ProgramStudent.ID_Direction = Direction.ID
+        inner join Trajectory on Trajectory.ID_Learning = LearningStudent.ID
+        where University.ID_Region = ? AND ProgramStudent.ID_Direction = ? AND Trajectory.Status = 'Отчислен' 
+		group by University.ID, University.FullName, ProgramStudent.ID_Direction, Direction.Name
+	union select University.ID, University.FullName, Direction.ID, Direction.Name as dirName, 0 as count
+		from University cross join Direction 
+        where University.ID_Region = ? AND Direction.ID = ?) t	
+	group by ID, FullName, ID_Direction, dirName");
+        $req->bindParam(1, $region);
+        $req->bindParam(2, $direction);
+        $req->bindParam(3, $region);
+        $req->bindParam(4, $direction);
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
