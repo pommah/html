@@ -78,6 +78,12 @@ Class Model_Report extends Model {
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
 
+    public function get_all_districts(){
+        $req = parent::get_db_connection()->query("SELECT * from Okrug");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
     public function get_regions_by_directions($district, $ugsn){
         $req = parent::get_db_connection()->prepare("select ID as arg, Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ',dirName) as colName, ID_Direction as arg2, sum(count) as count
 	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(*) as count
@@ -353,6 +359,29 @@ Class Model_Report extends Model {
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
 
+    public function report_direction_region_filtered($status, $ugsn, $district){
+        $req = parent::get_db_connection()->prepare("select Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ', dirName) as colName, sum(count) as value
+	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
+		from Region inner join University on Region.ID = University.ID_Region
+        inner join ProgramStudent on University.ID = ProgramStudent.ID_University
+        inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        inner join Direction on ProgramStudent.ID_Direction = Direction.ID 
+        inner join Trajectory on Trajectory.ID_Learning = LearningStudent.ID
+        where Trajectory.Status = ? AND Region.ID_Okrug LIKE ? AND Direction.ID_Ugsn LIKE ?
+		group by Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name
+	union select Region.ID, Region.Name, Direction.ID, Direction.Name as dirName, 0 as count
+		from Region cross join Direction
+		where Region.ID_Okrug LIKE ? AND Direction.ID_Ugsn LIKE ?) t	
+	group by Name, ID_Direction, dirName");
+        $req->bindParam(1, $status);
+        $req->bindParam(2, $district);
+        $req->bindParam(3, $ugsn);
+        $req->bindParam(4, $district);
+        $req->bindParam(5, $ugsn);
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
     public function report_all_direction_region(){
         $req = parent::get_db_connection()->query("select Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ', dirName) as colName, sum(count) as value
 	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
@@ -364,6 +393,27 @@ Class Model_Report extends Model {
 	union select Region.ID, Region.Name, Direction.ID, Direction.Name as dirName, 0 as count
 		from Region cross join Direction) t	
 	group by Name, ID_Direction, dirName");
+        $req->execute();
+        return $req->fetchAll(PDO::FETCH_NAMED);
+    }
+
+    public function report_all_direction_region_filtered($ugsn, $district){
+        $req = parent::get_db_connection()->prepare("select Name as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ', dirName) as colName, sum(count) as value
+	from (select Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(distinct LearningStudent.ID) as count
+		from Region inner join University on Region.ID = University.ID_Region
+        inner join ProgramStudent on University.ID = ProgramStudent.ID_University
+        inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+        inner join Direction on ProgramStudent.ID_Direction = Direction.ID
+        where Region.ID_Okrug LIKE ? AND Direction.ID_Ugsn LIKE ?
+		group by Region.ID, Region.Name, ProgramStudent.ID_Direction, Direction.Name
+	union select Region.ID, Region.Name, Direction.ID, Direction.Name as dirName, 0 as count
+		from Region cross join Direction
+		where Region.ID_Okrug LIKE ? AND Direction.ID_Ugsn LIKE ?) t	
+	group by Name, ID_Direction, dirName");
+        $req->bindParam(1, $district);
+        $req->bindParam(2, $ugsn);
+        $req->bindParam(3, $district);
+        $req->bindParam(4, $ugsn);
         $req->execute();
         return $req->fetchAll(PDO::FETCH_NAMED);
     }

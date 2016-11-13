@@ -3,7 +3,33 @@ $header = $data['header'];
 printf("<h2 style='display: inline-block;'>%s</h2><table class='studentList'><tr><th></th>", $header);
 printf("<button style='margin: 10px;' class='button add_student' onclick='document.location.href += \"%s\"'><img style='margin-right: 5px;' width='25' src='/images/excel_file.png'/>Экспорт в LibreOffice</button>", "/export/libre");
 printf("<button style='margin: 10px;' class='button add_student' onclick='document.location.href += \"%s\"'><img style='margin-right: 5px;' width='25' src='/images/excel_file.png'/>Экспорт в Excel</button>", "/export/excel");
-printf("<form action='report/region_direction_filter'><input name='test' type='text'><input type='submit' value='Отфильтровать'></form>");
+
+if (isset($data['ugsns'])){
+    $ugsnS = 'all';
+    if (isset($data['ugsn'])){
+        $ugsnS = $data['ugsn'];
+    }
+
+    $districtS = 'all';
+    if (isset($data['district'])){
+        $districtS = $data['district'];
+    }
+
+    $allDistricts = $districtS == "all"?"selected":"";
+    $allUgsn = $ugsnS == "all"?"selected":"";
+
+    printf("<form method='post' action='/report/region_direction'><select class='input' style='margin: 5px;' name='ugsn'><option %S value='all'>Все</option>", $allUgsn);
+    foreach ($data['ugsns'] as $ugsn){
+        $selected = $ugsn['ID'] == $ugsnS?"selected":"";
+        printf("<option %s value='%s'>%s %s</option>", $selected, $ugsn['ID'], Utils::dotDirect($ugsn['ID']), $ugsn['Name']);
+    }
+    printf("</select><select class='input' style='margin: 5px;' name='district'><option %s value='all'>Все</option>", $allDistricts);
+    foreach ($data['districts'] as $district){
+        $selected = $district['ID'] == $districtS?"selected":"";
+        printf("<option %s value='%s'>%s</option>", $selected, $district['ID'], $district['Name']);
+    }
+    print ("</select><input class='button' style='margin: 5px;' type='submit' value='Отфильтровать'></form>");
+}
 $info = $data['values'];
 
 $firstval =  $info['0']['rowName'];

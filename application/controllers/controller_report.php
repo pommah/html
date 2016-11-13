@@ -142,8 +142,11 @@ Class Controller_Report extends Authorized_Controller {
     }
 
     public function action_region_direction($target = 'all', $export = null, $separator = 'libre'){
+        $this->data['ugsns'] = $this->model->get_all_ugsn();
+        $this->data['districts'] = $this->model->get_all_districts();
+        $this->query_data_for_report($target);
         if ($target == 'all'){
-            $this->data['values'] = $this->model->report_all_direction_region();
+
             if ($export == null){
                 $this->data['header'] = "Все студенты по регионам и направлениям";
                 $this->generateView('exportable');
@@ -154,7 +157,7 @@ Class Controller_Report extends Authorized_Controller {
             }
         }
         else if ($target == 'lag'){
-            $this->data['values'] = $this->model->report_direction_region('Задолженность');
+
             if ($export == null){
                 $this->data['header'] = "Неуспевающие студенты по регионам и направлениям";
                 $this->generateView('exportable');
@@ -165,7 +168,7 @@ Class Controller_Report extends Authorized_Controller {
             }
         }
         else if ($target == 'expelled'){
-            $this->data['values'] = $this->model->report_direction_region('Отчислен');
+
             if ($export == null){
                 $this->data['header'] = "Отчисленные студенты по регионам и направлениям";
                 $this->generateView('exportable');
@@ -181,9 +184,37 @@ Class Controller_Report extends Authorized_Controller {
         }
     }
 
-    public function action_region_direction_filter(){
-        //echo printf("<h1>%s</h1>",$_POST['test']);
-        $this->action_index();
+    public function query_data_for_report($type = 'all'){
+        if (isset($_POST['district'])){
+            $district = $_POST['district'];
+            $ugsn = $_POST['ugsn'];
+            $this->data['district'] = $district;
+            $this->data['ugsn'] = $ugsn;
+
+            $ugsn = $ugsn == 'all'?'%':$ugsn;
+            $district = $district == 'all'?"%":$district;
+
+            if ($type == 'all'){
+                $this->data['values'] = $this->model->report_all_direction_region_filtered($ugsn, $district);
+            }
+            else if($type == 'lag'){
+                $this->data['values'] = $this->model->report_direction_region_filtered('Задолженность', $ugsn, $district);
+            }
+            else if ($type == 'expelled'){
+                $this->data['values'] = $this->model->report_direction_region_filtered('Отчислен', $ugsn, $district);
+            }
+        }
+        else{
+            if ($type == 'all'){
+                $this->data['values'] = $this->model->report_all_direction_region();
+            }
+            else if($type == 'lag'){
+                $this->data['values'] = $this->model->report_direction_region('Задолженность');
+            }
+            else if ($type == 'expelled'){
+                $this->data['values'] = $this->model->report_direction_region('Отчислен');
+            }
+        }
     }
 
     public function action_region_nozology($export = null, $separator = 'libre'){
