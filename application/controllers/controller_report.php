@@ -23,6 +23,7 @@ Class Controller_Report extends Authorized_Controller {
         $this->data['pie_year'] = $this->model->get_stud_by_year_for_pie();
         $this->data['pie_level'] = $this->model->get_stud_by_level_for_pie();
         $this->data['pie_form'] = $this->model->get_stud_by_form_for_pie();
+        $this->data['diag_prog'] = $this->model->get_program_nozology();
         $this->generateView('general');
     }
 

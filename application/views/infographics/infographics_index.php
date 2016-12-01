@@ -1,5 +1,6 @@
 <link type="text/css" rel="stylesheet" href="/modules/map/map.css"/>
 
+
 <h1 id="header"></h1>
 <div id="map_russia">
     <object type="image/svg+xml" data="/modules/map/russia.svg" onload="svg_ready(this)" id="svg">
@@ -17,6 +18,7 @@
         <label>Регионы<input type="radio" name="filter" value="1"></label>
     </fieldset>
 </form>
+
 <script type="text/javascript">
     var region_data = {
         <?php
@@ -42,6 +44,7 @@
         ?>
     }
 </script>
+
 <script src="/modules/map/regions.js"></script>
 <script src="/modules/map/map-data.js"></script>
 <script src="/modules/map/map.js"></script>

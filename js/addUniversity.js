@@ -9,7 +9,7 @@ function save() {
     var dataRegion = region.selectedOptions[0].id;
     var dataStatus = status.value;
 
-    var regularFull = /^[А-яA-z -]{3,60}$/;
+    var regularFull = /^[А-яA-z -]{3,160}$/;
     var regularRegion = /^[0-9]{2}$/;
     var regularShort = /^[А-я]{3,30}$/;
     var regularStatus = /^[А-я]{3,30}$/;

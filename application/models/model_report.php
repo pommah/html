@@ -218,6 +218,28 @@ Class Model_Report extends Model {
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
 
+    public function get_program_nozology() {
+        $req = parent::get_db_connection()->query("select id, name, nozology, sum(c) as count
+	from (
+     select Okrug.ID as id, Okrug.Name as name, ProgramStudent.ID_NozologyGroup as nozology, count(LearningStudent.Id) as c 
+     from University inner join ProgramStudent on ProgramStudent.ID_University = University.ID
+     inner join LearningStudent on LearningStudent.ID_Program = ProgramStudent.ID
+     inner join Region on Region.ID = University.ID_Region 
+     inner join Okrug on Okrug.ID = Region.ID_Okrug
+     where LearningStudent.Status = 'Активно'
+     Group by Okrug.ID, Okrug.Name, ProgramStudent.ID_NozologyGroup
+     union select Okrug.ID as id, Okrug.Name as name, NozologyGroup.ID as nozology, 0 as c 
+     from Okrug cross join NozologyGroup
+    ) t
+    Group by id, name, nozology");
+        $arr = [];
+        while($row = $req->fetch()) {
+            $arr[$row['id']]['Name'] = $row['name'];
+            $arr[$row['id']][$row['nozology']] = $row['count'];
+        }
+        return $arr;
+    }
+
     public function get_universities_lag_by_direction($region, $direction){
         $req = parent::get_db_connection()->prepare("select ID as arg, FullName as rowName, concat(substr(ID_Direction, 1, 2), '.', substr(ID_Direction, 3, 2), '.', substr(ID_Direction, 5, 2), ' ',dirName) as colName, sum(count) as count
 	from (select University.ID, University.FullName, ProgramStudent.ID_Direction, Direction.Name as dirName, Count(DISTINCT LearningStudent.ID) as count

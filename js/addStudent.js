@@ -21,7 +21,7 @@ function save() {
     var dataFileDistance = fileDistance.files[0];
     var dataFilePortfolio = filePortfolio.files[0];
 
-    var regularId = /^[А-яA-z ]{3,50}$/;
+    var regularId = /^[А-яA-z\s]{3,50}$/;
     var regularNoz = /^[0-9]$/;
     var regularDate = /^[0-9]{2,4}.[0-9]{1,2}.[0-9]{1,2}$/;
 
