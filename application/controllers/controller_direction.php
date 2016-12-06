@@ -10,7 +10,7 @@ class Controller_direction extends Authorized_Controller
     }
 
     function action_index(){
-        $universityId = 1;
+        $universityId = $this->get_user_university_id();
         $this->data['content'] = $this->model->get_university_directions($universityId);
         $this->generateView('index');
     }
@@ -35,9 +35,9 @@ class Controller_direction extends Authorized_Controller
         if (array_key_exists('directions', $_POST)){
             $selectedDirections = $_POST['directions'];
             $directions = explode(";", $selectedDirections);
-            echo $this->model->update_directions($directions);
+            echo $this->model->update_directions($directions, $this->get_user_university_id());
         }else{
-            $universityId = 1;
+            $universityId = $this->get_user_university_id();
             $this->data["directions"] = $this->model->get_university_directions_id($universityId);
             $this->data["all_directions"] = $this->model->get_direction();
             $this->generateView('edit_all');

@@ -56,10 +56,8 @@ class Model_Direction extends Model
         $dir = $req->fetchAll(PDO::FETCH_COLUMN, 0);
         return $dir;
     }
-    public function update_directions($directions){
+    public function update_directions($directions, $universityId){
         $prepareTable = parent::get_db_connection()->prepare("DELETE FROM UniversityDirection WHERE ID_University = ?");
-        //Todo Функция получения id университета
-        $universityId = 1;
         $prepareTable->bindParam(1, $universityId);
         $prepareTable->execute();
         $query = parent::get_db_connection()->prepare("INSERT INTO UniversityDirection (UniversityDirection.ID_University, UniversityDirection.ID_Direction) VALUES (?, ?)");

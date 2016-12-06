@@ -151,9 +151,8 @@ class Model_Student extends Model
         return $req->fetchAll(PDO::FETCH_NAMED);
     }
 
-    public function get_programs(){
+    public function get_programs($universityId){
         $req = parent::get_db_connection()->prepare("SELECT ProgramStudent.ID, ID_Direction, Level, PeriodOfStudy, Form, NozologyGroup.Name FROM ProgramStudent INNER JOIN NozologyGroup ON ID_NozologyGroup=NozologyGroup.ID WHERE ID_University=?");
-        $universityId = 1;
         $req->bindParam(1, $universityId);
         $req->execute();
         $data = $req->fetchAll(PDO::FETCH_NAMED);
