@@ -6,7 +6,7 @@
         <th>Логин</th>
         <th>E-mail</th>
         <th>Университет</th>
-        <th></th>
+        <th width="70"></th>
     </tr>
     <?php
         foreach ($data['users'] as $user){
@@ -15,8 +15,8 @@
             printf("<td>%s</td>", $user['Login']);
             printf("<td>%s</td>", $user['Email']);
             printf("<td>%s</td>", $user['Univer']);
-            printf("<td><img src='/images/delete_file.png'  width='18' onclick='deleteUser(%s)'>
-                    <img src='/images/edit_file.png' width='18' onclick='event.stopPropagation(); window.location.href=\"/user/edit/%s\"'>
+            printf("<td><img src='/images/delete_file.png'  width='20' onclick='deleteUser(%s,event)'>
+                    <img src='/images/edit_file.png' width='20' onclick='event.stopPropagation(); window.location.href=\"/user/edit/%s\"'>
                     </td>", $user['ID'], $user['ID']);
             print ("</tr>");
         }
