@@ -1,0 +1,41 @@
+button{
+    width: 200px;
+    height: 40px;
+}
+
+.button{
+    border-radius: 0px;
+    border: none;
+    font-size: 13pt;
+}
+
+.control_button{
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.ok_button{
+    background-color: #4385f3;
+    border-bottom: 5px solid #365c84;
+    margin-left: 20px;
+}
+
+.cancel_button{
+    background-color: white;
+    color: black;
+    border-bottom: 5px solid lightgrey;
+}
+
+.ok_button:hover {
+    background-color: #4385f3;
+    border-bottom: 5px solid black;
+}
+
+.cancel_button:hover{
+    background-color: white;
+    border-bottom: 5px solid black;
+}
+
+.cancel_button:active{
+    color: black;
+}

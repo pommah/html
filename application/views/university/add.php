@@ -1,11 +1,12 @@
-<div class="AddHead">Добавление ВУЗа</div>
+<div class="title">Добавление ВУЗа</div>
+<hr>
 <div class="blockInput">
     <div>
         <div class="leftLabel">
             Регион:
         </div>
         <div class="dataUser">
-            <select id="region" class="input addInput">
+            <select id="region" class="input">
                 <?php
                 $okrug = null;
                 foreach ($data['regions'] as $region){
@@ -28,7 +29,7 @@
             Полное наименование:
         </div>
         <div class="dataUser">
-            <input type="text" id="fullName" class="input addInput" size="41" placeholder="Укажите полное наименование">
+            <input type="text" id="fullName" class="input" size="41" placeholder="Укажите полное наименование">
         </div>
     </div>
     <div>
@@ -36,7 +37,7 @@
             Краткое наименование:
         </div>
         <div class="dataUser">
-            <input type="text" id="shortName" class="input addInput" size="41" placeholder="Укажите краткое наименование">
+            <input type="text" id="shortName" class="input" size="41" placeholder="Укажите краткое наименование">
         </div>
     </div>
     <div>
@@ -44,15 +45,24 @@
             Статус:
         </div>
         <div class="dataUser">
-            <select id="status" class="input addInput">
+            <select id="status" class="input">
                 <option>Государственный</option>
                 <option>Частный</option>
             </select>
         </div>
     </div>
-    <button style="margin-top: 20px" onclick="window.history.back();" class="button addInput">Отменить</button>
-    <button style="margin-top: 20px" onclick="save()" class="button addInput">Добавить</button>
+    <div>
+        <div class="leftLabel">
+
+        </div>
+        <div class="dataUser">
+            <button onclick="window.history.back();" class="button control_button cancel_button">Отменить</button>
+            <button onclick="save()" class="button control_button ok_button">Добавить</button>
+        </div>
+    </div>
 </div>
-<link rel="stylesheet" type="text/css" href="/css/add_user.css">
+<link rel="stylesheet" type="text/css" href="/css/inputs.css">
+<link rel="stylesheet" type="text/css" href="/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/css/titles.css">
 <script type="text/javascript" src="/js/ajax.js"></script>
 <script type="text/javascript" src="/js/addUniversity.js"></script>

@@ -1,0 +1,50 @@
+input, select{
+    width: 700px;
+    height: 40px;
+    font-size: 13pt;
+}
+
+input[type=text]{
+    border: none;
+    border-bottom: 5px solid lightgrey;
+    border-radius: 0px;
+    padding-left: 10px;
+}
+
+select.input{
+    border: none;
+    border-bottom: 5px solid lightgrey;
+    border-radius: 0px;
+    padding-left: 10px;
+}
+
+input[type=text]:focus{
+    border: none;
+    border-bottom: 5px solid #4385f3;
+}
+
+select.input:focus{
+    border: none;
+    border-bottom: 5px solid #4385f3;
+}
+
+optgroup{
+    color: #4385f3;
+}
+
+option{
+    color: black;
+}
+
+.leftLabel {
+    text-align: right;
+    color: #365c84;
+    display: inline-block;
+    width: 250px;
+}
+
+.dataUser {
+    padding: 5px;
+    display: inline-block;
+}
+
