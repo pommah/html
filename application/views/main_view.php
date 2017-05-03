@@ -2,15 +2,12 @@
     <head>
         <title>Вход в систему</title>
         <meta charset="utf-8">
-        <link rel="stylesheet" type="text/css" href="css/main.css">
         <link rel="stylesheet" type="text/css" href="css/auth.css">
-        <link rel="stylesheet" type="text/css" href="/css/head.css">
 
     </head>
     <body>
-    <div class="head">
-        <div class="type leftMenu">
-            Система учета и сопровождения в процессе получения высшего образования лиц с инвалидностью</div>
+    <div class="headerAuth">
+        Система учета и сопровождения в процессе получения высшего образования лиц с инвалидностью
     </div>
         <div class="out">
             <div class="auth_block">

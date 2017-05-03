@@ -8,7 +8,7 @@
     border-bottom: 1px solid #8e8e8e;
     overflow: hidden;
     border-bottom: 1px solid #8e8e8e;
-    background: linear-gradient(to top, #80aaff, #a3d3ff);
+    background: linear-gradient(to top, rgb(46, 100, 215), #649aee);
     box-shadow: 0px 1px 50px 0px #8e8e8e;
     z-index: 10;
 }
@@ -17,6 +17,7 @@
     margin: 20px;
     color: #FFFFFF;
     cursor: default;
+    font-family: Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
     font-size: 17px;
     text-shadow: 1px 1px 2px black;
 }

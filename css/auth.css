@@ -1,13 +1,29 @@
 body {
     height: 100%;
-    background-image: url(/images/background.png);
+    width: 100%;
+    background-color: #4385f3;
+    padding: 0;
+    margin: 0;
+    /*background-image: url(/images/background.png);
     background-repeat: no-repeat;
-    background-position: right bottom;
+    background-position: right center;*/
+    font-family: Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
+}
+.headerAuth {
+    width: 80%;
+    margin: auto;
+    line-height: 1.5em;
+    padding-top: 4%;
+    color: white;
+    font-weight: bold;
+    font-size: 30px;
+    text-align: center;
+    text-shadow: 1px 1px 1px darkblue;
 }
 .out:before {
     content: '';
     display: inline-block;
-    height: 100%;
+    height: 75%;
     vertical-align: middle;
 }
 
@@ -15,54 +31,41 @@ body {
     text-align: center;
 }
 .auth_block {
-    width: 32em;
-    margin-left: auto;
-    margin-right: auto;
+    width: 45%;
+    text-align: center;
     display: inline-block;
     vertical-align: middle;
-    background-color: #ffffff;
-    border: 1px solid #8e8e8e;
-    border-radius: 5px;
-    text-align: center;
-    box-shadow: 0px 0px 15px 0px #8e8e8e;
-
 }
 .authInput {
-    font-size: 16px;
-    margin-top: 10px;
-    width: 20em;
+    font-size: 20px;
+    padding: 0.7em;
+    margin-bottom: 20px;
+    width: 15em;
     background-color: white;
 }
 .authButton {
-    padding: 1px;
-    font-size: 16px;
-    margin-top: 20px;
-    border: 1px solid #8e8e8e;
-    background-color: #80aaff;
-    color: #ffffff;
-    border-radius: 3px;
-    width: 20em;
-    padding-top: 3px;
-    padding-bottom: 3px;
+    font-size: 20px;
+    padding: 0.7em;
+    margin-bottom: 20px;
+    width: 15em;
+    background-color: #4385f3;
+    color: #FFFFFF;
+    border: 1px solid #649aee;
+    cursor: pointer;
+}
+.authButton:hover {
+    border: 1px solid #FFFFFF;
+}
+.authButton:active {
+    color: #dfe4ff;
 }
 .head_auth {
     position: relative;
-    top: 0;
-    background-color: #80aaff;
     color: white;
-    border-bottom: 1px solid #8e8e8e;
-    padding: 8px;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    font-weight: bold;
-    font-size: 20px;
-}
-.auth_fields {
-    margin: 20px;
-    padding-top: 15px;
+    font-size: 24px;
 }
 .foot {
-    color: #727272;
+    color: #cecece;
     position: absolute;
     width: 100%;
     bottom: 5px;
@@ -70,14 +73,14 @@ body {
     text-align: center;
 }
 .forget_pass {
-    margin-top: 10px;
+    margin-top: -10px;
 }
 .forget_href {
     text-decoration: none;
-    color: #8e8e8e;
+    color: #cecece;
 }
 #error_line {
-    height: 1em;
-    color: #ff423a;
+    height: 1.5em;
+    color: #ffcb5c;
     font-size: 16px;
 }
