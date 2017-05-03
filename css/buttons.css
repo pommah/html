@@ -16,24 +16,26 @@ button{
 
 .ok_button{
     background-color: #4385f3;
-    border-bottom: 5px solid #365c84;
     margin-left: 20px;
+    border: 1px solid #4385f3;
+    margin-top: 4%;
 }
 
 .cancel_button{
     background-color: white;
     color: black;
-    border-bottom: 5px solid lightgrey;
+    border: 1px solid lightgrey;
 }
 
 .ok_button:hover {
     background-color: #4385f3;
-    border-bottom: 5px solid black;
+    border: 1px solid black;
+
 }
 
 .cancel_button:hover{
     background-color: white;
-    border-bottom: 5px solid black;
+    border: 1px solid #4385f3;
 }
 
 .cancel_button:active{

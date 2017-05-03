@@ -1,5 +1,4 @@
 <div class="title">Добавление ВУЗа</div>
-<hr>
 <div class="blockInput">
     <div>
         <div class="leftLabel">

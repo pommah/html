@@ -1,29 +1,40 @@
 .head {
-    position: fixed;
+    position: relative;
     top: 0;
     margin: 0;
-    min-width: 1000px;
     width: 100%;
-    background-color: #80aaff;
-    border-bottom: 1px solid #8e8e8e;
+
     overflow: hidden;
-    border-bottom: 1px solid #8e8e8e;
-    background: linear-gradient(to top, rgb(46, 100, 215), #649aee);
-    box-shadow: 0px 1px 50px 0px #8e8e8e;
+    background-color: #4385f3;
     z-index: 10;
 }
-.leftMenu {
-    float: left;
-    margin: 20px;
+.caption {
+    margin: 2%;
     color: #FFFFFF;
     cursor: default;
+    display: inline-block;
+    width: 50%;
     font-family: Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
-    font-size: 17px;
-    text-shadow: 1px 1px 2px black;
+    font-size: 18px;
+    font-weight: bold;
 }
-.rightMenu {
-    float: right;
-    margin: 20px;
-    color: #FFFFFF;
+.headMenus {
+    display: inline-block;
+    width: 40%;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    text-align: right;
+}
+.itemMenu {
+    display: inline-block;
+    color: white;
+    font-size: 16px;
+    margin-left: 5%;
     cursor: pointer;
+}
+.itemMenu:hover {
+    color: #e1e1e1;
+}
+.exit {
+
 }
