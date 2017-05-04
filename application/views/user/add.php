@@ -1,18 +1,20 @@
 <html>
     <head>
         <title>Добавление пользователя</title>
-        <link rel="stylesheet" type="text/css" href="/css/add_user.css">
+        <link rel="stylesheet" type="text/css" href="/css/inputs.css">
+        <link rel="stylesheet" type="text/css" href="/css/buttons.css">
+        <link rel="stylesheet" type="text/css" href="/css/titles.css">
     </head>
 
 <body>
-    <div class="AddHead">Добавление пользователя</div>
+    <div class="title">Добавление пользователя</div>
     <div class="blockInput">
         <div>
             <div class="leftLabel">
                 Имя:
             </div>
             <div class="dataUser">
-                <input type="text" id="name" class="input addInput" placeholder="Укажите имя">
+                <input type="text" id="name" class="input" placeholder="Укажите имя">
             </div>
         </div>
         <div>
@@ -20,7 +22,7 @@
             Логин:
         </div>
         <div class="dataUser">
-            <input type="text" id="login" class="input addInput" placeholder="Укажите логин">
+            <input type="text" id="login" class="input" placeholder="Укажите логин">
         </div>
         </div>
         <div>
@@ -28,7 +30,7 @@
             Пароль:
         </div>
         <div class="dataUser">
-            <input type="password" id="password" class="input addInput" placeholder="Укажите пароль">
+            <input type="password" id="password" class="input" placeholder="Укажите пароль">
         </div>
         </div>
         <div>
@@ -36,7 +38,7 @@
             Повтор пароля:
         </div>
         <div class="dataUser">
-            <input type="password" id="confirmPassword" class="input addInput" placeholder="Повторите пароль">
+            <input type="password" id="confirmPassword" class="input" placeholder="Повторите пароль">
         </div>
             </div>
 
@@ -45,7 +47,7 @@
                 Email:
             </div>
             <div class="dataUser">
-                <input type="email" id="email" class="input addInput" placeholder="Укажите адрес электронной почты">
+                <input type="email" id="email" class="input" placeholder="Укажите адрес электронной почты">
             </div>
         </div>
 
@@ -54,7 +56,7 @@
                 Права доступа:
             </div>
             <div class="dataUser">
-                <select id="permission" onchange='changePermission(this)' class="input addInput">
+                <select id="permission" onchange='changePermission(this)' class="input">
                     <option selected disabled value="">Выберите права доступа:</option>
                 <?php
                 foreach (UserTypes::ARRAY as $key=>$value) {
@@ -64,11 +66,14 @@
                     </select>
             </div>
         </div>
-        <div id="addon">
-
+        <div>
+            <div class="leftLabel">
+            </div>
+            <div class="dataUser">
+                <button onclick="window.history.back();" class="button control_button cancel_button">Отменить</button>
+                <button style="margin-top: 20px" onclick="addUser()" class="button control_button ok_button">Добавить</button>
+            </div>
         </div>
-
-            <button style="margin-top: 20px" onclick="addUser()" class="button addInput">Добавить</button>
         <div id="error"></div>
     </div>
     <script type="text/javascript" src="/js/ajax.js"></script>

@@ -1,7 +1,7 @@
 var optionNew = "Загрузить новый файл";
 var optionExist = "Оставить текущий файл";
 var optionDelete = "Удалить файл";
-var optionNone = "Отсутсвует";
+var optionNone = "Отсутствует";
 
 onload = function () {
     widthTable = document.getElementById('trackTable').offsetWidth;
