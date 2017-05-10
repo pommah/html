@@ -15,13 +15,13 @@ html,body {
 .input:focus {
     border: 1px solid #80aaff;
 }
-.button {
+/*.button {
     border: 1px solid #8e8e8e;
     background-color: #80aaff;
     color: white;
     padding: 3px;
     border-radius: 3px;
-}
+}*/
 .button::-webkit-file-upload-button {
     background-color: white;
 }
@@ -51,18 +51,18 @@ a {
 .userMenu > a{
     text-decoration: none;
     margin: 15px;
-    color: #7095df;
+    color: #4385f3;
     font-weight: bold;
     display: block;
-    border-bottom: 1px solid #e1e1e1;
+    border-bottom: 2px solid #e1e1e1;
     padding-bottom: 7px;
 
 }
 .userMenu > a:first-of-type {
-    margin-top: 90px;
+    margin-top: 130px;
 }
 .userMenu a:hover {
-    color: #3547c3;
+    color: #365c84;
 }
 .userMenu > a.subMenu{
     margin-left: 30px;

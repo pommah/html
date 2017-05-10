@@ -1,7 +1,7 @@
 <link type="text/css" rel="stylesheet" href="/modules/map/map.css"/>
+<link type="text/css" rel="stylesheet" href="/css/titles.css"/>
 
-
-<h1 id="header"></h1>
+<div class="title" id="header"></div>
 <div id="map_russia">
     <object type="image/svg+xml" data="/modules/map/russia.svg" onload="svg_ready(this)" id="svg">
     </object>

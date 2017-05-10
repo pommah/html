@@ -74,12 +74,14 @@ input[type=radio]{
     text-align: right;
     width: 64%;
 }
-.addOk {
- margin-top: 2%;
+
+.rightLabel{
+    text-align: left;
+    padding-left: 3%;
 }
 
-.addCanc {
-    margin-top: 2%;
+.rightLabel img{
+    padding: 0px 5px;
 }
 
 #direction,

@@ -305,39 +305,7 @@ Class Controller_Report extends Authorized_Controller {
             if ($count < 18){
                 $color = Utils::$colors[$count];
             }
-            if ($per<0.5){
-                $x1 = 50 - 50*cos(deg2rad($sumAngle));
-                $y1 = 50 - 50*sin(deg2rad($sumAngle));
-                $sumAngle+= $per*360;
-                $newX = 50 - 50*cos(deg2rad($sumAngle));
-                $newY = 50 - 50*sin(deg2rad($sumAngle));
-                if ($sumAngle > 445){
-                    $newX = 50;
-                    $newY = 0;
-                }
-                $textX = ($x1+$newX)/2;
-                $textY = ($y1+$newY)/2;
-                $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");' ></path>", $color, $x1, $y1, $newX, $newY, $hint);
-            }else{
-                $parts = $per/2;
-                for ($i=1; $i<=2; $i++){
-                    $x1 = 50 - 50*cos(deg2rad($sumAngle));
-                    $y1 = 50 - 50*sin(deg2rad($sumAngle));
-                    $sumAngle+= $parts*360;
-                    $newX = 50 - 50*cos(deg2rad($sumAngle));
-                    $newY = 50 - 50*sin(deg2rad($sumAngle));
-                    if ($sumAngle > 445){
-                        $newX = 50;
-                        $newY = 0;
-                    }
-                    if ($i == 1){
-                        $textX = ($x1+$newX)/2;
-                        $textY = ($y1+$newY)/2;
-                    }
-                    $path.=sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");'></path>", $color, $x1, $y1, $newX, $newY, $hint);
-
-                }
-            }
+            list($sumAngle, $textX, $textY, $path) = self::drawSegmentNew($per, $sumAngle, $color, $hint, $path);
             if ($sumAngle > 370 && $sumAngle < 450){
                 $textY+=10;
             }else if($sumAngle > 90 && $sumAngle < 280){
@@ -350,6 +318,78 @@ Class Controller_Report extends Authorized_Controller {
             $count++;
         }
         $table.="</table>";
-        return "<div><h3>".$header."</h3>".$svg.$path.$text."</svg>".$table."</div>";
+        return "<div><div class='title'>".$header."</div><br>".$svg.$path.$text."</svg>".$table."</div>";
+    }
+
+    private static function drawSegment($per, $sumAngle, $color, $hint, $path):array
+    {
+        if ($per < 0.5) {
+            $x1 = 50 - 50 * cos(deg2rad($sumAngle));
+            $y1 = 50 - 50 * sin(deg2rad($sumAngle));
+            $sumAngle += $per * 360;
+            $newX = 50 - 50 * cos(deg2rad($sumAngle));
+            $newY = 50 - 50 * sin(deg2rad($sumAngle));
+            if ($sumAngle > 445) {
+                $newX = 50;
+                $newY = 0;
+            }
+            $textX = ($x1 + $newX) / 2;
+            $textY = ($y1 + $newY) / 2;
+            $path .= sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");' ></path>", $color, $x1, $y1, $newX, $newY, $hint);
+            return array($sumAngle, $textX, $textY, $path);
+        } else {
+            $parts = $per / 2;
+            for ($i = 1; $i <= 2; $i++) {
+                $x1 = 50 - 50 * cos(deg2rad($sumAngle));
+                $y1 = 50 - 50 * sin(deg2rad($sumAngle));
+                $sumAngle += $parts * 360;
+                $newX = 50 - 50 * cos(deg2rad($sumAngle));
+                $newY = 50 - 50 * sin(deg2rad($sumAngle));
+                if ($sumAngle > 445) {
+                    $newX = 50;
+                    $newY = 0;
+                }
+                if ($i == 1) {
+                    $textX = ($x1 + $newX) / 2;
+                    $textY = ($y1 + $newY) / 2;
+                }
+                $path .= sprintf("<path fill='%s' d='M 50 50 L %d %d A 50 50 0 0 1 %d %d L 50 50' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");'></path>", $color, $x1, $y1, $newX, $newY, $hint);
+
+            }
+            return array($sumAngle, $textX, $textY, $path);
+        }
+    }
+
+    private static function drawSegmentNew($per, $sumAngle, $color, $hint, $path):array
+    {
+        $startAngle = $sumAngle - 90;
+        if ($startAngle < 0){
+            $startAngle += 360;
+        }
+        $sweepAngle = $per * 360;
+        $sumAngle += $sweepAngle;
+
+        $largeArc = $sweepAngle > 180 ? 1 : 0;
+
+        $a1 = deg2rad($startAngle);
+        $a2 = deg2rad($startAngle + $sweepAngle);
+
+        $cx = 50 + sin(deg2rad($startAngle + $sweepAngle/2)) * 3;
+        $cy = 50 - cos(deg2rad($startAngle + $sweepAngle/2)) * 3;
+        $rx = 40;
+        $ry = 40;
+
+        $x1 = $cx + $rx * sin($a1);
+        $y1 = $cy - $ry * cos($a1);
+
+        $x2 = $cx + $rx * sin($a2);
+        $y2 = $cy - $ry * cos($a2);
+
+        $textX = 0;
+        $textY = 0;
+
+        $path .= sprintf("<path fill='%s' d='M %d %d A %d %d 0 %d 1 %d %d L %d %d z' onmouseout='hideHint();' onmousemove='displayHint(event, \"%s\");' ></path>",
+                $color, $x1, $y1, $rx, $ry, $largeArc, $x2, $y2, $cx, $cy, $hint);
+        return array($sumAngle, $textX, $textY, $path);
     }
 }

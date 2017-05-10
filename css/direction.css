@@ -1,23 +1,29 @@
 .group {
     width: 100%;
-    border-left: 1px solid #80aaff;
     overflow: hidden;
 }
 .nameUgsn {
     text-align: center;
-    background-color: #80aaff;
+    background-color: #4385f3;
     color: #ffffff;
     font-size: 16px;
-    padding: 5px;
+    padding: 7px;
+    border-top: 2px solid #365c84;
+    border-bottom: 2px solid lightgrey;
 }
 .codeDirection {
     display: inline;
     margin-left: 5px;
 }
 .listItem {
-
+    padding: 10px;
     margin-top: 5px;
 }
+
+.listItem:last-of-type {
+    margin-bottom: 5px;
+}
+
 .nameDirection {
     display: inline;
     margin-left: 5px;

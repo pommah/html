@@ -1,36 +1,37 @@
-<link rel="stylesheet" type="text/css" href="/css/report.css">
-<link rel="stylesheet" type="text/css" href="/css/student_list.css">
+<link rel="stylesheet" type="text/css" href="/css/inputs.css">
+<link rel="stylesheet" type="text/css" href="/css/titles.css">
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
 <link type="text/css" rel="stylesheet" href="/modules/diag/diag.css"/>
 <script type="text/javascript" src="/js/pieHint.js"></script>
 <div class="blockReport">
-    <div class="headReport">Общая информация о системе</div>
+    <div class="title">Общая информация о системе</div>
     <div class="item">
         <div class="leftLabel">Кол-во университетов в системе:</div>
-        <div class="rightLabel"><?php echo $data['generalInfo'][0]['AllUniversity']; ?></div>
+        <div class="dataUser rightLabel"><?php echo $data['generalInfo'][0]['AllUniversity']; ?></div>
     </div>
     <div class="item">
         <div class="leftLabel">Государственные:</div>
-        <div class="rightLabel"><?php echo $data['generalInfo'][0]['PublicUniversity']; ?></div>
+        <div class="dataUser rightLabel"><?php echo $data['generalInfo'][0]['PublicUniversity']; ?></div>
     </div>
     <div class="item par">
         <div class="leftLabel">Частные:</div>
-        <div class="rightLabel"><?php echo $data['generalInfo'][0]['PrivateUniversity']; ?></div>
+        <div class="dataUser rightLabel"><?php echo $data['generalInfo'][0]['PrivateUniversity']; ?></div>
     </div>
         <div class="item">
             <div class="leftLabel">Кол-во студентов в системе:</div>
-            <div class="rightLabel"><?php echo $data['generalInfo'][0]['CountStudent']; ?></div>
+            <div class="dataUser rightLabel"><?php echo $data['generalInfo'][0]['CountStudent']; ?></div>
         </div>
     <div class="item">
         <div class="leftLabel">С нарушением зрения:</div>
-        <div class="rightLabel"><?php echo $data['generalInfo'][0]['Vision']; ?></div>
+        <div class="dataUser rightLabel"><?php echo $data['generalInfo'][0]['Vision']; ?></div>
     </div>
     <div class="item">
         <div class="leftLabel">С нарушением слуха:</div>
-        <div class="rightLabel"><?php echo $data['generalInfo'][0]['Hearing']; ?></div>
+        <div class="dataUser rightLabel"><?php echo $data['generalInfo'][0]['Hearing']; ?></div>
     </div>
     <div class="item par">
         <div class="leftLabel">С поражением опорно-двигательного аппарата:</div>
-        <div class="rightLabel"><?php echo $data['generalInfo'][0]['MusculeSkelete']; ?></div>
+        <div class="dataUser rightLabel"><?php echo $data['generalInfo'][0]['MusculeSkelete']; ?></div>
     </div>
     <?php
     $all = 0;
@@ -46,22 +47,24 @@
     ?>
     <div class="item">
         <div class="leftLabel">Кол-во программ в системе:</div>
-        <div class="rightLabel"><?php echo $all; ?></div>
+        <div class="dataUser rightLabel"><?php echo $all; ?></div>
     </div>
     <div class="item">
         <div class="leftLabel">С нарушением зрения:</div>
-        <div class="rightLabel"><?php echo $vision; ?></div>
+        <div class="dataUser rightLabel"><?php echo $vision; ?></div>
     </div>
     <div class="item">
         <div class="leftLabel">С нарушением слуха:</div>
-        <div class="rightLabel"><?php echo $hear; ?></div>
+        <div class="dataUser rightLabel"><?php echo $hear; ?></div>
     </div>
     <div class="item">
         <div class="leftLabel">С поражением опорно-двигательного аппарата:</div>
-        <div class="rightLabel"><?php echo $move; ?></div>
+        <div class="dataUser rightLabel"><?php echo $move; ?></div>
     </div>
 
-    <h1 id="header"></h1>
+    <br>
+    <div class="title" id="header"></div>
+    <br>
     <div id="diag_canvas">
         <svg id="svg" width="500" height="300" onload="diag_load()">
             <g id="map"></g>

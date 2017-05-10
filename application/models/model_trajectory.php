@@ -24,12 +24,12 @@ class Model_Trajectory extends Model
                         $color = '#ccccb3';
                         break;
                     case 'Закончен':
-                        $color = '#66ff66';
+                        $color = '#64DD17';
                         break;
                     case 'Задолженность':
-                        $color = '#ffff33';
+                        $color = '#FFD600';
                         break;
-                    case 'Отчислен': $color='#ff3333'; break;
+                    case 'Отчислен': $color='#D50000'; break;
                 }
                 $student[$id]['Semesters'][$semester] = ['Status' => $row['Status'], 'Note' => $row['Note'], 'Color' => $color, 'Disciplines' => []];
             }

@@ -11,12 +11,6 @@
    fill: #69f !important;
 }
 
-#header {
-  font-size: 16pt;   
-  text-align: center;
-  width: 1100px;
-}
-
 #map_title {
    position: absolute;
    background-color: #ccc;

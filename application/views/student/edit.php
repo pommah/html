@@ -68,7 +68,7 @@ print_file_picker("fileNamePortfolio", "Электронное портфоли�
 
 <div>
     <div class="leftLabel">Программа обучения:</div>
-    <div class="dataUser">
+    <div class="dataUser rightLabel">
         <!--<a href="<?php echo $data['student']['File']; ?>">Программа обучения</a><input type="file" id="learProgram" class="button changeButton"> -->
         <input id="current_info" type="radio" name="progType" onclick="radioClicks(this)">Оставить текущую
         <input id="current_edit" type="radio" name="progType" onclick="radioClicks(this)">Изменить текущую
@@ -79,36 +79,36 @@ print_file_picker("fileNamePortfolio", "Электронное портфоли�
 <div id="div_current_info">
     <div>
         <div class="leftLabel">Направление:</div>
-        <div class="dataUser"><?php echo $data['student']['Direction']; ?></div>
+        <div class="dataUser rightLabel"><?php echo $data['student']['Direction']; ?></div>
     </div>
     <div>
         <div class="leftLabel">Профиль:</div>
         <div
-            class="dataUser"><?php echo $data['student']['Profile'] == '' ? $data['student']['Direction'] : $data['student']['Profile']; ?></div>
+            class="dataUser rightLabel"><?php echo $data['student']['Profile'] == '' ? $data['student']['Direction'] : $data['student']['Profile']; ?></div>
     </div>
     <div>
         <div class="leftLabel">Уровень образования:</div>
-        <div class="dataUser">
+        <div class="dataUser rightLabel">
             <?php echo $data['student']['Level']; ?>
         </div>
     </div>
     <div>
         <div class="leftLabel">Период обучения:</div>
-        <div class="dataUser"><?php echo $data['student']['Period']; ?></div>
+        <div class="dataUser rightLabel"><?php echo $data['student']['Period']; ?></div>
     </div>
     <div>
         <div class="leftLabel">Форма обучения:</div>
-        <div class="dataUser">
+        <div class="dataUser rightLabel">
             <?php echo $data['student']['Form']; ?>
         </div>
     </div>
     <div>
         <div class="leftLabel">Программа обучения:</div>
-        <div class="dataUser"><a href="<?php echo $data['student']['File']; ?>">Программа обучения</a></div>
+        <div class="dataUser rightLabel"><a href="<?php echo $data['student']['File']; ?>">Программа обучения</a></div>
     </div>
     <div class="info last">
         <div class="leftLabel">Учебный план:</div>
-        <div class="dataUser"><a href="<?php echo $data['student']['Plan']; ?>">Учебный план</a></div>
+        <div class="dataUser rightLabel"><a href="<?php echo $data['student']['Plan']; ?>">Учебный план</a></div>
     </div>
 </div>
 <div id="div_current_edit" style="display: none">

@@ -1,6 +1,6 @@
-<link rel="stylesheet" type="text/css" href="/css/student_list.css">
-<div id="error"></div>
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
 <link rel="stylesheet" type="text/css" href="/css/tooltip.css">
+<div id="error"></div>
 <?php
     if($data['user']['permission']==UserTypes::MINISTRY) {
         ?>

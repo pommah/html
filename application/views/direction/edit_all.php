@@ -1,8 +1,12 @@
-        <table class="directionsEditor">
+<div class="buttonHolder">
+    <button class="button control_button ok_button" onclick="saveChanges()">Сохранить</button>
+    <button class="button control_button cancel_button" onclick="cancelChanges()">Отменить</button>
+</div>
+<table class="directionsEditor">
             <?php
             foreach ($data['all_directions'] as $ugsn){
                 print ("<tr>");
-                printf ("<td colspan='3'>%s</td>", $ugsn['ugsnName']);
+                printf ("<th colspan='3'>%s</th>", $ugsn['ugsnName']);
                 foreach ($ugsn['listDir'] as $dirId => $dirName){
                     printf ("<tr onclick='toogleCheckbox(event)'>");
                     $checked = in_array($dirId, $data['directions'])?"checked":"";
@@ -15,10 +19,9 @@
             }
             ?>
         </table>
-        <div class="buttonHolder">
-            <button class="button directionsEditor" onclick="saveChanges()">Сохранить</button>
-            <button class="button directionsEditor" onclick="cancelChanges()">Отменить</button>
-        </div>
+
 <script type="text/javascript" src="/js/directionEditor.js"></script>
 <script type="text/javascript" src="/js/ajax.js"></script>
 <link rel="stylesheet" type="text/css" href="/css/directions_editor.css">
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
+<link rel="stylesheet" type="text/css" href="/css/buttons.css">

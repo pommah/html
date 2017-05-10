@@ -44,7 +44,7 @@
     <div>
         <div class='leftLabel'>Программа:
         </div>
-        <div class="dataUser"><input class='input' type='radio' name="progType" id="radio_exist" value="existing"
+        <div class="dataUser rightLabel"><input class='input' type='radio' name="progType" id="radio_exist" value="existing"
                                         onclick="radioClicks(this)" checked>Существующая
             <input class='input' type='radio' name="progType" id="radio_new" value="new" onclick="radioClicks(this)">Новая
         </div>

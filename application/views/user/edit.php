@@ -4,42 +4,42 @@
 <div class="title">Изменение данных пользователя</div>
 <div">
 <div class="leftLabel">Логин:</div>
-<div class="dataUser">
-    <div id="login" class="dataStudent"><?php echo $data['userData']['Login']; ?></div>
+<div class="dataUser rightLabel">
+    <div id="login"><?php echo $data['userData']['Login']; ?></div>
 </div>
 </div>
 <div>
     <div class="leftLabel">Имя:</div>
     <div class="dataUser">
-        <div class="dataStudent"><input id="name" class="input dataStudent" size="25" type="text"
+        <div class="dataStudent"><input id="name" class="input" size="25" type="text"
                                         value="<?php echo $data['userData']['Name']; ?>"></div>
     </div>
 </div>
 <div>
     <div class="leftLabel">E-mail:</div>
     <div class="dataUser">
-        <div class="dataStudent"><input id="email" class="input dataStudent" size="25" type="text"
+        <div class="dataStudent"><input id="email" class="input" size="25" type="text"
                                         value="<?php echo $data['userData']['Email']; ?>"></div>
     </div>
 </div>
 <div>
     <div class="leftLabel">Старый пароль:</div>
     <div class="dataUser">
-        <div class="dataStudent"><input id="lastPassword" class="input dataStudent" type="text" size="25"
+        <div class="dataStudent"><input id="lastPassword" class="input" type="text" size="25"
                                         placeholder="Необходим для изменения пароля или адреса почты"></div>
     </div>
 </div>
 <div>
     <div class="leftLabel">Новый пароль:</div>
     <div class="dataUser">
-        <div class="dataStudent"><input id="newPassword" class="input dataStudent" type="text" size="25"
+        <div class="dataStudent"><input id="newPassword" class="input" type="text" size="25"
                                         placeholder="Необходим для изменения пароля"></div>
     </div>
 </div>
 <div>
     <div class="leftLabel">Уровень доступа:</div>
-    <div class="dataUser">
-        <div class="dataStudent"><?php echo UserTypes::ARRAY[$data['userData']['Permission']]; ?></div>
+    <div class="dataUser rightLabel">
+        <?php echo UserTypes::ARRAY[$data['userData']['Permission']]; ?>
     </div>
 </div>
 <div>

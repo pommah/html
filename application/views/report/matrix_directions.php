@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="/css/student_list.css">
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
 <table class="studentList">
 <?php
     printf ("<tr><th>%s</th>", $data["header"]);

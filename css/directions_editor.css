@@ -1,34 +1,22 @@
-.directionsEditor {
-    border-collapse: separate;
-}
-.directionsEditor th{
-    background-color: #80aaff;
-    color: #FFFFFF;
-    font-size: 16px;
-    padding: 5px;
-}
-.directionsEditor tr{
-    border: 1px solid #80aaff;
-    cursor: pointer;
-}
 .directionsEditor tr:last-of-type {
     border: 0px;
 }
-.directionsEditor tr:hover {
-    background-color: #e2e6ff;
-}
 .directionsEditor td {
     padding: 5px;
-    border-bottom: 1px solid #80aaff;
+    border-bottom: 2px solid lightgrey;
     text-align: left;
 }
 
 .buttonHolder{
-    display: inline;
-    position: fixed;
-    top: 70px;
-    right: 0px;
-    padding: 20px;
+    position: sticky;
+    top: 10px;
+    right: 0;
+    padding-bottom: 20px;
+    text-align: right;
+}
+
+.buttonHolder .ok_button{
+    margin: 0;
 }
 input[type='checkbox']{
     width: 30px;

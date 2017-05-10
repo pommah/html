@@ -1,4 +1,5 @@
-<link rel="stylesheet" type="text/css" href="/css/student_list.css">
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
+<link rel="stylesheet" type="text/css" href="/css/">
 <link rel="stylesheet" type="text/css" href="/css/tooltip.css">
 <?php
     print ("<table id='studentList' class='studentList'>

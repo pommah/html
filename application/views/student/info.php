@@ -1,52 +1,57 @@
 <link rel="stylesheet" type="text/css" href="/css/student.css">
 <link rel="stylesheet" type="text/css" href="/css/prompt.css">
-<link rel="stylesheet" type="text/css" href="/css/student_list.css">
-<div class="info">
+
+<link rel="stylesheet" type="text/css" href="/css/inputs.css">
+<link rel="stylesheet" type="text/css" href="/css/buttons.css">
+<link rel="stylesheet" type="text/css" href="/css/titles.css">
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
+<div class="title">Информация о студенте</div>
+<div>
     <div class="leftLabel">Идентификатор:</div>
-    <div class="dataStudent"><?php echo $data['student']['Name']; ?></div>
+    <div class="dataUser rightLabel"><?php echo $data['student']['Name']; ?></div>
 </div>
-<div class="info">
+<div>
     <div class="leftLabel">Нозологическая группа:</div>
-    <div class="dataStudent"><?php echo $data['student']['Nozology']; ?></div>
+    <div class="dataUser rightLabel"><?php echo $data['student']['Nozology']; ?></div>
 </div>
-<div class="info">
+<div>
     <div class="leftLabel">Дата начала обучения:</div>
-    <div class="dataStudent"><?php echo $data['student']['DateBegin']; ?></div>
+    <div class="dataUser rightLabel"><?php echo $data['student']['DateBegin']; ?></div>
 </div>
-<div class="info">
+<div>
     <div class="leftLabel">Дата конца обучения:</div>
-    <div class="dataStudent"><?php echo $data['student']['DateEnd']; ?></div>
+    <div class="dataUser rightLabel"><?php echo $data['student']['DateEnd']; ?></div>
 </div>
-<div class="info">
+<div>
     <div class="leftLabel">Направление:</div>
-    <div class="dataStudent"><?php echo $data['student']['Direction']; ?></div>
+    <div class="dataUser rightLabel"><?php echo $data['student']['Direction']; ?></div>
 </div>
-<div class="info">
+<div>
     <div class="leftLabel">Профиль:</div>
-    <div class="dataStudent"><?php echo $data['student']['Profile']==''?$data['student']['Direction']:$data['student']['Profile']; ?></div>
+    <div class="dataUser rightLabel"><?php echo $data['student']['Profile']==''?$data['student']['Direction']:$data['student']['Profile']; ?></div>
 </div>
-<div class="info">
+<div>
     <div class="leftLabel">Уровень образования</div>
-    <div class="dataStudent">
+    <div class="dataUser rightLabel">
         <?php echo $data['student']['Level']; ?>
     </div>
 </div>
-<div class="info">
+<div>
     <div class="leftLabel">Период обучения:</div>
-    <div class="dataStudent"><?php echo $data['student']['Period']; ?></div>
+    <div class="dataUser rightLabel"><?php echo $data['student']['Period']; ?></div>
 </div>
-<div class="info">
+<div>
     <div class="leftLabel">Форма обучения:</div>
-    <div class="dataStudent">
+    <div class="dataUser rightLabel">
         <?php echo $data['student']['Form']; ?>
     </div>
 </div>
 <?php
 function print_file_info($file, $description, $folder){
     if ($file != null){
-        print("<div class=\"info\">");
+        print("<div>");
         printf("<div class=\"leftLabel\">%s:</div>", $description);
-        printf("<div class=\"dataStudent\"><img src='/images/pdf_file.png' width='18'/><a href=\"/files/%s/%s\">%s</a></div>", $folder, $file, $description);
+        printf("<div class=\"dataUser rightLabel\"><img src='/images/pdf_file.png' width='18'/><a href=\"/files/%s/%s\">%s</a></div>", $folder, $file, $description);
         print ("</div>");
     }
 }
@@ -60,7 +65,7 @@ print_file_info($data['student']['Distance'], "Дистанционные обр
 print_file_info($data['student']['Portfolio'], "Электронное портфолио", "portfolio");
 ?>
 <div class="individualTrack">
-    <div class="headTrack">Индивидуальная траектория студента</div>
+    <div class="title">Индивидуальная траектория студента</div>
     <?php
     function image_file($name) {
         $name = explode(".",$name);

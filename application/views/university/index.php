@@ -1,4 +1,6 @@
-<link rel="stylesheet" type="text/css" href="/css/student_list.css">
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
+<link rel="stylesheet" type="text/css" href="/css/titles.css">
+<div class="title">Статистика по округам</div><br>
 <table id="table" class='studentList'>
     <tr>
         <th>Округ</th>
