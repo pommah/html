@@ -8,8 +8,18 @@
     background-color: #4385f3;
     z-index: 10;
 }
+
+.itemMenu img {
+    margin-right: 10px;
+}
+
+.logo{
+    display: inline-block;
+    height:100px;
+    margin: 1%;
+}
+
 .caption {
-    margin: 2%;
     color: #FFFFFF;
     cursor: default;
     display: inline-block;
