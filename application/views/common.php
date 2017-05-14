@@ -15,7 +15,7 @@
         Система учета и сопровождения в процессе получения высшего образования лиц с инвалидностью</div>
     <div class="headMenus">
     <div class="itemMenu" onclick="document.location.href='/user/info'"><img style="width: 25px" src='/images/user.png'/><?php echo $data['user']['name']; ?></div>
-        <div class="itemMenu"><?php echo $data['user']['title']; ?></div>
+        <div class="itemMenu"><img style="height: 25px" src='/images/university.png'/><?php echo $data['user']['title']; ?></div>
         <div class="itemMenu exit" onclick="document.location.href='/user/destroy_session'"><img style="height: 25px" src='/images/exit.png'/>Выход</div>
     </div>
 </div>
