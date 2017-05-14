@@ -3,7 +3,7 @@
     top: 0;
     margin: 0;
     width: 100%;
-
+    display: table;
     overflow: hidden;
     background-color: #4385f3;
     z-index: 10;
@@ -14,23 +14,30 @@
 }
 
 .logo{
-    display: inline-block;
-    height:100px;
-    margin: 1%;
-}
+    width:65px;
+    margin-right: 20%;
 
+}
+.logoBlock {
+    display: table-cell;
+    text-align: right;
+    vertical-align: middle;
+    padding: 1.5%;
+}
 .caption {
     color: #FFFFFF;
     cursor: default;
-    display: inline-block;
-    width: 50%;
+    display: table-cell;
+    vertical-align: middle;
+    width: 40%;
     font-family: Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
     font-size: 18px;
     font-weight: bold;
 }
 .headMenus {
-    display: inline-block;
-    width: 40%;
+    display: table-cell;
+    vertical-align: middle;
+    width: 54%;
     margin-top: 2%;
     margin-bottom: 2%;
     text-align: right;
@@ -39,7 +46,7 @@
     display: inline-block;
     color: white;
     font-size: 16px;
-    margin-left: 5%;
+    margin-right: 5%;
     cursor: pointer;
 }
 .itemMenu:hover {

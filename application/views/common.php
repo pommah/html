@@ -4,11 +4,13 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/css/main.css">
     <link rel="stylesheet" type="text/css" href="/css/head.css">
-    <meta name="viewport" content="width=device-width">
+
 </head>
 <body>
 <div class="head">
+    <div class="logoBlock">
     <img class="logo" src='/images/logo.png'>
+        </div>
     <div class="caption">
         Система учета и сопровождения в процессе получения высшего образования лиц с инвалидностью</div>
     <div class="headMenus">

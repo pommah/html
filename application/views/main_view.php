@@ -6,6 +6,7 @@
 
     </head>
     <body>
+    <div class="shadow"></div>
     <div class="headerAuth">
         Система учета и сопровождения в процессе получения высшего образования лиц с инвалидностью
     </div>
@@ -21,9 +22,6 @@
                     <input type="password" class="input authInput" id="password" placeholder="Пароль" maxlength="18"><br>
                     <button class="button authButton" onclick="checkAuth(event)">Войти</button>
                         </form>
-                    <div class="forget_pass">
-                        <a class="forget_href" href="forgetpass">Забыли пароль?</a>
-                    </div>
                 </div>
             </div>
         </div>
