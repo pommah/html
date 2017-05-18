@@ -63,7 +63,6 @@ input[type=radio]{
     min-width: 250px;
     width: 30%;
     margin-top: 2%;
-    vertical-align: top;
 }
 
 .blockInput {

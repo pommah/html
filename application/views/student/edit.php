@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="/css/inputs.css">
 <link rel="stylesheet" type="text/css" href="/css/buttons.css">
 <link rel="stylesheet" type="text/css" href="/css/titles.css">
+<link rel="stylesheet" type="text/css" href="/css/tables.css">
 <div class="title">Изменение данных студента</div>
 <div>
     <div class="leftLabel">Идентификатор:</div>
