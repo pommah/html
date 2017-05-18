@@ -13,30 +13,10 @@ class Route
         // контроллер и действие по умолчанию
         $controller_name = 'Main';
         $action_name = 'index';
+        $model_name = 'Main';
         $data = [];
+        self::getControllerModelAndActionNames($controller_name, $action_name, $model_name, $data);
 
-        $routes = explode('/', $_SERVER['REQUEST_URI']);
-        // получаем имя контроллера
-        if ( !empty($routes[1]) )
-        {
-            $controller_name = $routes[1];
-        }
-
-        // получаем имя экшена
-        if ( !empty($routes[2]) )
-        {
-            $action_name = $routes[2];
-        }
-        $i = 3;
-        while(!empty($routes[$i])) {
-            array_push($data, $routes[$i]);
-            $i++;
-        }
-
-        // добавляем префиксы
-        $model_name = 'Model_'.$controller_name;
-        $controller_name = 'Controller_'.$controller_name;
-        $action_name = 'action_'.$action_name;
 
         /*
         echo "Model: $model_name <br>";
@@ -84,6 +64,32 @@ class Route
             Route::ErrorPage404();
         }
 
+    }
+
+    static function getControllerModelAndActionNames(&$controller_name, &$action_name, &$model_name, &$data){
+        $routes = explode('/', $_SERVER['REQUEST_URI']);
+        $action_name = 'index';
+        // получаем имя контроллера
+        if ( !empty($routes[1]) )
+        {
+            $controller_name = $routes[1];
+        }
+
+        // получаем имя экшена
+        if ( !empty($routes[2]) )
+        {
+            $action_name = $routes[2];
+        }
+        $i = 3;
+        while(!empty($routes[$i])) {
+            array_push($data, $routes[$i]);
+            $i++;
+        }
+
+        // добавляем префиксы
+        $model_name = 'Model_'.$controller_name;
+        $controller_name = 'Controller_'.$controller_name;
+        $action_name = 'action_'.$action_name;
     }
 
     function ErrorPage404()
