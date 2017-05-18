@@ -3,7 +3,7 @@ html,body {
     padding: 0;
     margin: 0;
     font-family: Verdana, "Geneva CY", "DejaVu Sans", sans-serif;
-    background-color: #f7f7f7;
+    background-color: #f0f0ff;
 }
 .input {
     background-color: #ffffff;
@@ -35,17 +35,16 @@ a {
  text-decoration: none;
 }
 .userMenu{
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     z-index: 9;
-    float: left;
-    width: 18%;
+    display: inline-block;
     margin-right: 1%;
-
+    width: 18%;
+    vertical-align: top;
     height: 100%;
-    background-color: #f9f9f9;
-    box-shadow: inset 1px 0 7px 0px #909090;
+    background-color: transparent;
     overflow: auto;
 }
 .userMenu > a{
@@ -54,13 +53,10 @@ a {
     color: #4385f3;
     font-weight: bold;
     display: block;
-    border-bottom: 2px solid #e1e1e1;
     padding-bottom: 7px;
 
 }
-.userMenu > a:first-of-type {
-    margin-top: 130px;
-}
+
 .userMenu a:hover {
     color: #365c84;
 }
@@ -69,9 +65,13 @@ a {
     font-weight: normal;
 }
 .content {
-    width: 79%;
-    float: left;
-    margin-left: 20%;
+    padding: 2%;
+    width: 75%;
+    display: inline-block;
+    background-color: white;
+    overflow: auto;
+    min-height: 100%;
+
 }
 .outer {
     margin-top: 3%;

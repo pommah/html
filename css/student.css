@@ -40,25 +40,27 @@
     margin-top: 30px;
     border-collapse: collapse;
 }
-.trackTable tr:first-of-type {
-    font-size: 14px;
-}
-.trackTable tr{
-    text-align: center;
-}
+
 .firstColumn {
     width: 5em;
     font-size: 14px;
 
 }
-.headTrackTable td {
-    background: linear-gradient(to top, #80aaff, #a3d3ff);
+.headTrackTable {
+    background-color: rgba(67, 133, 243, 0.1);
+    color: #4385f3;
+    font-weight: bold;
+    border-bottom: 3px solid #4385f3;
+}
+.headTrackTable:hover {
+    background-color: rgba(67, 133, 243, 0.1);
+    border-bottom: 3px solid #4385f3;
+
 }
 .trackTable td{
     position: relative;
     padding: 25px;
     cursor: default;
-    background-color: white;
 }
 .trackTable td:hover {
     opacity: 0.8;

@@ -69,15 +69,15 @@ class Model_Student extends Model
                 while ($row = $reqTrack->fetch()) {
                     $note = [];
                     switch ($row['Status']) {
-                        case 'Активен': $color = '#ccccb3'; break;
-                        case 'Закончен': $color = '#66ff66'; break;
-                        case 'Задолженность': $color = '#ffff33'; $idSem = $row['ID'];
+                        case 'Активен': $color = '##ccccb3'; break;
+                        case 'Закончен': $color = '#64DD17'; break;
+                        case 'Задолженность': $color = '#FFD600'; $idSem = $row['ID'];
                             $reqDebt = $conn->query("SELECT * FROM BacklogDiscipline WHERE ID_Semester='$idSem'");
                             while($row1 = $reqDebt->fetch()) {
                                 $note[$row1['Name']] = $row1['Deadline'];
                             }
                             break;
-                        case 'Отчислен': $color='#ff3333'; break;
+                        case 'Отчислен': $color='#D50000'; break;
                     }
                     $reqAdaptive = $conn->query("SELECT * FROM AdaptiveDiscipline WHERE ID_Semester='$row[ID]'");
                     $adaptive = [];

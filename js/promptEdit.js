@@ -250,12 +250,12 @@ function prompEdit(id, num, status, text, file, adaptive) {
     prom.innerHTML = "<div class='numbSemestr'>"+num+"-й семестр.</div>" +
         "<div class='statusSemestr'>"+status+"</div>" +
         "<div class='textSemestr'>" +
-        "<div id='status_line'>"+getStatus(status)+" <button class='button' id='change_status_module' onclick='addDebt(true)'>Добавить долг</button></div>" +
-        "<div id='addSubject'></div>" +
+        "<div id='status_line' style='text-align: right'><div class='leftLabel'>Статус:</div><div class='dataUser'>"+getStatus(status)+"</div> <button class='button cancel_button' id='change_status_module' style='margin-top: 10px' onclick='addDebt(true)'>Добавить долг</button></div>" +
+        "<div id='addSubject' style='text-align: right'></div>" +
             "<div id='adaptiveDisc'></div>"+
             "<div class='fileTrack href'>" + nowFile +
-        "<br><input type='file' id='fileTrack'></div>" +
-        "<button class='button saveTrajectory' onclick='saveTrack()'>Сохранить</button> </div>";
+        "<br><input type='file' style='margin-top: 20px' id='fileTrack'></div>" +
+        "<button class='button ok_button saveTrajectory' onclick='saveTrack()'>Сохранить</button> </div>";
     showDebt();
     showAdaptive();
 }
@@ -305,7 +305,7 @@ function addAdaptive(show) {
 }
 function showAdaptive() {
     info = '';
-    info+= '<b>Адаптивные дисциплины:</b> <button class="button" onclick="addAdaptive(true)">Добавить</button>';
+    info+= '<b>Адаптивные дисциплины:</b><br> <button class="button cancel_button" onclick="addAdaptive(true)">Добавить</button>';
     for(var i=0; i<adaptArr.length; i++) {
         info += "<div class='adapt' id='adapt_"+i+"'>" +
             "<input type='text' id='adaptVal_"+i+"' class='input subject' placeholder='Укажите адаптивную дисциплину' value='"+adaptArr[i]+"'><span class='delDebt'  onclick='delAdaptive("+i+")'>Удалить</span><br></div>";
@@ -316,7 +316,7 @@ function showAdaptive() {
 function showDebt() {
     info = '';
     for(var i=0; i<debtArr.length; i++) {
-        info += "<div class='attr' id='attr_"+i+"'><input type='text' id='debt_"+i+"' class='input subject' placeholder='Укажите задолженность' value='"+debtArr[i]['name']+"'><span class='delDebt'  onclick='delDebt("+i+")'>Удалить</span><br><input type='date' id='date_"+i+"' placeholder='Укажите дату последней сдачи' class='input deadLine' value='"+debtArr[i]['date']+"'></div>";
+        info += "<div class='dataUser'><div class='attr' id='attr_"+i+"'><input type='text' id='debt_"+i+"' class='input subject' placeholder='Укажите задолженность' value='"+debtArr[i]['name']+"'><span class='delDebt'  onclick='delDebt("+i+")'>Удалить</span><br><input type='date' id='date_"+i+"' placeholder='Укажите дату последней сдачи' class='input deadLine' value='"+debtArr[i]['date']+"'></div></div>";
     }
     nowInfo = info;
     document.getElementById('addSubject').innerHTML = info;
