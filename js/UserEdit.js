@@ -8,7 +8,7 @@ function parseAndSendData() {
 
     var passwords = '';
 
-    var regularName = /^[А-яA-z ]{3,50}$/;
+    var regularName = /^[А-яA-z\s]{3,50}$/;
     var regularEmail = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
     var regularPassword =/^[А-яA-z0-9-_\.]{5,30}$/;
 

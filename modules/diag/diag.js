@@ -13,7 +13,7 @@ function diag_load() {
   var count_m = (attr.length)? attr.length: 1;
 
 // Отрисовка холста
-  var chart_left = 30;
+  var chart_left = 40;
   var chart_bottom = 50;
 
   var chart_width  = svg.getAttribute("width") - chart_left;
@@ -78,12 +78,12 @@ function diag_load() {
 // Вывод надписей по оси y
   var ty = new Array(count_y);
   for (var i=0; i < count_y; i++) {
-      var x = chart_left - 20;
+      var x = chart_left - 35;
 	  var y = chart_height - i*dy - 3;
 	  ty[i] = document.createElementNS("http://www.w3.org/2000/svg", 'text');
 	  ty[i].setAttribute("x",x);
 	  ty[i].setAttribute("y",y);
-      ty[i].innerHTML = axis_y_h[i];
+      ty[i].innerHTML = Math.round(axis_y_h[i]);
 	  map.appendChild(ty[i]);
   }
   

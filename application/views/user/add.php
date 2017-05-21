@@ -66,6 +66,10 @@
                     </select>
             </div>
         </div>
+        <div id="addon">
+
+        </div>
+
         <div>
             <div class="leftLabel">
             </div>

@@ -46,7 +46,7 @@ function addUser() {
     var email = document.getElementById('email');
     var permission = document.getElementById('permission');
 
-    var regularName = /^[a-zA-Zа-яА-Я]+$/;
+    var regularName = /^[a-zA-Zа-яА-Я\s]+$/;
     var regularLogin = /^[a-zA-Z][a-zA-Z0-9-_\.]{3,25}$/;
     var regularPassword =/^[А-яA-z0-9-_\.]{5,30}$/;
     var regularEmail = /^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/;
