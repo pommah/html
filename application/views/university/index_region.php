@@ -6,6 +6,9 @@
         <th>Название ВУЗа</th>
         <th>Число студентов</th>
         <th>Количество программ</th>
+        <?php
+            if($data['user']['permission']==UserTypes::ADMIN) print ("<th></th>");
+        ?>
     </tr>
     <?php
     if (!empty($data['universities']['0']['ID'])){
