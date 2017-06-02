@@ -85,19 +85,9 @@ function addUser() {
         error.innerHTML = "Некорректное имя";
         return false;
     }
-    if(!regularPassword.test(password.value)) {
-        error.innerHTML = "Некорректный пароль";
-        password.focus();
-        return false;
-    }
     if(email.value.length < 6) {
         error.innerHTML = 'Слишком короткий email';
         email.focus();
-        return false;
-    }
-    if(!regularLogin.test(login.value)) {
-        login.focus();
-        error.innerHTML = "Некорректный логин";
         return false;
     }
     if(!regularPassword.test(password.value)) {

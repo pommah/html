@@ -15,11 +15,11 @@ function saveChanges() {
     var regularStatus = /^(Государственный)|(Частный)$/;
 
     if(!regularShort.test(dataShort)){
-        alert("Недопустимое сокращённое имя");
+        alert("Недопустимое краткое наименование");
         return false;
     }
     if(!regularFull.test(dataFull)){
-        alert("Недопустимое полное имя");
+        alert("Недопустимое полное наименование");
         return false;
     }
     if(!regularRegion.test(dataRegion)){

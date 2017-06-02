@@ -25,14 +25,14 @@
 <div>
     <div class="leftLabel">Старый пароль:</div>
     <div class="dataUser">
-        <div class="dataStudent"><input id="lastPassword" class="input" type="text" size="25"
+        <div class="dataStudent"><input id="lastPassword" class="input" type="password" size="25"
                                         placeholder="Необходим для изменения пароля или адреса почты"></div>
     </div>
 </div>
 <div>
     <div class="leftLabel">Новый пароль:</div>
     <div class="dataUser">
-        <div class="dataStudent"><input id="newPassword" class="input" type="text" size="25"
+        <div class="dataStudent"><input id="newPassword" class="input" type="password" size="25"
                                         placeholder="Необходим для изменения пароля"></div>
     </div>
 </div>
